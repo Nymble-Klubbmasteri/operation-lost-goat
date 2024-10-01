@@ -7,8 +7,24 @@ export type User = {
   name: string;
   email: string;
   password: string;
-  image_url: string;
+  image_nice_url: string;
+  image_chaotic_url: string;
   balance: string;
+};
+
+export type Event = {
+  id: string;
+  name: string;
+  start_work_time: string;
+  start_event_time: string;
+  end_event_time: string;
+  end_work_time: string;
+  locations: string;
+  responsibles: string;
+  type: number;
+  sought_workers: number;
+  date: Date,
+  notes: string;
 };
 
 export type Customer = {

@@ -4,7 +4,8 @@ const {
   customers,
   revenue,
   users,
-} = require('../app/lib/placeholder-data.js');
+  events,
+} = require('./app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
 
 async function seedUsers(client) {
@@ -18,7 +19,10 @@ async function seedUsers(client) {
         name VARCHAR(255) NOT NULL,
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        image_url VARCHAR(255) NOT NULL,
+        image_nice_url VARCHAR(255) NOT NULL,
+        image_chaotic_url VARCHAR(255) NOT NULL,
+        likes VARCHAR(255),
+        dislikes VARCHAR(255),
         balance INT NOT NULL DEFAULT 0
       );
     `;
@@ -30,8 +34,8 @@ async function seedUsers(client) {
       users.map(async (user) => {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         return client.sql`
-        INSERT INTO users (name, email, password, image_url)
-        VALUES (${user.name}, ${user.email}, ${hashedPassword}, ${user.image_url})
+        INSERT INTO users (name, email, password, image_nice_url, image_chaotic_url)
+        VALUES (${user.name}, ${user.email}, ${hashedPassword}, ${user.image_nice_url}, ${user.image_chaotic_url})
         ON CONFLICT (id) DO NOTHING;
       `;
       }),
@@ -45,6 +49,74 @@ async function seedUsers(client) {
     };
   } catch (error) {
     console.error('Error seeding users:', error);
+    throw error;
+  }
+}
+
+async function seedEvents(client) {
+  try {
+    await client.sql`DROP TABLE IF EXISTS events`;
+    const createTable = await client.sql`
+    CREATE TABLE IF NOT EXISTS events (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      start_work_time VARCHAR(255),
+      start_event_time VARCHAR(255),
+      end_event_time VARCHAR(255),
+      end_work_time VARCHAR(255),
+      locations VARCHAR(255),
+      responsibles VARCHAR(255),
+      type INT DEFAULT 0,
+      sought_workers INT DEFAULT 0,
+      date DATE DEFAULT NOW(),
+      notes VARCHAR(255)
+    );
+    `;
+
+    console.log(`Created "events" table`);
+
+    // Insert data into the events table
+    const insertedEvents = await Promise.all(
+      events.map(async (event) => {
+        return client.sql`
+        INSERT INTO events (
+                            name, 
+                            start_work_time, 
+                            start_event_time, 
+                            end_event_time, 
+                            end_work_time, 
+                            locations, 
+                            responsibles, 
+                            type,
+                            sought_workers,
+                            date,
+                            notes
+                          )
+        VALUES (
+          ${event.name}, 
+          ${event.start_work_time}, 
+          ${event.start_event_time}, 
+          ${event.end_event_time},
+          ${event.end_work_time},
+          ${event.locations},
+          ${event.responsibles},
+          ${event.type},
+          ${event.sought_workers},
+          ${event.date},
+          ${event.notes}
+          )
+        ON CONFLICT (id) DO NOTHING;
+      `;
+      }),
+    );
+    console.log(`Seeded ${insertedEvents.length} events`);
+
+    return {
+      createTable,
+      events: insertedEvents,
+    };
+  } catch (error) {
+    console.error('Error seeding events:', error);
     throw error;
   }
 }
@@ -170,6 +242,7 @@ async function main() {
   await seedCustomers(client);
   await seedInvoices(client);
   await seedRevenue(client);
+  await seedEvents(client);
 
   await client.end();
 }

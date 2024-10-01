@@ -264,6 +264,26 @@ export async function getUser(email: string) {
   }
 }
 
+export async function fetchEventsPages(query: string) {
+  noStore();
+  try {
+    const count = await
+    sql`
+      SELECT COUNT(*)
+        FROM events
+        WHERE
+          events.date ILIKE ${`%${query}%`} OR
+          events.name ILIKE ${`%${query}%`}
+    `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error;', error);
+    throw new Error('Failed to fetch number of events.');
+  }
+}
+
 export async function fetchUsersPages(query: string) {
   noStore();
   try {
@@ -282,7 +302,7 @@ export async function fetchUsersPages(query: string) {
 
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch total number of users.');
+    throw new Error('Failed to fetch number of users.');
   }
 }
 

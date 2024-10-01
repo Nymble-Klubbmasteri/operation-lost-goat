@@ -6,51 +6,114 @@ const users = [
     name: 'User',
     email: 'user@nextmail.com',
     password: '123456',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_nice_url: '/customers/delba-de-oliveira.png',
+    image_chaotic_url: '/customers/delba-de-oliveira.png',
   },
   {
     name: 'User2',
     email: 'user2@nextmail.com',
     password: '123456',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_nice_url: '/customers/delba-de-oliveira.png',
+    image_chaotic_url: '/customers/delba-de-oliveira.png',    
   },
   {
     name: 'User3',
     email: 'user3@nextmail.com',
     password: '123456',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_nice_url: '/customers/delba-de-oliveira.png',
+    image_chaotic_url: '/customers/delba-de-oliveira.png',
   },
   {
     name: 'User4',
     email: 'user4@nextmail.com',
     password: '123456',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_nice_url: '/customers/delba-de-oliveira.png',
+    image_chaotic_url: '/customers/delba-de-oliveira.png',
   },
   {
     name: 'User5',
     email: 'user5@nextmail.com',
     password: '123456',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_nice_url: '/customers/delba-de-oliveira.png',
+    image_chaotic_url: '/customers/delba-de-oliveira.png',
   },
   {
     name: 'User6',
     email: 'user6@nextmail.com',
     password: '123456',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_nice_url: '/customers/delba-de-oliveira.png',
+    image_chaotic_url: '/customers/delba-de-oliveira.png',
   },
   {
     name: 'User7',
     email: 'user7@nextmail.com',
     password: '123456',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_nice_url: '/customers/delba-de-oliveira.png',
+    image_chaotic_url: '/customers/delba-de-oliveira.png',
   },
   {
     name: 'User8',
     email: 'user8@nextmail.com',
     password: '123456',
-    image_url: '/customers/delba-de-oliveira.png',
+    image_nice_url: '/customers/delba-de-oliveira.png',
+    image_chaotic_url: '/customers/delba-de-oliveira.png',
   },
 ];
+
+const events = [
+  {
+    name: 'Fredagspub 1/1',
+    start_work_time: '16:00',
+    start_event_time: '17:00',
+    end_event_time: '01:00',
+    end_work_time: '02:00',
+    locations: 'Puben',
+    responsibles: 'Presidiet',
+    type: 0,
+    sought_workers: 4,
+    date: '2024-01-01',
+    notes: 'Vanlig pub'
+  },
+  {
+    name: 'Noirstäd 2/1',
+    start_work_time: '13',
+    start_event_time: '13',
+    end_event_time: '17',
+    end_work_time: '17',
+    locations: 'Noir',
+    responsibles: 'Källarmästare',
+    type: 0,
+    sought_workers: 999,
+    date: '2024-01-02',
+    notes: 'Städa noir'
+  },
+  {
+    name: 'PAKS',
+    start_work_time: 'Alltid',
+    start_event_time: 'Alltid',
+    end_event_time: 'Aldrig',
+    end_work_time: 'Aldrig',
+    locations: 'Överallt',
+    responsibles: 'PRG',
+    type: 0,
+    sought_workers: 999,
+    date: '2024-09-02',
+    notes: 'DSVDV'
+  },
+  {
+    name: 'Betalpass',
+    start_work_time: '16:00',
+    start_event_time: '17:00',
+    end_event_time: '01:00',
+    end_work_time: '02:00',
+    locations: 'Puben',
+    responsibles: 'Proggo',
+    type: 1,
+    sought_workers: 3,
+    date: '2024-01-03',
+    notes: 'Ngn AW typ'
+  },
+]
 
 const customers = [
   {
@@ -228,4 +291,5 @@ module.exports = {
   customers,
   invoices,
   revenue,
+  events,
 };
