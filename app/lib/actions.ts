@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+import bcrypt from "bcrypt";
 
 export type InvoiceState = {
   errors?: {
@@ -22,6 +23,7 @@ export type UserState = {
     name?: string[];
     email?: string[];
     balance?: string[];
+    password?: string[];
   };
   message?: string | null;
 }
@@ -45,11 +47,13 @@ const UserFormSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string(),
-  balance: z.number(),
+  balance: z.coerce.number({
+    required_error: "balance is required",
+    invalid_type_error: "balance must be a number",}),
+  password: z.string(),
 });
  
 const CreateInvoice = InvoiceFormSchema.omit({ id: true, date: true });
-
 export async function createInvoice(prevState: InvoiceState, formData: FormData) {
   const validatedFields = CreateInvoice.safeParse({
     customerId: formData.get('customerId'),
@@ -92,37 +96,44 @@ export async function createUser(prevState: UserState, formData: FormData) {
     name: formData.get('name'),
     email: formData.get('email'),
     balance: formData.get('balance'),
+    password: formData.get('password')
   });
 
+  console.log("hi! create_user 1");
   if (!validatedFields.success) {
+    console.log("Errors:", validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Create Invoice',
     };
   }
+  console.log("hi! create_user 2");
 
   // Prepare Data for insertion into the database
-  const {name, email, balance} = validatedFields.data;
+  const {name, email, balance, password} = validatedFields.data;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  console.log("hi! create_user 3");
 
   try {
     await sql`
-      INSERT INTO users (name, email, balance)
-      VALUES (${name}, ${email}, ${balance})
+      INSERT INTO users (name, email, password, balance)
+      VALUES (${name}, ${email}, ${hashedPassword}, ${balance})
     `;
   } catch (error) {
+    console.log(error);
     return {
       message: 'Database failed to create user',
     };
   }
+  console.log("hi! create_user 4");
 
   revalidatePath('/dashboard/users');
-  redirect('/dashboard/invoices');
+  redirect('/dashboard/users');
 }
 
   // Use Zod to update the expected types
 const UpdateInvoice = InvoiceFormSchema.omit({ id: true, date: true });
 
-const UpdateUser = UserFormSchema.omit({id: true})
  
 export async function updateInvoice(
   id: string,
@@ -134,7 +145,7 @@ export async function updateInvoice(
     amount: formData.get('amount'),
     status: formData.get('status'),
   });
- 
+
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
@@ -159,30 +170,38 @@ export async function updateInvoice(
   redirect('/dashboard/invoices');
 }
 
+
+const UpdateUser = UserFormSchema.omit({id: true})
 export async function updateUser(
   id: string,
   prevState: UserState,
   formData: FormData,  
 ) {
+
   const validatedFields = UpdateUser.safeParse({
-    userName: formData.get('name'),
-    userEmail: formData.get('email'),
-    userBalance: formData.get('balance'),
+    name: formData.get('name'),
+    email: formData.get('email'),
+    balance: formData.get('balance'),
+    password: formData.get('password'),
   });
 
+
   if (!validatedFields.success){
+    console.log("Errors:", validatedFields.error.flatten().fieldErrors);
+    console.log("Balance type: ",typeof formData.get('balance'))
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to update user.',
     };
   }
 
-  const { name, email, balance } = validatedFields.data;
-  
+
+  const { name, email, balance, password } = validatedFields.data;
+  const hashedPassword = await bcrypt.hash(password, 10);
   try {
     await sql`
       UPDATE users
-      SET name = ${name}, email = ${email}, balance = ${balance}
+      SET name = ${name}, email = ${email}, balance = ${balance}, password = ${hashedPassword}
       WHERE id = ${id} 
     `;
 

@@ -319,7 +319,8 @@ export async function fetchFilteredUsers(
         users.id,
         users.name,
         users.email,
-        users.image_url,
+        users.image_nice_url,
+        users.image_chaotic_url,
         users.balance
       FROM users
       WHERE

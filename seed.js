@@ -19,8 +19,8 @@ async function seedUsers(client) {
         name VARCHAR(255) NOT NULL,
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        image_nice_url VARCHAR(255) NOT NULL,
-        image_chaotic_url VARCHAR(255) NOT NULL,
+        image_nice_url VARCHAR(255) NOT NULL DEFAULT '',
+        image_chaotic_url VARCHAR(255) NOT NULL DEFAULT '',
         likes VARCHAR(255),
         dislikes VARCHAR(255),
         balance INT NOT NULL DEFAULT 0
