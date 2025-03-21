@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { fetchFilteredEvents } from '@/app/lib/data';
 import { UpdateEvent, DeleteEvent } from '@/app/ui/admin/events/buttons';
+import { formatDateToLocal } from '@/app/lib/utils';
 
 export default async function EventsTable({
   query,
@@ -25,7 +26,7 @@ export default async function EventsTable({
                   <div className="mb-2 flex items-center">
                     <p>{event.name}</p>
                   </div>
-                  <p className="text-sm text-gray-500">{event.date}</p>
+                  <p className="text-sm text-gray-500">{formatDateToLocal(event.date)}</p>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div className="flex justify-end gap-2">
@@ -62,7 +63,7 @@ export default async function EventsTable({
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {event.date}
+                    {formatDateToLocal(event.date)}
                   </td>                  
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
