@@ -28,6 +28,22 @@ export type UserState = {
   message?: string | null;
 }
 
+export type EventState = {
+  errors?: {
+    id?: string[];
+    name?: string[];
+    start_work_time?: string[];
+    start_event_time?: string[];
+    end_event_time?: string[];
+    end_work_time?: string[];
+    locations?: string[];
+    responsible?: string[];
+    type?: string[];
+    sought_workers?: string[];
+    date?: string[],
+    notes?: string[];
+  }
+}
  
 const InvoiceFormSchema = z.object({
   id: z.string(),
@@ -51,6 +67,21 @@ const UserFormSchema = z.object({
     required_error: "balance is required",
     invalid_type_error: "balance must be a number",}),
   password: z.string(),
+});
+
+const EventFormSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  start_work_time: z.string(),
+  start_event_time: z.string(),
+  end_work_time: z.string(),
+  end_event_time: z.string(),
+  locations: z.string(),
+  responsible: z.string(),
+  sought_workers: z.coerce.number(),
+  type: z.coerce.number(),
+  date: z.string(),
+  notes: z.string(),
 });
  
 const CreateInvoice = InvoiceFormSchema.omit({ id: true, date: true });
@@ -90,7 +121,6 @@ export async function createInvoice(prevState: InvoiceState, formData: FormData)
 }
 
 const CreateUser = UserFormSchema.omit({id: true});
-
 export async function createUser(prevState: UserState, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
     name: formData.get('name'),
@@ -131,10 +161,55 @@ export async function createUser(prevState: UserState, formData: FormData) {
   redirect('/dashboard/users');
 }
 
+const CreateEvent = EventFormSchema.omit({id: true});
+export async function createEvent(prevState: EventState, formData: FormData) {
+  const validatedFields = CreateEvent.safeParse({
+    name: formData.get('name'),
+    date: formData.get('date'),
+    start_work_time: formData.get('start_work_time'),
+    start_event_time: formData.get('start_event_time'),
+    end_work_time: formData.get('end_work_time'),
+    end_event_time: formData.get('end_event_time'),
+    locations: formData.get('locations'),
+    responsible: formData.get('responsible'),
+    type: formData.get('type'),
+    sought_workers: formData.get('sought_workers'),
+    notes: formData.get('notes')
+  });
+
+  console.log("hi! create_event 1");
+  if (!validatedFields.success) {
+    console.log("Errors:", validatedFields.error.flatten().fieldErrors);
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Invoice',
+    };
+  }
+  console.log("hi! create_event 2");
+
+  // Prepare Data for insertion into the database
+  const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes } = validatedFields.data;
+  console.log("hi! create_event 3");
+
+  try {
+    await sql`
+      INSERT INTO events (name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, type, sought_workers, notes)
+      VALUES (${name}, ${date}, ${start_work_time}, ${start_event_time}, ${end_work_time}, ${end_event_time}, ${locations}, ${type}, ${sought_workers}, ${notes})
+    `;
+  } catch (error) {
+    console.log(error);
+    return {
+      message: 'Database failed to create event',
+    };
+  }
+  console.log("hi! create_event 4");
+
+  revalidatePath('/dashboard/admin/events');
+  redirect('/dashboard/admin/events');
+}
+
   // Use Zod to update the expected types
 const UpdateInvoice = InvoiceFormSchema.omit({ id: true, date: true });
-
- 
 export async function updateInvoice(
   id: string,
   prevState: InvoiceState,
@@ -213,6 +288,64 @@ export async function updateUser(
   redirect('/dashboard/users');
 }
 
+const UpdateEvent = EventFormSchema.omit({id: true})
+export async function updateEvent(
+  id: string,
+  prevState: EventState,
+  formData: FormData,  
+) {
+
+  const validatedFields = UpdateEvent.safeParse({
+    name: formData.get('name'),
+    date: formData.get('date'),
+    start_work_time: formData.get('start_work_time'),
+    start_event_time: formData.get('start_event_time'),
+    end_work_time: formData.get('end_work_time'),
+    end_event_time: formData.get('end_event_time'),
+    locations: formData.get('locations'),
+    type: formData.get('type'),
+    sought_workers: formData.get('sought_workers'),
+    notes: formData.get('notes')
+  });
+
+
+  if (!validatedFields.success){
+    console.log("Errors:", validatedFields.error.flatten().fieldErrors);
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to update event.',
+    };
+  }
+
+
+  const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes } = validatedFields.data;
+  try {
+    await sql`
+      UPDATE events
+      SET 
+        name = ${name},
+        date = ${date},
+        start_work_time = ${start_work_time},
+        start_event_time = ${start_event_time},
+        end_event_time = ${end_event_time},
+        end_work_time = ${end_work_time},
+        locations = ${locations},
+        responsible = ${responsible},
+        type = ${type},
+        sought_workers = ${sought_workers},
+        date = ${date},
+        notes = ${notes},
+      WHERE id = ${id} 
+    `;
+
+  } catch (error) {
+    return {message: 'Database Error: Failed to Update Event'};
+  }
+
+  revalidatePath('/dashboard/admin/events');
+  redirect('/dashboard/admin/events');
+}
+
 export async function deleteInvoice(id: string) {
     try {
         await sql`DELETE FROM invoices WHERE id = ${id}`;
@@ -232,6 +365,17 @@ export async function deleteUser(id: string) {
   } catch (error) {
     return {
       message: 'Database failed to delete user',
+    };
+  }
+}
+
+export async function deleteEvent(id: string) {
+  try {
+    await sql`DELETE FROM events WHERE id = ${id}`;
+    revalidatePath('/dasboard/admin/events');
+  } catch (error) {
+    return {
+      message: 'Database failed to delete event',
     };
   }
 }

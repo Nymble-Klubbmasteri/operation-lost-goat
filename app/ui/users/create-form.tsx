@@ -3,8 +3,6 @@
 import { UserField } from '@/app/lib/definitions';
 import Link from 'next/link';
 import {
-  CheckIcon,
-  ClockIcon,
   CurrencyDollarIcon,
   UserCircleIcon,
   EnvelopeIcon,

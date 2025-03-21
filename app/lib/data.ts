@@ -9,6 +9,8 @@ import {
   Revenue,
   UsersTable,
   UserForm,
+  UserField,
+  EventsTable,
 } from '@/app/lib/definitions';
 import { formatCurrency } from '@/app/lib/utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -201,6 +203,38 @@ export async function fetchUserById(id: string) {
   
 }
 
+export async function fetchEventById(id: string) {
+  noStore();
+  try {
+    const data = await sql<EventForm>`
+      SELECT
+        events.id,
+        events.name,
+        events.date,
+        events.start_work_time,
+        events.start_event_time,
+        events.end_work_time,
+        events.end_event_time,
+        events.locations,
+        events.responsible,
+        events.type,
+        events.sought_workers,
+        events.notes
+      FROM events
+      WHERE events.id = ${id};
+    `;
+
+    const event = data.rows.map((event) => ({
+      ...event
+    }));
+    return event[0];
+
+  } catch (error) {
+    console.error('Database error:', error);
+    throw new Error('Failed to fetch event.');
+  }
+}
+
 export async function fetchCustomers() {
   noStore();
   try {
@@ -217,6 +251,25 @@ export async function fetchCustomers() {
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all customers.');
+  }
+}
+
+export async function fetchUsers() {
+  noStore();
+  try {
+    const data = await sql<UserField>`
+      SELECT
+        id,
+        name
+      FROM users
+      ORDER BY name ASC
+    `;
+
+    const users = data.rows;
+    return users;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all users.');
   }
 }
 
@@ -272,7 +325,6 @@ export async function fetchEventsPages(query: string) {
       SELECT COUNT(*)
         FROM events
         WHERE
-          events.date ILIKE ${`%${query}%`} OR
           events.name ILIKE ${`%${query}%`}
     `;
 
@@ -335,5 +387,33 @@ export async function fetchFilteredUsers(
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch users.');
+  }
+}
+
+export async function fetchFilteredEvents(
+  query: string,
+  currentPage: number,
+) {
+  noStore();
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const events = await sql<EventsTable>`
+      SELECT
+        events.id,
+        events.name,
+        events.date
+      FROM events
+      WHERE
+        events.name ILIKE ${`%${query}%`}
+      ORDER BY events.date DESC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `;
+
+    return events.rows;
+  } catch (error) {
+    console.log('Error:', error);
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch events.');
   }
 }

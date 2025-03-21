@@ -20,7 +20,7 @@ export type Event = {
   end_event_time: string;
   end_work_time: string;
   locations: string;
-  responsibles: string;
+  responsible: string;
   type: number;
   sought_workers: number;
   date: Date,
@@ -109,6 +109,12 @@ export type FormattedUsersTable = {
   balance: number;
 }
 
+export type EventsTable = {
+  id: string;
+  name: string;
+  date: string;
+}
+
 export type CustomerField = {
   id: string;
   name: string;
@@ -118,6 +124,11 @@ export type UserField = {
   id: string;
   name: string;
 };
+
+export type EventField = {
+  id: string;
+  name: string;
+}
 
 export type InvoiceForm = {
   id: string;
@@ -133,3 +144,18 @@ export type UserForm = {
   balance: number;
   password: string;
 }
+
+export type EventForm = {
+  id: string;
+  name: string;
+  start_work_time: string;
+  start_event_time: string;
+  end_event_time: string;
+  end_work_time: string;
+  locations: string;
+  responsible: string;
+  type: number;
+  sought_workers: number;
+  date: Date,
+  notes: string;
+};
