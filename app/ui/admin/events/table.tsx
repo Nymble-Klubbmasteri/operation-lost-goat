@@ -23,23 +23,11 @@ export default async function EventsTable({
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div className="mb-2 flex items-center">
-                    <Image
-                      src={event.image_url}
-                      className="mr-2 rounded-full"
-                      width={28}
-                      height={28}
-                      alt={`${event.name}'s profile picture`}
-                    />
                     <p>{event.name}</p>
                   </div>
-                  <p className="text-sm text-gray-500">{event.email}</p>
+                  <p className="text-sm text-gray-500">{event.date}</p>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
-                  <div>
-                    <p className="text-xl font-medium">
-                      {(event.balance)}
-                    </p>
-                  </div>
                   <div className="flex justify-end gap-2">
                     <UpdateEvent id={event.id} />
                     <DeleteEvent id={event.id} />
@@ -52,17 +40,11 @@ export default async function EventsTable({
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  User
+                  Event
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Email
+                  Date
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Balance
-                </th>
-                {/* <th scope="col" className="px-3 py-5 font-medium">
-                  Status
-                </th> */}
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
                 </th>
@@ -76,22 +58,12 @@ export default async function EventsTable({
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
-                      <Image
-                        src={event.image_url}
-                        className="rounded-full"
-                        width={28}
-                        height={28}
-                        alt={`${event.name}'s profile picture`}
-                      />
                       <p>{event.name}</p>
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {event.email}
+                    {event.date}
                   </td>                  
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {(event.balance)}
-                  </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <UpdateEvent id={event.id} />

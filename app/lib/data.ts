@@ -11,6 +11,7 @@ import {
   UserForm,
   UserField,
   EventsTable,
+  EventForm
 } from '@/app/lib/definitions';
 import { formatCurrency } from '@/app/lib/utils';
 import { unstable_noStore as noStore } from 'next/cache';
