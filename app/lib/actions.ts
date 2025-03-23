@@ -398,3 +398,17 @@ export async function authenticate(
     throw error;
   }
 }
+
+export async function strecka(id: string) {
+  try {
+    await sql`
+    UPDATE users 
+    SET balance = balance - 20 
+    WHERE id = ${id}`;
+  }  catch (error) {
+    console.log("Strecka, error:", error);
+    return {
+      message: 'Database failed to strecka',
+    };
+  }
+}
