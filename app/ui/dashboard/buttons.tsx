@@ -2,6 +2,7 @@ import { PencilIcon } from '@heroicons/react/24/outline';
 import { strecka } from '@/app/lib/actions';
 import flattis from '@/app/icons/favicon.ico'
 import Image from 'next/image';
+// wiiii
 
 
 export function Strecka({ id }: { id: string}) {
