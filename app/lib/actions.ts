@@ -401,11 +401,23 @@ export async function authenticate(
 
 export async function strecka(id: string) {
   try {
+    // Fetch the user's current balance
+    const result = await sql`SELECT balance FROM users WHERE id = ${id}`;
+    const balance = result.rows[0]?.balance ?? 0;
+
+    // Determine the deduction amount
+    const deduction = balance < 0 ? 25 : 20;
+
+    // Update the balance
     await sql`
-    UPDATE users 
-    SET balance = balance - 20 
-    WHERE id = ${id}`;
-  }  catch (error) {
+      UPDATE users 
+      SET balance = balance - ${deduction} 
+      WHERE id = ${id}`;
+    
+    revalidatePath('/dasboard');
+
+
+  } catch (error) {
     console.log("Strecka, error:", error);
     return {
       message: 'Database failed to strecka',

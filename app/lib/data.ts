@@ -418,3 +418,21 @@ export async function fetchFilteredEvents(
     throw new Error('Failed to fetch events.');
   }
 }
+
+export async function fetchBalanceByID(id: string) {
+  noStore();
+  try {
+    const balance = await sql`
+      SELECT users.balance
+      FROM users
+      WHERE
+        users.id = ${id}
+    `;
+
+    return balance.rows[0];
+  } catch (error) {
+    console.log('Database Balance error:', error);
+    console.error('Database error:', error);
+    throw new Error('Failed to fetch balance');
+  }
+}

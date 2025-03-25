@@ -21,5 +21,6 @@ export function Strecka({ id }: { id: string}) {
       />
       </button>
     </form>
+    
   );
 }

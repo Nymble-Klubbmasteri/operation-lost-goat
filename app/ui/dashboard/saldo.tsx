@@ -1,0 +1,15 @@
+import { CurrencyDollarIcon } from '@heroicons/react/24/outline';
+import { fetchBalanceByID } from '@/app/lib/data';
+// wiiii
+
+
+export default async function SaldoBox({ id }: { id: string}) {
+    const balance = await fetchBalanceByID(id);
+    // console.log("balance is...:", balance.balance);
+  return (
+    <div className="p-4 border rounded-lg shadow-md bg-white w-64 text-center">
+      <p className="text-lg font-semibold">Ditt Saldo</p>
+      <p className="text-xl font-bold mt-2">{balance.balance !== null ? `${balance.balance} kr` : "Laddar..."}</p>
+    </div>
+  );
+}

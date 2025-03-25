@@ -13,6 +13,7 @@ import {
 import CardWrapper from '@/app/ui/dashboard/cards';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
+import SaldoBox from '@/app/ui/dashboard/saldo';
  
 export const metadata: Metadata = {
   title: 'NKM',
@@ -46,6 +47,11 @@ export default async function Page() {
         <Suspense>
           <Strecka id={session.user.id}/>
         </Suspense>     
+      </div>
+      <div>
+        <Suspense>
+          <SaldoBox id={session.user.id}/>
+        </Suspense>
       </div>
       {/* <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <CardWrapper />
