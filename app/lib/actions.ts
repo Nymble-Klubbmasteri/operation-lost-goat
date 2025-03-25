@@ -24,6 +24,8 @@ export type UserState = {
     email?: string[];
     balance?: string[];
     password?: string[];
+    admin?: string[];
+    role?: string[];
   };
   message?: string | null;
 }
@@ -67,6 +69,8 @@ const UserFormSchema = z.object({
     required_error: "balance is required",
     invalid_type_error: "balance must be a number",}),
   password: z.string(),
+  role: z.string(),
+  admin: z.string(),
 });
 
 const EventFormSchema = z.object({
@@ -126,10 +130,12 @@ export async function createUser(prevState: UserState, formData: FormData) {
     name: formData.get('name'),
     email: formData.get('email'),
     balance: formData.get('balance'),
-    password: formData.get('password')
+    password: formData.get('password'),
+    role: formData.get('role'),
+    admin: formData.get('admin'),
   });
 
-  console.log("hi! create_user 1");
+  // console.log("hi! create_user 1");
   if (!validatedFields.success) {
     console.log("Errors:", validatedFields.error.flatten().fieldErrors);
     return {
@@ -137,17 +143,17 @@ export async function createUser(prevState: UserState, formData: FormData) {
       message: 'Missing Fields. Failed to Create Invoice',
     };
   }
-  console.log("hi! create_user 2");
+  // console.log("hi! create_user 2");
 
   // Prepare Data for insertion into the database
-  const {name, email, balance, password} = validatedFields.data;
+  const {name, email, balance, password, role, admin} = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
-  console.log("hi! create_user 3");
+  // console.log("hi! create_user 3");
 
   try {
     await sql`
-      INSERT INTO users (name, email, password, balance)
-      VALUES (${name}, ${email}, ${hashedPassword}, ${balance})
+      INSERT INTO users (name, email, password, balance, role, admin)
+      VALUES (${name}, ${email}, ${hashedPassword}, ${balance}, ${role}, ${admin})
     `;
   } catch (error) {
     console.log(error);
@@ -155,7 +161,7 @@ export async function createUser(prevState: UserState, formData: FormData) {
       message: 'Database failed to create user',
     };
   }
-  console.log("hi! create_user 4");
+  // console.log("hi! create_user 4");
 
   revalidatePath('/dashboard/users');
   redirect('/dashboard/users');
@@ -258,6 +264,8 @@ export async function updateUser(
     email: formData.get('email'),
     balance: formData.get('balance'),
     password: formData.get('password'),
+    role: formData.get('role'),
+    admin: formData.get('admin'),
   });
 
 
@@ -271,18 +279,34 @@ export async function updateUser(
   }
 
 
-  const { name, email, balance, password } = validatedFields.data;
-  const hashedPassword = await bcrypt.hash(password, 10);
-  try {
-    await sql`
-      UPDATE users
-      SET name = ${name}, email = ${email}, balance = ${balance}, password = ${hashedPassword}
-      WHERE id = ${id} 
-    `;
-
-  } catch (error) {
-    return {message: 'Database Error: Failed to Update User'};
+  const { name, email, balance, password, role, admin } = validatedFields.data;
+  if (password.length >= 6) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("update: role:", role, "admin:", admin);
+    try {
+      await sql`
+        UPDATE users
+        SET name = ${name}, email = ${email}, balance = ${balance}, password = ${hashedPassword}, role = ${role}, admin = ${admin}
+        WHERE id = ${id} 
+      `;
+  
+    } catch (error) {
+      return {message: 'Database Error: Failed to Update User'};
+    }
+  } else {
+    console.log("update: role:", role, "admin:", admin);
+    try {
+      await sql`
+        UPDATE users
+        SET name = ${name}, email = ${email}, balance = ${balance}, role = ${role}, admin = ${admin}
+        WHERE id = ${id} 
+      `;
+  
+    } catch (error) {
+      return {message: 'Database Error: Failed to Update User'};
+    }
   }
+
 
   revalidatePath('/dashboard/users');
   redirect('/dashboard/users');

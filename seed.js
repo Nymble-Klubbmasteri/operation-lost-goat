@@ -23,7 +23,9 @@ async function seedUsers(client) {
         image_chaotic_url VARCHAR(255) NOT NULL DEFAULT '',
         likes VARCHAR(255),
         dislikes VARCHAR(255),
-        balance INT NOT NULL DEFAULT 0
+        balance INT NOT NULL DEFAULT 0,
+        role VARCHAR(255) DEFAULT 'Killing',
+        admin VARCHAR(255) DEFAULT 'No'
       );
     `;
 

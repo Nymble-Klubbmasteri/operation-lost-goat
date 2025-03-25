@@ -3,14 +3,17 @@ import { authConfig } from '@/auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
-import type { User } from '@/app/lib/definitions';
+import { type User } from '@/app/lib/definitions';
 import bcrypt from 'bcrypt'; 
 import { DefaultSession } from "next-auth";
+import DefaultUser from "next-auth";
 
 declare module "next-auth" {
   interface Session {
     user: {
       id: string; // Explicitly add id as a string
+      role: string;
+      admin: string;
     } & DefaultSession["user"];
   }
 }
@@ -18,7 +21,7 @@ declare module "next-auth" {
 async function getUser(email: string): Promise<User | undefined> {
     try {
       const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
-      // console.log("Fetched User from DB:", user.rows[0]); // Debugging
+      console.log("Fetched User from DB:", user.rows[0]); // Debugging
 
       return user.rows[0];
     } catch (error) {
@@ -63,15 +66,28 @@ export const { auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        // console.log("jwt user:", user);
+        // console.log("jwt token before id:", token);
         token.id = user.id; // Ensure the token gets the user ID
+        // console.log("jwt token after id:", token);
       }
       // console.log("JWT Token:", token); // Debugging
       return token;
     },
     async session({ session, token }) {
+      // console.log("token:", token);
       if (token.id) {
         session.user.id = token.id as string; // Explicitly cast token.id to string
       }
+      if (token.role) {
+        // console.log("token role:", token.role);
+        session.user.role = token.role as string;
+      }
+      if (token.admin) {
+        // console.log("token admin:", token.admin);
+        session.user.admin = token.admin as string;
+      }
+      // console.log("session user:", session.user);
       // console.log("JWT Session:", session);
       return session;
     }

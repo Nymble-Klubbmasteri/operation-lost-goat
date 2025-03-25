@@ -103,6 +103,47 @@ export default function Form() {
         </div>
       </div>
 
+
+        {/* User Role */}
+        <div className="mb-4">
+            <label htmlFor="role" className="mb-2 block text-sm font-medium">
+                Role
+            </label>
+            <div className="relative mt-2 rounded-md">
+                <div className="relative">
+                    <input
+                        id="role"
+                        name="role"
+                        type="text"
+                        placeholder="Enter new users role"
+                        className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                        aria-describedby='role-error'
+                    />
+                    <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                </div>
+            </div>
+        </div>        
+        
+        {/* User Admin Status */}
+        <div className="mb-4">
+            <label htmlFor="email" className="mb-2 block text-sm font-medium">
+                Admin Status
+            </label>
+            <div className="relative mt-2 rounded-md">
+                <div className="relative">
+                    <input
+                        id="admin"
+                        name="admin"
+                        type="text"
+                        placeholder="Enter new users admin status"
+                        className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                        aria-describedby='admin-error'
+                    />
+                    <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                </div>
+            </div>
+        </div>
+
       <div className="mt-6 flex justify-end gap-4">
         <Link
           href="/dashboard/users"

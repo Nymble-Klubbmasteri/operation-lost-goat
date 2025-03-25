@@ -1,5 +1,4 @@
 'use client';
-
 import {
   UserGroupIcon,
   HomeIcon,
@@ -8,28 +7,39 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
+import { fetchUserById } from '@/app/lib/data';
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  { name: 'Home', href: '/dashboard', icon: HomeIcon },
+  { name: 'Home', href: '/dashboard', icon: HomeIcon, adminProtect: false },
   {
     name: 'Invoices',
     href: '/dashboard/invoices',
     icon: DocumentDuplicateIcon,
+    adminProtect: false,
+    
   },
-  { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
-  { name: 'Administer Users', href: '/dashboard/users', icon: UserGroupIcon },
-  { name: 'Administer Events', href: '/dashboard/admin/events', icon: UserGroupIcon },
+  { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon, adminProtect: false },
+  { name: 'Administer Users', href: '/dashboard/users', icon: UserGroupIcon, adminProtect: false },
+  { name: 'Administer Events', href: '/dashboard/admin/events', icon: UserGroupIcon, adminProtect: true },
 
 ];
 
-export default function NavLinks() {
+export default function NavLinks({role, admin}: {role: string, admin: string}) {
   const pathname = usePathname();
+  console.log("role: ", role);
+  console.log("admin:", admin);
+  // const user = fetchUserById(id);
   return (
     <>
       {links.map((link) => {
         const LinkIcon = link.icon;
+        if (link.adminProtect) {
+          if (admin !== "Yes") {
+            return null;
+          }
+        }
         return (
           <Link
             key={link.name}
