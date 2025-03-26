@@ -34,6 +34,7 @@ async function getUser(email: string): Promise<User | undefined> {
     try {
       const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
       // console.log("Fetched User from DB:", user.rows[0]); // Debugging
+      // test
 
       return user.rows[0];
     } catch (error) {
