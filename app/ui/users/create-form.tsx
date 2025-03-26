@@ -101,49 +101,67 @@ export default function Form() {
                 </div>
             </div>
         </div>
-      </div>
-
 
         {/* User Role */}
         <div className="mb-4">
-            <label htmlFor="role" className="mb-2 block text-sm font-medium">
-                Role
-            </label>
-            <div className="relative mt-2 rounded-md">
-                <div className="relative">
-                    <input
-                        id="role"
-                        name="role"
-                        type="text"
-                        placeholder="Enter new users role"
-                        className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                        aria-describedby='role-error'
-                    />
-                    <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-                </div>
+          <label htmlFor="role" className="mb-2 block text-sm font-medium">
+            User Role
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <select
+                id="role"
+                name="role"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 pr-10 text-sm outline-2 placeholder:text-gray-500"
+              >
+                {["Killing", "Marskalk", "Qnekt", "WraQ", "Inaktiv", "Utesluten"].map((role) => (
+                  <option key={role} value={role}>{role}</option>
+                ))}
+              </select>
+              <svg
+                className="pointer-events-none absolute right-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
             </div>
-        </div>        
-        
-        {/* User Admin Status */}
-        <div className="mb-4">
-            <label htmlFor="email" className="mb-2 block text-sm font-medium">
-                Admin Status
-            </label>
-            <div className="relative mt-2 rounded-md">
-                <div className="relative">
-                    <input
-                        id="admin"
-                        name="admin"
-                        type="text"
-                        placeholder="Enter new users admin status"
-                        className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                        aria-describedby='admin-error'
-                    />
-                    <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-                </div>
-            </div>
+          </div>
         </div>
 
+        {/* User Admin Status */}
+        <div className="mb-4">
+          <label htmlFor="admin" className="mb-2 block text-sm font-medium">
+            User Admin Status
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <select
+                id="admin"
+                name="admin"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 pr-10 text-sm outline-2 placeholder:text-gray-500"
+              >
+                <option value="No">Not Admin</option>
+                <option value="Yes">Admin</option>
+              </select>
+              <svg
+                className="pointer-events-none absolute right-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+      </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
           href="/dashboard/users"

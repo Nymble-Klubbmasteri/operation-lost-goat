@@ -187,7 +187,9 @@ export async function fetchUserById(id: string) {
         users.id,
         users.name,
         users.email,
-        users.balance
+        users.balance,
+        users.role,
+        users.admin
       FROM users
       WHERE users.id = ${id};
     `;
@@ -374,11 +376,13 @@ export async function fetchFilteredUsers(
         users.email,
         users.image_nice_url,
         users.image_chaotic_url,
-        users.balance
+        users.balance,
+        users.role
       FROM users
       WHERE
         users.name ILIKE ${`%${query}%`} OR
         users.email ILIKE ${`%${query}%`} OR 
+        users.role ILIKE ${`%${query}%`} OR 
         users.balance::text ILIKE ${`%${query}%`} 
       ORDER BY users.name ASC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}

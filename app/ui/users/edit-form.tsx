@@ -24,6 +24,13 @@ export default function EditUserForm({
   const initialState = { message: null, errors: {} };
   const updateUserWithId = updateUser.bind(null, user.id);
   const [state, dispatch] = useFormState(updateUserWithId, initialState);
+
+
+  console.log("edit user admin: '", user.admin, "'");
+  console.log("edit user role:", user.role);
+  console.log("edit user name:'", user.name, "'");
+  console.log("state:", state);
+
  
   return <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
@@ -108,22 +115,31 @@ export default function EditUserForm({
           </div>
         </div>
 
-        {/* User Email */}
+        {/* User Role */}
         <div className="mb-4">
           <label htmlFor="role" className="mb-2 block text-sm font-medium">
             User Role
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
-              <input
+              <select
                 id="role"
                 name="role"
-                type="text"
-                defaultValue={user.role}
-                placeholder="Enter users role"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              />
-              <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                defaultValue={user.role} // Ensure it pre-selects the user's role
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 pr-10 text-sm outline-2 placeholder:text-gray-500"
+              >
+                {["Killing", "Marskalk", "Qnekt", "WraQ", "Inaktiv", "Utesluten"].map((role) => (
+                  <option key={role} value={role}>{role}</option>
+                ))}
+              </select>
+              <svg
+                className="pointer-events-none absolute right-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
             </div>
           </div>
         </div>
@@ -135,15 +151,27 @@ export default function EditUserForm({
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
-              <input
+              <select
                 id="admin"
                 name="admin"
-                type="text"
-                defaultValue={user.admin}
-                placeholder="Enter users admin status"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              />
-              <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                defaultValue={user.admin} // Since it's stored as a string, we don't need to convert it
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 pr-10 text-sm outline-2 placeholder:text-gray-500"
+              >
+                <option value="Yes">Admin</option>
+                <option value="No">Not Admin</option>
+              </select>
+              <svg
+                className="pointer-events-none absolute right-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
             </div>
           </div>
         </div>
@@ -160,3 +188,7 @@ export default function EditUserForm({
       </div>
     </form>
 }
+function useState(arg0: string): [any, any] {
+  throw new Error('Function not implemented.');
+}
+

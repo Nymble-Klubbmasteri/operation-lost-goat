@@ -101,6 +101,7 @@ export type UsersTable = {
   email: string;
   image_url: string;
   balance: number;
+  role: string;
 }
 
 export type FormattedUsersTable = {

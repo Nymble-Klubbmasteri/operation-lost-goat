@@ -3,6 +3,7 @@ import {
   UserGroupIcon,
   HomeIcon,
   DocumentDuplicateIcon,
+  NewspaperIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -22,7 +23,7 @@ const links = [
   },
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon, adminProtect: false },
   { name: 'Administer Users', href: '/dashboard/users', icon: UserGroupIcon, adminProtect: false },
-  { name: 'Administer Events', href: '/dashboard/admin/events', icon: UserGroupIcon, adminProtect: true },
+  { name: 'Administer Events', href: '/dashboard/admin/events', icon: NewspaperIcon, adminProtect: true },
 
 ];
 

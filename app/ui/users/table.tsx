@@ -39,6 +39,9 @@ export default async function UsersTable({
                     <p className="text-xl font-medium">
                       {(user.balance)}
                     </p>
+                    <p className="text-xl font-medium">
+                      {(user.role)}
+                    </p>
                   </div>
                   <div className="flex justify-end gap-2">
                     <UpdateUser id={user.id} />
@@ -59,6 +62,9 @@ export default async function UsersTable({
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
                   Balance
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Role
                 </th>
                 {/* <th scope="col" className="px-3 py-5 font-medium">
                   Status
@@ -91,6 +97,9 @@ export default async function UsersTable({
                   </td>                  
                   <td className="whitespace-nowrap px-3 py-3">
                     {(user.balance)}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    {(user.role)}
                   </td>
 
                   {/* <td className="whitespace-nowrap px-3 py-3">
