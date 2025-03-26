@@ -7,21 +7,33 @@ import { type User } from '@/app/lib/definitions';
 import bcrypt from 'bcrypt'; 
 import { DefaultSession } from "next-auth";
 import DefaultUser from "next-auth";
+import { JWT } from "next-auth/jwt";
 
 declare module "next-auth" {
+
+  interface User {
+    id: string;
+    role: string;
+    admin: string;
+  }
+
   interface Session {
-    user: {
-      id: string; // Explicitly add id as a string
-      role: string;
-      admin: string;
-    } & DefaultSession["user"];
+    user: User & DefaultSession["user"];
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: string;
+    role: string;
+    admin: string;
   }
 }
 
 async function getUser(email: string): Promise<User | undefined> {
     try {
       const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
-      console.log("Fetched User from DB:", user.rows[0]); // Debugging
+      // console.log("Fetched User from DB:", user.rows[0]); // Debugging
 
       return user.rows[0];
     } catch (error) {
@@ -70,6 +82,8 @@ export const { auth, signIn, signOut } = NextAuth({
         // console.log("jwt token before id:", token);
         token.id = user.id; // Ensure the token gets the user ID
         // console.log("jwt token after id:", token);
+        token.role = user.role;
+        token.admin = user.admin;
       }
       // console.log("JWT Token:", token); // Debugging
       return token;

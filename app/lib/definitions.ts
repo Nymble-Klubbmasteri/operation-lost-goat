@@ -10,8 +10,8 @@ export type User = {
   image_nice_url: string;
   image_chaotic_url: string;
   balance: string;
-  role: number;
-  admin: number;
+  role: string;
+  admin: string;
 };
 
 export type Event = {
@@ -145,8 +145,8 @@ export type UserForm = {
   email: string;
   balance: number;
   password: string;
-  role: number;
-  admin: number;
+  role: string;
+  admin: string;
 }
 
 export type EventForm = {
