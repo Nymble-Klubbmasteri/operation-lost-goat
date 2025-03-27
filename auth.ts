@@ -12,7 +12,7 @@ import { JWT } from "next-auth/jwt";
 declare module "next-auth" {
 
   interface User {
-    id: string;
+    id: string | undefined;
     role: string;
     admin: string;
   }
@@ -79,9 +79,11 @@ export const { auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        if (user.id) {
+          token.id = user.id; // Ensure the token gets the user ID
+        }
         // console.log("jwt user:", user);
         // console.log("jwt token before id:", token);
-        token.id = user.id; // Ensure the token gets the user ID
         // console.log("jwt token after id:", token);
         token.role = user.role;
         token.admin = user.admin;

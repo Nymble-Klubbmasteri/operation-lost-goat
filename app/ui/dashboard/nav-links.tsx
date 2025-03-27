@@ -13,17 +13,18 @@ import { fetchUserById } from '@/app/lib/data';
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  { name: 'Home', href: '/dashboard', icon: HomeIcon, adminProtect: false },
+  { name: 'Home', href: '/dashboard', icon: HomeIcon, adminProtect: false, marskalkProtect: false },
   {
     name: 'Invoices',
     href: '/dashboard/invoices',
     icon: DocumentDuplicateIcon,
     adminProtect: false,
+    marskalkProtect: false
     
   },
-  { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon, adminProtect: false },
-  { name: 'Administer Users', href: '/dashboard/users', icon: UserGroupIcon, adminProtect: false },
-  { name: 'Administer Events', href: '/dashboard/admin/events', icon: NewspaperIcon, adminProtect: true },
+  { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon, adminProtect: false, marskalkProtect: false },
+  { name: 'Administer Users', href: '/dashboard/users', icon: UserGroupIcon, adminProtect: false, marskalkProtect: false },
+  { name: 'Administer Events', href: '/dashboard/admin/events', icon: NewspaperIcon, adminProtect: true, marskalkProtect: false },
 
 ];
 
@@ -38,6 +39,11 @@ export default function NavLinks({role, admin}: {role: string, admin: string}) {
         const LinkIcon = link.icon;
         if (link.adminProtect) {
           if (admin !== "Yes") {
+            return null;
+          }
+        }
+        if (link.marskalkProtect) {
+          if (role === "Killing") {
             return null;
           }
         }

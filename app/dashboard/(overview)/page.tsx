@@ -45,12 +45,12 @@ export default async function Page() {
       </h1>
       <div>
         <Suspense>
-          <Strecka id={session.user.id}/>
+          <Strecka id={session.user.id} role={session.user.role}/>
         </Suspense>     
       </div>
       <div>
         <Suspense>
-          <SaldoBox id={session.user.id}/>
+          <SaldoBox id={session.user.id} role={session.user.role}/>
         </Suspense>
       </div>
       {/* <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

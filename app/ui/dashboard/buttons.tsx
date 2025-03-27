@@ -5,8 +5,16 @@ import Image from 'next/image';
 // wiiii
 
 
-export function Strecka({ id }: { id: string}) {
+export function Strecka({ id, role }: { id: string, role: string}) {
   const streckaID = strecka.bind(null, id);
+
+  if (role === "Killing" || role === "Inaktiv") {
+    return (
+      <div>
+        Du har inte rätt att strecka
+      </div>
+    )
+  }
 
   return (
     <form action={streckaID}>

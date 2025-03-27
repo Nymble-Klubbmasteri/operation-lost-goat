@@ -3,8 +3,16 @@ import { fetchBalanceByID } from '@/app/lib/data';
 // wiiii
 
 
-export default async function SaldoBox({ id }: { id: string}) {
-    const balance = await fetchBalanceByID(id);
+export default async function SaldoBox({ id, role }: { id: string, role: string}) {
+  const balance = await fetchBalanceByID(id);
+
+  if (role === "Killing" || role === "Inaktiv") {
+    return (
+      <div>
+        Killingar har inget saldo...
+      </div>
+    )
+  }
     // console.log("balance is...:", balance.balance);
   return (
     <div className="p-4 border rounded-lg shadow-md bg-white w-64 text-center">
