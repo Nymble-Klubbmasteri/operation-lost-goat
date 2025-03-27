@@ -12,7 +12,7 @@ import { JWT } from "next-auth/jwt";
 declare module "next-auth" {
 
   interface User {
-    id: string | undefined;
+    id: string | null;
     role: string;
     admin: string;
   }
