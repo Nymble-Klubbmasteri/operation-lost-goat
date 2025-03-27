@@ -25,6 +25,8 @@ const links = [
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon, adminProtect: false, marskalkProtect: false },
   { name: 'Administer Users', href: '/dashboard/users', icon: UserGroupIcon, adminProtect: false, marskalkProtect: false },
   { name: 'Administer Events', href: '/dashboard/admin/events', icon: NewspaperIcon, adminProtect: true, marskalkProtect: false },
+  { name: 'Events', href: '/dashboard/events', icon: NewspaperIcon, adminProtect: false, marskalkProtect: false },
+
 
 ];
 
@@ -43,7 +45,7 @@ export default function NavLinks({role, admin}: {role: string, admin: string}) {
           }
         }
         if (link.marskalkProtect) {
-          if (role === "Killing") {
+          if ((role === "Killing" || role === "Inaktiv" || role === "Utesluten" || role === "Qnekt") && admin !== "Yes") {
             return null;
           }
         }

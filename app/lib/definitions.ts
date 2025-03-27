@@ -27,6 +27,7 @@ export type Event = {
   sought_workers: number;
   date: Date,
   notes: string;
+  workers: string[];
 };
 
 export type Customer = {
@@ -163,4 +164,5 @@ export type EventForm = {
   sought_workers: number;
   date: Date,
   notes: string;
+  workers: string[];
 };

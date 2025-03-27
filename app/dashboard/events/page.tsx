@@ -1,7 +1,6 @@
-import Pagination from '@/app/ui/admin/events/pagination';
+import Pagination from '@/app/ui/events/pagination';
 import Search from '@/app/ui/search';
-import Table from '@/app/ui/admin/events/table';
-import { CreateEvent } from '@/app/ui/admin/events/buttons';
+import Table from '@/app/ui/events/table';
 import { lusitana } from '@/app/ui/fonts';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
@@ -9,7 +8,7 @@ import { fetchEventsPages } from '@/app/lib/data';
 import { Metadata } from 'next';
  
 export const metadata: Metadata = {
-  title: 'Administer Events',
+  title: 'Events',
 };
  
 export default async function Page({
@@ -33,7 +32,6 @@ export default async function Page({
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search events..." />
-        <CreateEvent />
       </div>
        <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />

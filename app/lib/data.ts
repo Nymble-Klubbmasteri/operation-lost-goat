@@ -222,7 +222,8 @@ export async function fetchEventById(id: string) {
         events.responsible,
         events.type,
         events.sought_workers,
-        events.notes
+        events.notes,
+        events.workers
       FROM events
       WHERE events.id = ${id};
     `;

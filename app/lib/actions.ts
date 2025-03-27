@@ -86,6 +86,7 @@ const EventFormSchema = z.object({
   type: z.coerce.number(),
   date: z.string(),
   notes: z.string(),
+  workers: z.string().array()
 });
  
 const CreateInvoice = InvoiceFormSchema.omit({ id: true, date: true });
@@ -167,7 +168,7 @@ export async function createUser(prevState: UserState, formData: FormData) {
   redirect('/dashboard/users');
 }
 
-const CreateEvent = EventFormSchema.omit({id: true});
+const CreateEvent = EventFormSchema.omit({id: true, workers: true});
 export async function createEvent(prevState: EventState, formData: FormData) {
   const validatedFields = CreateEvent.safeParse({
     name: formData.get('name'),
@@ -447,4 +448,51 @@ export async function strecka(id: string) {
       message: 'Database failed to strecka',
     };
   }
+}
+
+export async function AddUserToEvent(event_id: string, user_id: string) {
+  console.log("add user to event 1");
+  try {
+    await sql`
+      UPDATE events
+      SET workers = 
+        CASE 
+          WHEN array_position(workers, ${user_id}::uuid) IS NULL 
+          THEN array_append(workers, ${user_id}::uuid) 
+          ELSE workers 
+        END
+      WHERE id = ${event_id}::uuid;
+    `;
+    console.log("added");
+    // const event = await sql`
+    //   SELECT
+    //     events.id,
+    //     events.name,
+    //     events.workers
+    //   FROM events
+    //   WHERE events.id = ${event_id}::uuid;
+    // `;
+    // console.log("added user to event", event.rows[0]);
+
+  } catch (error) {
+    // console.log(error);
+    console.error("Error adding user to event:", error);
+    return { success: false, message: "Failed to add user to event." };
+  }
+  console.log("add user to event 2");
+  revalidatePath(`dashboard/events/${event_id}/see`);
+}
+
+export async function RemoveUserFromEvent(event_id: string, user_id: string) {
+  try {
+    await sql`
+      UPDATE events
+      SET workers = array_remove(workers, ${user_id}::uuid)
+      WHERE id = ${event_id}::uuid AND ${user_id} = ANY(workers)
+    `;
+  } catch (error) {
+    console.error('Error removing user from event:', error);
+    return { success: false, message: 'Failed to remove user from event' };
+  }
+  revalidatePath(`dashboard/events/${event_id}/see`);
 }

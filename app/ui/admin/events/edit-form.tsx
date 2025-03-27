@@ -20,7 +20,7 @@ import { useFormState } from 'react-dom';
 
 
 
-export default function EditUserForm({
+export default function EditEventForm({
   event,
   users
 }: {

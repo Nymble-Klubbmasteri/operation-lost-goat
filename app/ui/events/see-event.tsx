@@ -1,0 +1,61 @@
+
+import { useState } from 'react';
+import { EventForm, UserField } from '@/app/lib/definitions';
+import { useFormState } from 'react-dom';
+import { Button } from '@/app/ui/button';
+import Link from 'next/link';
+import { UsersIcon, CalendarIcon, ClockIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
+import { AddUserToEvent, RemoveUserFromEvent } from '@/app/lib/actions';
+import { fetchEventById, fetchUserById } from '@/app/lib/data';
+import { Remove, SignUp } from './buttons';
+
+export default async function SeeEvent({ event_id, user_id }: { event_id: string; user_id: string }) {
+    const event = await fetchEventById(event_id);    
+    console.log("see event", event);
+    console.log("event workers:", event.workers);
+    
+    return (
+        <div className="rounded-md bg-gray-50 p-6">
+            {/* Event Name */}
+            <h1 className="text-xl font-bold">{event.name}</h1>
+            <p className="text-sm text-gray-600">{event.notes}</p>
+
+            {/* Event Date */}
+            <div className="mt-4 flex items-center">
+                <CalendarIcon className="h-5 w-5 text-gray-500 mr-2" />
+                <p>{new Date(event.date).toLocaleDateString()}</p>
+            </div>
+
+            {/* Event Time */}
+            <div className="mt-2 flex items-center">
+                <ClockIcon className="h-5 w-5 text-gray-500 mr-2" />
+                <p>Work: {event.start_work_time} - {event.end_work_time}</p>
+            </div>
+            <div className="mt-2 flex items-center">
+                <ClockIcon className="h-5 w-5 text-gray-500 mr-2" />
+                <p>Event: {event.start_event_time} - {event.end_event_time}</p>
+            </div>
+
+            {/* Workers */}
+            <div className="mt-4 flex items-center">
+                <UsersIcon className="h-5 w-5 text-gray-500 mr-2" />
+                <p>{(event.workers ?? []).length}/{event.sought_workers} workers signed up</p>
+            </div>
+
+            {/* Sign Up / Remove Button */}
+            <div className="mt-6">
+                <div className="flex justify-end gap-3">
+                    <SignUp event_id={event_id} user_id={user_id} />
+                    <Remove event_id={event_id} user_id={user_id} />
+                </div>
+            </div>
+
+            {/* Back to Events */}
+            <div className="mt-6">
+                <Link href="/dashboard/events" className="text-blue-600 hover:underline">
+                    Back to Events
+                </Link>
+            </div>
+        </div>
+    );
+}

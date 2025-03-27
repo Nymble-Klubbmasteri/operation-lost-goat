@@ -6,6 +6,14 @@ import { fetchBalanceByID } from '@/app/lib/data';
 export default async function SaldoBox({ id, role }: { id: string, role: string}) {
   const balance = await fetchBalanceByID(id);
 
+  if (!balance) {
+    return (
+      <div>
+        Hittade inte ditt saldo...
+      </div>
+    );
+  }
+
   if (role === "Killing" || role === "Inaktiv") {
     return (
       <div>
