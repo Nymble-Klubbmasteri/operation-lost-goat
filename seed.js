@@ -8,6 +8,29 @@ const {
 } = require('./app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
 
+async function seedStreck(client) {
+  try {
+    await client.sql`DROP TABLE IF EXISTS streck`;
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // create the "streck" table if it doesnt exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS streck (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        user_id UUID NOT NULL,
+        time DATE DEFAULT NOW(),
+        amount INT
+      );
+    `;
+
+    console.log(`Created "streck" table`);
+    return createTable;
+  } catch (error) {
+    console.error('Error seeding streck:', error);
+    throw error;
+  }
+}
+
 async function seedUsers(client) {
   try {
     await client.sql`DROP TABLE IF EXISTS users`;
@@ -244,6 +267,7 @@ async function main() {
   await seedInvoices(client);
   await seedRevenue(client);
   await seedEvents(client);
+  await seedStreck(client);
 
   await client.end();
 }

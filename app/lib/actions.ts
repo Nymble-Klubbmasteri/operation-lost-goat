@@ -313,7 +313,7 @@ export async function updateUser(
   redirect('/dashboard/users');
 }
 
-const UpdateEvent = EventFormSchema.omit({id: true})
+const UpdateEvent = EventFormSchema.omit({id: true, workers: true})
 export async function updateEvent(
   id: string,
   prevState: EventState,
@@ -330,6 +330,7 @@ export async function updateEvent(
     locations: formData.get('locations'),
     type: formData.get('type'),
     sought_workers: formData.get('sought_workers'),
+    responsible: formData.get('responsible'),
     notes: formData.get('notes')
   });
 

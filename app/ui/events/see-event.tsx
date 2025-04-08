@@ -6,13 +6,15 @@ import { Button } from '@/app/ui/button';
 import Link from 'next/link';
 import { UsersIcon, CalendarIcon, ClockIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import { AddUserToEvent, RemoveUserFromEvent } from '@/app/lib/actions';
-import { fetchEventById, fetchUserById } from '@/app/lib/data';
+import { fetchEventById, fetchUserById, fetchUserNamesByIDs } from '@/app/lib/data';
 import { Remove, SignUp } from './buttons';
 
 export default async function SeeEvent({ event_id, user_id }: { event_id: string; user_id: string }) {
-    const event = await fetchEventById(event_id);    
+    const event = await fetchEventById(event_id);   
+    const workers = await fetchUserNamesByIDs(event.workers);
     console.log("see event", event);
     console.log("event workers:", event.workers);
+    console.log("worker names: ", workers);
     
     return (
         <div className="rounded-md bg-gray-50 p-6">
@@ -36,18 +38,38 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
                 <p>Event: {event.start_event_time} - {event.end_event_time}</p>
             </div>
 
-            {/* Workers */}
+            {/* Number of Workers */}
             <div className="mt-4 flex items-center">
                 <UsersIcon className="h-5 w-5 text-gray-500 mr-2" />
                 <p>{(event.workers ?? []).length}/{event.sought_workers} workers signed up</p>
             </div>
 
+
+            {/* Signed up */}
+            <div className="mt-4">
+            <div className="flex items-center mb-2">
+                <UsersIcon className="h-5 w-5 text-gray-500 mr-2" />
+                <span>Signed up</span>
+            </div>
+            <div className="flex flex-col gap-1">
+                {workers.map((name, idx) => (
+                <div key={idx}>{name}</div>
+                ))}
+            </div>
+            </div>
+
             {/* Sign Up / Remove Button */}
             <div className="mt-6">
-                <div className="flex justify-end gap-3">
-                    <SignUp event_id={event_id} user_id={user_id} />
+            <div className="flex justify-end gap-3">
+                {new Date(event.date) > new Date() && event.workers.length < event.sought_workers && !event.workers.includes(user_id) && (
+                <SignUp event_id={event_id} user_id={user_id} />
+                )}
+
+                {new Date(event.date).getTime() - new Date().getTime() > 3 * 24 * 60 * 60 * 1000 && 
+                event.workers.includes(user_id) && (
                     <Remove event_id={event_id} user_id={user_id} />
-                </div>
+                )}
+            </div>
             </div>
 
             {/* Back to Events */}

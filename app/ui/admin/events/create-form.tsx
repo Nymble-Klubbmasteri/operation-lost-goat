@@ -144,7 +144,7 @@ export default function Form({ users }: {users: UserField[]}) {
             </div>
         </div>
 
-        {/* Sought Workers */}
+        {/* Event type */}
         <div className="mb-4">
             <label htmlFor="sought_workers" className="mb-2 block text-sm font-medium">
                 Type of Event: 0: Inte Arbetspass, 1: Fredagspub, 2: Storevent, 3: Betalevent
