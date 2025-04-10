@@ -28,7 +28,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 * [X] Inte kunna signa upp sig till event som man inte får jobba
 * [X] Inte kunna signa upp sig till event som är fyllda
 * [X] Inte kunna ta bort sig 3 dar innan event
-* [ ] Faktiskt gömma admin & marskalkssaker
+* [X] Faktiskt gömma admin & marskalkssaker
 
 
 

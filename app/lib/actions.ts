@@ -164,8 +164,8 @@ export async function createUser(prevState: UserState, formData: FormData) {
   }
   // console.log("hi! create_user 4");
 
-  revalidatePath('/dashboard/users');
-  redirect('/dashboard/users');
+  revalidatePath('/dashboard/admin/users');
+  redirect('/dashboard/admin/users');
 }
 
 const CreateEvent = EventFormSchema.omit({id: true, workers: true});
@@ -309,8 +309,8 @@ export async function updateUser(
   }
 
 
-  revalidatePath('/dashboard/users');
-  redirect('/dashboard/users');
+  revalidatePath('/dashboard/admin/users');
+  redirect('/dashboard/admin/users');
 }
 
 const UpdateEvent = EventFormSchema.omit({id: true, workers: true})
@@ -387,7 +387,7 @@ export async function deleteInvoice(id: string) {
 export async function deleteUser(id: string) {
   try {
     await sql`DELETE FROM users WHERE id = ${id}`;
-    revalidatePath('/dasboard/users');
+    revalidatePath('/dasboard/admin/users');
   } catch (error) {
     return {
       message: 'Database failed to delete user',
