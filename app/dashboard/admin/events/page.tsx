@@ -7,6 +7,7 @@ import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchEventsPages } from '@/app/lib/data';
 import { Metadata } from 'next';
+import { auth } from '@/auth';
  
 export const metadata: Metadata = {
   title: 'Administer Events',
@@ -24,7 +25,21 @@ export default async function Page({
   const currentPage = Number(searchParams?.page) || 1;
 
   const totalPages = await fetchEventsPages(query);
-
+  const session = await auth();
+  if (!session?.user.role) {
+      return (
+        <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+          Du har ingen roll! :(
+        </h1>
+      );
+  }
+  if (session.user.admin !== 'Yes') {
+  return (
+    <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+      Du är inte admin!
+    </h1>
+  );
+  }
 
   return (
     <div className="w-full">

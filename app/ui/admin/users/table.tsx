@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { fetchFilteredUsers } from '@/app/lib/data';
-import { UpdateUser, DeleteUser } from '@/app/ui/users/buttons';
+import { UpdateUser, DeleteUser } from '@/app/ui/admin/users/buttons';
 
 export default async function UsersTable({
   query,

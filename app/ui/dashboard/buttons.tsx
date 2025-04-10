@@ -18,13 +18,13 @@ export function Strecka({ id, role }: { id: string, role: string}) {
 
   return (
     <form action={streckaID}>
-      <button className='flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'>
-        <span className="hidden md:block mr-4">Strecka</span>{' '}
+      <button className='flex h-16 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'>
+        <span className="hidden md:block mr-4 text-lg">Strecka</span>{' '}
         <Image
         src={flattis}
         className="mr-2 flex"
-        width={35}
-        height={35}
+        width={60}
+        height={60}
         alt='.'
       />
       </button>

@@ -20,7 +20,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## **TODO MVP:**
 
-* [ ] Streck ska sparas
+* [X] Streck ska sparas
 * [X] Rollbaserade förändringar
 * [X] Skriva upp sig på event
 * [X] Se vilka som är uppskrivna på event
@@ -28,12 +28,13 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 * [X] Inte kunna signa upp sig till event som man inte får jobba
 * [X] Inte kunna signa upp sig till event som är fyllda
 * [X] Inte kunna ta bort sig 3 dar innan event
+* [ ] Faktiskt gömma admin & marskalkssaker
 
 
 
 ## TODO:
 
-* [ ] Topplista på streck
+* [X] Topplista på streck
 * [ ] Bilder
 * [ ] Likes/Dislikes
 * [ ] Utsida

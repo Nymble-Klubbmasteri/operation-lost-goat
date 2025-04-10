@@ -1,12 +1,13 @@
-import Pagination from '@/app/ui/users/pagination';
+import Pagination from '@/app/ui/admin/users/pagination';
 import Search from '@/app/ui/search';
-import Table from '@/app/ui/users/table';
+import Table from '@/app/ui/admin/users/table';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { fetchUsersPages } from '@/app/lib/data';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
-import { CreateUser } from '@/app/ui/users/buttons';
+import { CreateUser } from '@/app/ui/admin/users/buttons';
+import { auth } from '@/auth';
 
  
 export const metadata: Metadata = {
@@ -25,7 +26,21 @@ export default async function Page({
   const currentPage = Number(searchParams?.page) || 1;
 
   const totalPages = await fetchUsersPages(query);
-
+  const session = await auth();
+    if (!session?.user.role) {
+        return (
+          <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+            Du har ingen roll! :(
+          </h1>
+        );
+    }
+  if (session.user.admin !== 'Yes') {
+    return (
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Du är inte admin!
+      </h1>
+    );
+  }
 
   return (
     <div className="w-full">
