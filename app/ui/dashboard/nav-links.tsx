@@ -4,6 +4,7 @@ import {
   HomeIcon,
   DocumentDuplicateIcon,
   NewspaperIcon,
+  InboxStackIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -14,17 +15,8 @@ import { fetchUserById } from '@/app/lib/data';
 // Depending on the size of the application, this would be stored in a database.
 const links = [
   { name: 'Home', href: '/dashboard', icon: HomeIcon, adminProtect: false, marskalkProtect: false },
-  {
-    name: 'Invoices',
-    href: '/dashboard/invoices',
-    icon: DocumentDuplicateIcon,
-    adminProtect: false,
-    marskalkProtect: false
-    
-  },
-  { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon, adminProtect: false, marskalkProtect: false },
-  { name: 'Administer Users', href: '/dashboard/users', icon: UserGroupIcon, adminProtect: false, marskalkProtect: false },
-  { name: 'Administer Events', href: '/dashboard/admin/events', icon: NewspaperIcon, adminProtect: true, marskalkProtect: false },
+  { name: 'Administer Users', href: '/dashboard/users', icon: UserGroupIcon, adminProtect: true, marskalkProtect: false },
+  { name: 'Administer Events', href: '/dashboard/admin/events', icon: InboxStackIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Events', href: '/dashboard/events', icon: NewspaperIcon, adminProtect: false, marskalkProtect: false },
 
 

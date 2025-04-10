@@ -14,6 +14,7 @@ import CardWrapper from '@/app/ui/dashboard/cards';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 import SaldoBox from '@/app/ui/dashboard/saldo';
+import TopList from '@/app/ui/dashboard/top-list';
  
 export const metadata: Metadata = {
   title: 'NKM',
@@ -53,17 +54,11 @@ export default async function Page() {
           <SaldoBox id={session.user.id} role={session.user.role}/>
         </Suspense>
       </div>
-      {/* <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <CardWrapper />
+      <div>
+        <Suspense>
+          <TopList />
+        </Suspense>
       </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-8">
-        <Suspense fallback={<RevenueChartSkeleton />}>
-          <RevenueChart />
-        </Suspense>
-        <Suspense fallback={<LatestInvoicesSkeleton />}>
-            <LatestInvoices />
-        </Suspense>
-      </div> */}
     </main>
   );
 }

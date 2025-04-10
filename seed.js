@@ -58,11 +58,19 @@ async function seedUsers(client) {
     const insertedUsers = await Promise.all(
       users.map(async (user) => {
         const hashedPassword = await bcrypt.hash(user.password, 10);
-        return client.sql`
-        INSERT INTO users (name, email, password, image_nice_url, image_chaotic_url)
-        VALUES (${user.name}, ${user.email}, ${hashedPassword}, ${user.image_nice_url}, ${user.image_chaotic_url})
-        ON CONFLICT (id) DO NOTHING;
-      `;
+        if (user.admin) {
+          return client.sql`
+          INSERT INTO users (name, email, password, image_nice_url, image_chaotic_url, admin)
+          VALUES (${user.name}, ${user.email}, ${hashedPassword}, ${user.image_nice_url}, ${user.image_chaotic_url}, ${user.admin})
+          ON CONFLICT (id) DO NOTHING;
+          `;          
+        } else {
+          return client.sql`
+          INSERT INTO users (name, email, password, image_nice_url, image_chaotic_url)
+          VALUES (${user.name}, ${user.email}, ${hashedPassword}, ${user.image_nice_url}, ${user.image_chaotic_url})
+          ON CONFLICT (id) DO NOTHING;
+          `;
+        }
       }),
     );
 

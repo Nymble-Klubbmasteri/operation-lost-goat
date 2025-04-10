@@ -64,6 +64,7 @@ const users = [
     password: 'Nymble1519',
     image_nice_url: '/customers/delba-de-oliveira.png',
     image_chaotic_url: '/customers/delba-de-oliveira.png',
+    admin: "Yes",
   }
 ];
 

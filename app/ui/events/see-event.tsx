@@ -49,7 +49,7 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
             <div className="mt-4">
             <div className="flex items-center mb-2">
                 <UsersIcon className="h-5 w-5 text-gray-500 mr-2" />
-                <span>Signed up</span>
+                <span>Signed up:</span>
             </div>
             <div className="flex flex-col gap-1">
                 {workers.map((name, idx) => (

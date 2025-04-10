@@ -463,3 +463,67 @@ export async function fetchUserNamesByIDs(ids: string[]) {
     return [];
   }
 }
+
+export async function fetchUserStrecks(id: string) {
+  noStore();
+
+  try {
+    const result = await sql`
+      SELECT *
+      FROM streck
+      WHERE
+        streck.user_id = ${id}
+    `;
+
+    return result.rows;
+  } catch (error) {
+    console.error('Database All Users Streck Fetching Error:', error);
+    throw new Error('Failed to fetch users streck');
+  }
+}
+
+export async function fetchAllStreck() {
+  noStore();
+  try {
+    const result = await sql`
+      SELECT *
+      FROM streck
+    `;
+
+    return result.rows;
+  } catch (error) {
+    console.error('Database All Streck Fetching Error:', error);
+    throw new Error('Failed to fetch all streck');
+  }
+}
+
+export async function getTopList() {
+  noStore();
+  try {
+    const result = await sql`
+      SELECT 
+        u.id, 
+        u.name, 
+        u.role,
+        COUNT(s.id) as streck_count
+      FROM 
+        users u
+      LEFT JOIN 
+        streck s ON u.id = s.user_id
+      WHERE
+        u.role = 'Marskalk' OR u.role = 'WraQ' OR u.role = 'Qnekt'
+      GROUP BY 
+        u.id, u.name
+      ORDER BY 
+        streck_count DESC
+    `;
+    //        COALESCE(SUM(s.amount), 0) as total_amount
+
+
+    // console.log(result.rows);
+    return result.rows;
+  } catch (error) {
+    console.error('Failed to fetch Top List, error: ', error);
+    throw new Error('Failed to fetch top list');
+  }
+}

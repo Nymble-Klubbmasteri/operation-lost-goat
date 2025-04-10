@@ -25,9 +25,16 @@ export type Event = {
   responsible: string;
   type: number;
   sought_workers: number;
-  date: Date,
+  date: Date;
   notes: string;
   workers: string[];
+};
+
+export type Streck = {
+  id: string;
+  user_id: string;
+  amount: number;
+  date: Date;
 };
 
 export type Customer = {

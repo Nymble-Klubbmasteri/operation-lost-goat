@@ -439,6 +439,10 @@ export async function strecka(id: string) {
       UPDATE users 
       SET balance = balance - ${deduction} 
       WHERE id = ${id}`;
+    await sql`
+      INSERT INTO streck (user_id, amount)
+      VALUES (${id}, ${deduction})
+    `;
     
     revalidatePath('/dasboard');
 
