@@ -408,7 +408,8 @@ export async function fetchFilteredEvents(
       SELECT
         events.id,
         events.name,
-        events.date
+        events.date,
+        events.type
       FROM events
       WHERE
         events.name ILIKE ${`%${query}%`}

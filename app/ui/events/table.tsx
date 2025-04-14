@@ -12,12 +12,23 @@ export default async function EventsTable({
   query: string;
   currentPage: number;
 }) {
-  const events = await fetchFilteredEvents(query, currentPage);
+  let events = await fetchFilteredEvents(query, currentPage);
+  
   const session = await auth();
+
 
   if (!session?.user?.id) {
     console.log("Events Table User not found");
     return null;
+  }
+  if (!session?.user?.role) {
+    console.log("Events Table User Role not found");
+    return null;
+  }
+
+  // Filter events of type 3 unless the user is Marskalk or WraQ
+  if (session.user.role !== 'Marskalk' && session.user.role !== 'WraQ') {
+    events = events.filter((event) => event.type !== 3);
   }
 
   return (

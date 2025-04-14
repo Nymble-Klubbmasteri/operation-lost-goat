@@ -4,7 +4,7 @@ import { EventForm, UserField } from '@/app/lib/definitions';
 import { useFormState } from 'react-dom';
 import { Button } from '@/app/ui/button';
 import Link from 'next/link';
-import { UsersIcon, CalendarIcon, ClockIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
+import { UsersIcon, CalendarIcon, ClockIcon, DocumentTextIcon, AdjustmentsVerticalIcon } from '@heroicons/react/24/outline';
 import { AddUserToEvent, RemoveUserFromEvent } from '@/app/lib/actions';
 import { fetchEventById, fetchUserById, fetchUserNamesByIDs } from '@/app/lib/data';
 import { Remove, SignUp } from './buttons';
@@ -44,6 +44,18 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
                 <p>{(event.workers ?? []).length}/{event.sought_workers} workers signed up</p>
             </div>
 
+            {/* Event type */}
+            <div className="mb-4">
+            <label htmlFor="sought_workers" className="mb-2 block text-sm font-medium">
+                Type of Event: 0: Inte Arbetspass, 1: Fredagspub, 2: Storevent, 3: Betalevent
+            </label>
+                <div className="relative mt-2 rounded-md">
+                    <div className="relative">
+                        <p>{event.type}</p>
+                        <AdjustmentsVerticalIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                    </div>
+                </div>
+            </div>
 
             {/* Signed up */}
             <div className="mt-4">
@@ -60,16 +72,16 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
 
             {/* Sign Up / Remove Button */}
             <div className="mt-6">
-            <div className="flex justify-end gap-3">
-                {new Date(event.date) > new Date() && event.workers.length < event.sought_workers && !event.workers.includes(user_id) && (
-                <SignUp event_id={event_id} user_id={user_id} />
-                )}
+                <div className="flex justify-end gap-3">
+                    {new Date(event.date) > new Date() && event.workers.length < event.sought_workers && !event.workers.includes(user_id) && (
+                    <SignUp event_id={event_id} user_id={user_id} />
+                    )}
 
-                {new Date(event.date).getTime() - new Date().getTime() > 3 * 24 * 60 * 60 * 1000 && 
-                event.workers.includes(user_id) && (
-                    <Remove event_id={event_id} user_id={user_id} />
-                )}
-            </div>
+                    {new Date(event.date).getTime() - new Date().getTime() > 3 * 24 * 60 * 60 * 1000 && 
+                    event.workers.includes(user_id) && (
+                        <Remove event_id={event_id} user_id={user_id} />
+                    )}
+                </div>
             </div>
 
             {/* Back to Events */}

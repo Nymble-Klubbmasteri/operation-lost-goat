@@ -11,7 +11,8 @@ import {
   CalendarIcon,
   DocumentTextIcon,
   NewspaperIcon,
-  UsersIcon
+  UsersIcon,
+  AdjustmentsVerticalIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
@@ -229,6 +230,28 @@ export default function EditEventForm({
                 ))}
             </select>
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+            </div>
+        </div>
+
+        {/* Event type */}
+        <div className="mb-4">
+            <label htmlFor="sought_workers" className="mb-2 block text-sm font-medium">
+                Type of Event: 0: Inte Arbetspass, 1: Fredagspub, 2: Storevent, 3: Betalevent
+            </label>
+            <div className="relative mt-2 rounded-md">
+                <div className="relative">
+                    <input
+                        id="type"
+                        name="type"
+                        type="number"
+                        step="1"
+                        defaultValue={event.type}
+                        placeholder="Enter new events type"
+                        className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                        aria-describedby='workers-error'
+                    />
+                    <AdjustmentsVerticalIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                </div>
             </div>
         </div>
 

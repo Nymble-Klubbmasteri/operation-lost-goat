@@ -124,6 +124,7 @@ export type EventsTable = {
   id: string;
   name: string;
   date: string;
+  type: number;
 }
 
 export type CustomerField = {
