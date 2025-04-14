@@ -479,28 +479,31 @@ export async function authenticate(
   }
 }
 
-export async function strecka(id: string) {
+export async function strecka(id: string, num_streck: number) {
   try {
     // Fetch the user's current balance
-    const result = await sql`SELECT balance FROM users WHERE id = ${id}`;
-    const balance = result.rows[0]?.balance ?? 0;
-
-    // Determine the deduction amount
-    const deduction = balance < 0 ? 25 : 20;
-
-    // Update the balance
-    await sql`
-      UPDATE users 
-      SET balance = balance - ${deduction} 
-      WHERE id = ${id}`;
-    await sql`
-      INSERT INTO streck (user_id, amount)
-      VALUES (${id}, ${deduction})
-    `;
+    if (num_streck < 1) {
+      revalidatePath('/dashboard');
+    } else {
+      for (let index = 0; index < num_streck; index++) {
+        const result = await sql`SELECT balance FROM users WHERE id = ${id}`;
+        const balance = result.rows[0]?.balance ?? 0;
     
-    revalidatePath('/dasboard');
-
-
+        // Determine the deduction amount
+        const deduction = balance < 0 ? 25 : 20;
+    
+        // Update the balance
+        await sql`
+          UPDATE users 
+          SET balance = balance - ${deduction} 
+          WHERE id = ${id}`;
+        await sql`
+          INSERT INTO streck (user_id, amount)
+          VALUES (${id}, ${deduction})
+        `;
+      }
+      revalidatePath('/dasboard');
+    }
   } catch (error) {
     console.log("Strecka, error:", error);
     return {
