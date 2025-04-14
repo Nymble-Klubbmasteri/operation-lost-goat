@@ -17,7 +17,6 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateEvent } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
-import { WorkerManager } from './workermanager';
 import { AdminRemoveUserFromEvent } from '@/app/lib/actions';
 
 
