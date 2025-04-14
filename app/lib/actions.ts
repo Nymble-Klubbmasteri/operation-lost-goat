@@ -313,6 +313,60 @@ export async function updateUser(
   redirect('/dashboard/admin/users');
 }
 
+const UpdateProfile = UserFormSchema.omit({balance: true, role: true, admin: true})
+export async function updateProfile(
+  id: string,
+  prevState: UserState,
+  formData: FormData,  
+) {
+
+  const validatedFields = UpdateProfile.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+  });
+
+
+  if (!validatedFields.success){
+    console.log("Errors:", validatedFields.error.flatten().fieldErrors);
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to update user.',
+    };
+  }
+
+
+  const { name, email, password } = validatedFields.data;
+  if (password.length >= 6) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    try {
+      await sql`
+        UPDATE users
+        SET name = ${name}, email = ${email}, password = ${hashedPassword}
+        WHERE id = ${id} 
+      `;
+  
+    } catch (error) {
+      return {message: 'Database Error: Failed to Update User'};
+    }
+  } else {
+    try {
+      await sql`
+        UPDATE users
+        SET name = ${name}, email = ${email}
+        WHERE id = ${id} 
+      `;
+  
+    } catch (error) {
+      return {message: 'Database Error: Failed to Update User'};
+    }
+  }
+
+
+  revalidatePath(`/dashboard/profile/${id}`);
+  redirect(`/dashboard/profile/${id}`);
+}
+
 const UpdateEvent = EventFormSchema.omit({id: true, workers: true})
 export async function updateEvent(
   id: string,
@@ -350,7 +404,6 @@ export async function updateEvent(
       UPDATE events
       SET 
         name = ${name},
-        date = ${date},
         start_work_time = ${start_work_time},
         start_event_time = ${start_event_time},
         end_event_time = ${end_event_time},
@@ -360,11 +413,12 @@ export async function updateEvent(
         type = ${type},
         sought_workers = ${sought_workers},
         date = ${date},
-        notes = ${notes},
+        notes = ${notes}
       WHERE id = ${id} 
     `;
 
   } catch (error) {
+    console.error('Updating event failed:', error);
     return {message: 'Database Error: Failed to Update Event'};
   }
 
