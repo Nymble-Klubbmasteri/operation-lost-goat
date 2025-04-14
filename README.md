@@ -1,10 +1,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+To visit the live version: [nkm.nymble.se]()
+
 ## Getting Started
 
 First, run the development server:
 
 ```bash
+# För att köra lokalt
 npm run dev
 # För att testa ifall det kommer funka i prod:
 npm run build
@@ -29,8 +32,8 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 * [X] Inte kunna signa upp sig till event som är fyllda
 * [X] Inte kunna ta bort sig 3 dar innan event
 * [X] Faktiskt gömma admin & marskalkssaker
-
-
+* [ ] Inte kunna sätta lösenord kortare än 6 karaktärer
+* [ ] Edit profile text
 
 ## TODO:
 

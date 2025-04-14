@@ -58,6 +58,15 @@ export function Strecka({ id, role }: { id: string, role: string}) {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
             <h3 className="text-lg font-bold mb-4">Bekräfta streckning</h3>
+              {/* Amount of Streck */}
+              <input
+                id="amount"
+                name="amount"
+                type="number"
+                defaultValue={1}
+                placeholder="Enter amount of streck"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
             <p className="mb-6">Är du säker på att du vill strecka?</p>
             <div className="flex justify-end space-x-3">
               <button 
