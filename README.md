@@ -32,8 +32,9 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 * [X] Inte kunna signa upp sig till event som är fyllda
 * [X] Inte kunna ta bort sig 3 dar innan event
 * [X] Faktiskt gömma admin & marskalkssaker
-* [ ] Inte kunna sätta lösenord kortare än 6 karaktärer
-* [ ] Edit profile text
+* [X] Inte kunna sätta lösenord kortare än 6 karaktärer
+* [X] Edit profile text
+* [ ] Inte kunna se event som man inte ska kunna se (killing för betalpass osv)
 
 ## TODO:
 

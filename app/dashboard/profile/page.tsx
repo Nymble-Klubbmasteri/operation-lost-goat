@@ -24,10 +24,10 @@ export default async function Page() {
         <main>
         <Breadcrumbs
             breadcrumbs={[
-            { label: 'Profile', href: `/dashboard/profile/${session.user.id}` },
+            { label: 'Profile', href: `/dashboard/profile` },
             {
                 label: 'Edit Profile',
-                href: `/dashboard/profile/${session.user.id}`,
+                href: `/dashboard/profile`,
                 active: true,
             },
             ]}
