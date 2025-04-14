@@ -15,10 +15,10 @@ export default async function Page() {
   const session = await auth();
 
   if (!session?.user?.id) {
-    console.log();
-    console.log("Session", session);
-    console.log("User", session?.user);
-    console.log("ID", session?.user?.id);
+    // console.log();
+    // console.log("Session", session);
+    // console.log("User", session?.user);
+    // console.log("ID", session?.user?.id);
     return (
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         Nymble Klubbmästeri

@@ -26,10 +26,10 @@ export default function EditUserForm({
   const [state, dispatch] = useFormState(updateUserWithId, initialState);
 
 
-  console.log("edit user admin: '", user.admin, "'");
-  console.log("edit user role:", user.role);
-  console.log("edit user name:'", user.name, "'");
-  console.log("state:", state);
+  // console.log("edit user admin: '", user.admin, "'");
+  // console.log("edit user role:", user.role);
+  // console.log("edit user name:'", user.name, "'");
+  // console.log("state:", state);
 
  
   return <form action={dispatch}>

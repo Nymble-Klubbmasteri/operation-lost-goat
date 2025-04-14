@@ -25,7 +25,7 @@ export async function fetchRevenue() {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
 
-    console.log('Fetching revenue data...');
+    // console.log('Fetching revenue data...');
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
 
@@ -171,7 +171,7 @@ export async function fetchInvoiceById(id: string) {
       // Convert amount from cents to dollars
       amount: invoice.amount / 100,
     }));
-    console.log(invoice); // Invoice is an empty array []
+    // console.log(invoice); // Invoice is an empty array []
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);
@@ -418,7 +418,7 @@ export async function fetchFilteredEvents(
 
     return events.rows;
   } catch (error) {
-    console.log('Error:', error);
+    // console.log('Error:', error);
     console.error('Database Error:', error);
     throw new Error('Failed to fetch events.');
   }
@@ -436,7 +436,7 @@ export async function fetchBalanceByID(id: string) {
 
     return balance.rows[0];
   } catch (error) {
-    console.log('Database Balance error:', error);
+    // console.log('Database Balance error:', error);
     console.error('Database error:', error);
     throw new Error('Failed to fetch balance');
   }

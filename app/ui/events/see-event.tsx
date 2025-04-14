@@ -12,9 +12,9 @@ import { Remove, SignUp } from './buttons';
 export default async function SeeEvent({ event_id, user_id }: { event_id: string; user_id: string }) {
     const event = await fetchEventById(event_id);   
     const workers = await fetchUserNamesByIDs(event.workers);
-    console.log("see event", event);
-    console.log("event workers:", event.workers);
-    console.log("worker names: ", workers);
+    // console.log("see event", event);
+    // console.log("event workers:", event.workers);
+    // console.log("worker names: ", workers);
     
     return (
         <div className="rounded-md bg-gray-50 p-6">

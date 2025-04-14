@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     const user = await Promise.all([
         fetchUserById(id)
     ]);
-    console.log("edit user page.tsx, user:", user[0]);
+    // console.log("edit user page.tsx, user:", user[0]);
     const session = await auth();
     if (!session?.user.role) {
         return (

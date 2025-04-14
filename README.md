@@ -35,6 +35,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 * [X] Inte kunna sätta lösenord kortare än 6 karaktärer
 * [X] Edit profile text
 * [ ] Inte kunna se event som man inte ska kunna se (killing för betalpass osv)
+* [ ] Admin kan ta bort användare från event
 
 ## TODO:
 

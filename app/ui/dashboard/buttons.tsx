@@ -14,6 +14,7 @@ export function Strecka({ id, role }: { id: string, role: string}) {
     // Get the amount from the form data
     const streckAmount = formData.get('amount') as string;
     // Call your strecka function with the user ID and amount
+    setShowConfirmation(false);
     return strecka(id, parseInt(streckAmount));
   };
 
@@ -37,7 +38,7 @@ export function Strecka({ id, role }: { id: string, role: string}) {
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
     // Ensure amount is between 1 and 10
-    setAmount(Math.max(1, Math.min(10, value || 1)));
+    setAmount(Math.max(1, Math.min(778, value || 1)));
   };
 
   return (

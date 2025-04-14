@@ -26,8 +26,8 @@ const links = [
 
 export default function NavLinks({role, admin}: {role: string, admin: string}) {
   const pathname = usePathname();
-  console.log("role: ", role);
-  console.log("admin:", admin);
+  // console.log("role: ", role);
+  // console.log("admin:", admin);
   // const user = fetchUserById(id);
   return (
     <>

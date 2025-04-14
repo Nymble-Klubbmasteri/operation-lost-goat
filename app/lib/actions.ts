@@ -138,7 +138,7 @@ export async function createUser(prevState: UserState, formData: FormData) {
 
   // console.log("hi! create_user 1");
   if (!validatedFields.success) {
-    console.log("Errors:", validatedFields.error.flatten().fieldErrors);
+    console.error("Errors:", validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Create Invoice',
@@ -157,7 +157,7 @@ export async function createUser(prevState: UserState, formData: FormData) {
       VALUES (${name}, ${email}, ${hashedPassword}, ${balance}, ${role}, ${admin})
     `;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       message: 'Database failed to create user',
     };
@@ -184,19 +184,19 @@ export async function createEvent(prevState: EventState, formData: FormData) {
     notes: formData.get('notes')
   });
 
-  console.log("hi! create_event 1");
+  // console.log("hi! create_event 1");
   if (!validatedFields.success) {
-    console.log("Errors:", validatedFields.error.flatten().fieldErrors);
+    console.error("Errors:", validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Create Invoice',
     };
   }
-  console.log("hi! create_event 2");
+  // console.log("hi! create_event 2");
 
   // Prepare Data for insertion into the database
   const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes } = validatedFields.data;
-  console.log("hi! create_event 3");
+  // console.log("hi! create_event 3");
 
   try {
     await sql`
@@ -204,12 +204,12 @@ export async function createEvent(prevState: EventState, formData: FormData) {
       VALUES (${name}, ${date}, ${start_work_time}, ${start_event_time}, ${end_work_time}, ${end_event_time}, ${locations}, ${type}, ${sought_workers}, ${notes})
     `;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       message: 'Database failed to create event',
     };
   }
-  console.log("hi! create_event 4");
+  // console.log("hi! create_event 4");
 
   revalidatePath('/dashboard/admin/events');
   redirect('/dashboard/admin/events');
@@ -271,8 +271,8 @@ export async function updateUser(
 
 
   if (!validatedFields.success){
-    console.log("Errors:", validatedFields.error.flatten().fieldErrors);
-    console.log("Balance type: ",typeof formData.get('balance'))
+    console.error("Errors:", validatedFields.error.flatten().fieldErrors);
+    console.error("Balance type: ",typeof formData.get('balance'))
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to update user.',
@@ -283,7 +283,7 @@ export async function updateUser(
   const { name, email, balance, password, role, admin } = validatedFields.data;
   if (password.length >= 6) {
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("update: role:", role, "admin:", admin);
+    // console.log("update: role:", role, "admin:", admin);
     try {
       await sql`
         UPDATE users
@@ -295,7 +295,7 @@ export async function updateUser(
       return {message: 'Database Error: Failed to Update User'};
     }
   } else {
-    console.log("update: role:", role, "admin:", admin);
+    // console.log("update: role:", role, "admin:", admin);
     try {
       await sql`
         UPDATE users
@@ -328,7 +328,7 @@ export async function updateProfile(
 
 
   if (!validatedFields.success){
-    console.log("Errors:", validatedFields.error.flatten().fieldErrors);
+    console.error("Errors:", validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to update user.',
@@ -390,7 +390,7 @@ export async function updateEvent(
 
 
   if (!validatedFields.success){
-    console.log("Errors:", validatedFields.error.flatten().fieldErrors);
+    console.error("Errors:", validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to update event.',
@@ -505,7 +505,7 @@ export async function strecka(id: string, num_streck: number) {
       revalidatePath('/dasboard');
     }
   } catch (error) {
-    console.log("Strecka, error:", error);
+    console.error("Strecka, error:", error);
     return {
       message: 'Database failed to strecka',
     };
@@ -513,7 +513,7 @@ export async function strecka(id: string, num_streck: number) {
 }
 
 export async function AddUserToEvent(event_id: string, user_id: string) {
-  console.log("add user to event 1");
+  // console.log("add user to event 1");
   try {
     await sql`
       UPDATE events
@@ -525,7 +525,7 @@ export async function AddUserToEvent(event_id: string, user_id: string) {
         END
       WHERE id = ${event_id}::uuid;
     `;
-    console.log("added");
+    // console.log("added");
     // const event = await sql`
     //   SELECT
     //     events.id,
@@ -541,7 +541,7 @@ export async function AddUserToEvent(event_id: string, user_id: string) {
     console.error("Error adding user to event:", error);
     return { success: false, message: "Failed to add user to event." };
   }
-  console.log("add user to event 2");
+  // console.log("add user to event 2");
   revalidatePath(`dashboard/events/${event_id}/see`);
 }
 
@@ -557,4 +557,18 @@ export async function RemoveUserFromEvent(event_id: string, user_id: string) {
     return { success: false, message: 'Failed to remove user from event' };
   }
   revalidatePath(`dashboard/events/${event_id}/see`);
+}
+
+export async function AdminRemoveUserFromEvent(event_id: string, user_id: string) {
+  try {
+    await sql`
+      UPDATE events
+      SET workers = array_remove(workers, ${user_id}::uuid)
+      WHERE id = ${event_id}::uuid AND ${user_id} = ANY(workers)
+    `;
+  } catch (error) {
+    console.error('Error removing user from event:', error);
+    return { success: false, message: 'Failed to remove user from event' };
+  }
+  revalidatePath(`dashboard/admin/events/${event_id}/edit`);
 }

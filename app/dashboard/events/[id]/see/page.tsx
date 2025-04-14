@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
     const session = await auth();
     if (!session?.user.id) {
-        console.log("event see page could not find user");
+        console.error("event see page could not find user");
         notFound();
     }
 

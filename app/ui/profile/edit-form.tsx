@@ -28,7 +28,7 @@ export default function EditProfileForm({
 
   // console.log("edit profile role:", user.role);
   // console.log("edit profile name:'", user.name, "'");
-  console.log("state:", state);
+  // console.log("state:", state);
 
  
   return <form action={dispatch}>

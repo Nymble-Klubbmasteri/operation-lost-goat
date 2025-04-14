@@ -17,6 +17,8 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { updateEvent } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
+import { WorkerManager } from './workermanager';
+import { AdminRemoveUserFromEvent } from '@/app/lib/actions';
 
 
 
@@ -157,6 +159,32 @@ export default function EditEventForm({
                 </div>
             </div>
         </div>
+
+        {/* Workers */}
+        {event.workers.length > 0 && (
+            <div className="mb-4">
+                <label className="mb-2 block text-sm font-medium">Signed-Up Workers</label>
+                <ul className="space-y-2">
+                {event.workers.map((workerId) => {
+                    const user = users.find((u) => u.id === workerId);
+                    return (
+                    user && (
+                        <li key={user.id} className="flex items-center justify-between border rounded px-3 py-1 bg-white">
+                        <span>{user.name}</span>
+                        <Button
+                            type="button"
+                            onClick={() => AdminRemoveUserFromEvent(event.id, user.id)}
+                        >
+                        Remove
+                        </Button>
+                        </li>
+                    )
+                    );
+                })}
+                </ul>
+            </div>
+        )}
+
 
         {/* Event Locations Time */}
         <div className="mb-4">
