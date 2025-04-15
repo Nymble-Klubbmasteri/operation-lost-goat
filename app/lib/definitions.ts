@@ -12,7 +12,19 @@ export type User = {
   balance: string;
   role: string;
   admin: string;
+  nickname: string;
 };
+
+export type DisplayUser = {
+  name: string;
+  image_nice_url: string;
+  image_chaotic_url: string;
+  role: string;
+  likes: string;
+  dislikes: string;
+  nickname: string;
+  title: string;
+}
 
 export type Event = {
   id: string;
@@ -159,6 +171,10 @@ export type UserForm = {
   admin: string;
   image_nice_url: string;
   image_chaotic_url: string;
+  likes: string;
+  dislikes: string;
+  nickname: string;
+  title: string;
 }
 
 export type EventForm = {

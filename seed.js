@@ -42,13 +42,15 @@ async function seedUsers(client) {
         name VARCHAR(255) NOT NULL,
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        image_nice_url VARCHAR(255) NOT NULL DEFAULT '',
-        image_chaotic_url VARCHAR(255) NOT NULL DEFAULT '',
-        likes VARCHAR(255),
-        dislikes VARCHAR(255),
+        image_nice_url VARCHAR(255) DEFAULT '',
+        image_chaotic_url VARCHAR(255) DEFAULT '',
+        likes VARCHAR(255) DEFAULT '',
+        dislikes VARCHAR(255) DEFAULT '',
         balance INT NOT NULL DEFAULT 0,
         role VARCHAR(255) DEFAULT 'Killing',
-        admin VARCHAR(255) DEFAULT 'No'
+        admin VARCHAR(255) DEFAULT 'No',
+        title VARCHAR(255) DEFAULT '',
+        nickname VARCHAR(255) DEFAULT ''
       );
     `;
 

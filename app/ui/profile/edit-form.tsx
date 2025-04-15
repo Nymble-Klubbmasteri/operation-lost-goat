@@ -7,7 +7,9 @@ import {
   CurrencyDollarIcon,
   UserCircleIcon,
   EnvelopeIcon,
-  LockClosedIcon
+  LockClosedIcon,
+  HandThumbUpIcon,
+  HandThumbDownIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
@@ -39,7 +41,7 @@ export default function EditProfileForm({
     }
   };
 
-  // console.log("user (edit profile form):", user);
+  console.log("user (edit profile form):", user);
   // if (user.image_nice_url) {
   //   console.log("user nice image url:", user.image_nice_url);
   // }
@@ -50,6 +52,7 @@ export default function EditProfileForm({
   // console.log("edit profile role:", user.role);
   // console.log("edit profile name:'", user.name, "'");
   // console.log("state:", state);
+
 
  
   return <form action={dispatch}>
@@ -67,6 +70,26 @@ export default function EditProfileForm({
                 type="text"
                 defaultValue={user.name}
                 placeholder="Enter new users name"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+              <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
+        </div>
+
+        {/* User Nickname */}
+        <div className="mb-4">
+          <label htmlFor="nickname" className="mb-2 block text-sm font-medium">
+            User Nickname
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="nickname"
+                name="nickname"
+                type="text"
+                defaultValue={user.nickname}
+                placeholder="Enter users nickname"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
@@ -122,6 +145,46 @@ export default function EditProfileForm({
                 ))}
                 </div> */}
             </div>
+        </div>
+
+        {/* User Likes */}
+        <div className="mb-4">
+          <label htmlFor="likes" className="mb-2 block text-sm font-medium">
+            Gillar:
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="likes"
+                name="likes"
+                type="text"
+                defaultValue={user.likes}
+                placeholder="Vad gillar du?"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+              <HandThumbUpIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
+        </div>
+
+        {/* User DisLikes */}
+        <div className="mb-4">
+          <label htmlFor="dislikes" className="mb-2 block text-sm font-medium">
+            Gillar:
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="dislikes"
+                name="dislikes"
+                type="text"
+                defaultValue={user.dislikes}
+                placeholder="Vad ogillar du?"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+              <HandThumbDownIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
         </div>
 
         {/* Profile Images */}

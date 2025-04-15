@@ -40,7 +40,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 ## TODO:
 
 * [X] Topplista på streck
-* [ ] Bilder
+* [X] Bilder
 * [ ] Likes/Dislikes
 * [ ] Utsida
 * [ ] Hur många streck streckades senaste 24 timmarna

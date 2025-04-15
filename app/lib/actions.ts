@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-import bcrypt from "bcrypt";
+import bcrypt, { hash } from "bcrypt";
 import fs from 'fs/promises';
 import path from 'path';
 import { randomUUID } from 'crypto';
@@ -77,7 +77,11 @@ const UserFormSchema = z.object({
     invalid_type_error: "balance must be a number",}),
   password: z.string(),
   role: z.string(),
-  admin: z.string()
+  admin: z.string(),
+  likes: z.string(),
+  dislikes: z.string(),
+  title: z.string(),
+  nickname: z.string()
 });
 
 const EventFormSchema = z.object({
@@ -132,7 +136,7 @@ export async function createInvoice(prevState: InvoiceState, formData: FormData)
   redirect('/dashboard/invoices');
 }
 
-const CreateUser = UserFormSchema.omit({id: true, image_chaotic_url: true, image_nice_url: true});
+const CreateUser = UserFormSchema.omit({id: true, image_chaotic_url: true, image_nice_url: true, likes: true, dislikes: true});
 export async function createUser(prevState: UserState, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
     name: formData.get('name'),
@@ -141,6 +145,9 @@ export async function createUser(prevState: UserState, formData: FormData) {
     password: formData.get('password'),
     role: formData.get('role'),
     admin: formData.get('admin'),
+    title: formData.get('title'),
+    nickname: formData.get('nickname'),
+
   });
 
   // console.log("hi! create_user 1");
@@ -154,14 +161,14 @@ export async function createUser(prevState: UserState, formData: FormData) {
   // console.log("hi! create_user 2");
 
   // Prepare Data for insertion into the database
-  const {name, email, balance, password, role, admin} = validatedFields.data;
+  const {name, email, balance, password, role, admin, title, nickname} = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
   // console.log("hi! create_user 3");
 
   try {
     await sql`
-      INSERT INTO users (name, email, password, balance, role, admin)
-      VALUES (${name}, ${email}, ${hashedPassword}, ${balance}, ${role}, ${admin})
+      INSERT INTO users (name, email, password, balance, role, admin, title, nickname)
+      VALUES (${name}, ${email}, ${hashedPassword}, ${balance}, ${role}, ${admin}, ${title}, ${nickname})
     `;
   } catch (error) {
     console.error(error);
@@ -260,7 +267,7 @@ export async function updateInvoice(
 }
 
 
-const UpdateUser = UserFormSchema.omit({id: true, image_chaotic_url: true, image_nice_url: true})
+const UpdateUser = UserFormSchema.omit({id: true, image_chaotic_url: true, image_nice_url: true, likes: true, dislikes: true})
 export async function updateUser(
   id: string,
   prevState: UserState,
@@ -274,6 +281,8 @@ export async function updateUser(
     password: formData.get('password'),
     role: formData.get('role'),
     admin: formData.get('admin'),
+    nickname: formData.get('nickname'),
+    title: formData.get('title')
   });
 
 
@@ -287,14 +296,17 @@ export async function updateUser(
   }
 
 
-  const { name, email, balance, password, role, admin } = validatedFields.data;
+  const { name, email, balance, password, role, admin, nickname, title } = validatedFields.data;
+
+  console.log("input title:", title);
+
   if (password.length >= 6) {
     const hashedPassword = await bcrypt.hash(password, 10);
     // console.log("update: role:", role, "admin:", admin);
     try {
       await sql`
         UPDATE users
-        SET name = ${name}, email = ${email}, balance = ${balance}, password = ${hashedPassword}, role = ${role}, admin = ${admin}
+        SET name = ${name}, email = ${email}, balance = ${balance}, password = ${hashedPassword}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}
         WHERE id = ${id} 
       `;
   
@@ -306,11 +318,11 @@ export async function updateUser(
     try {
       await sql`
         UPDATE users
-        SET name = ${name}, email = ${email}, balance = ${balance}, role = ${role}, admin = ${admin}
-        WHERE id = ${id} 
+        SET name = ${name}, email = ${email}, balance = ${balance}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}
       `;
   
     } catch (error) {
+      console.error("Update user error: ", error);
       return {message: 'Database Error: Failed to Update User'};
     }
   }
@@ -320,7 +332,7 @@ export async function updateUser(
   redirect('/dashboard/admin/users');
 }
 
-const UpdateProfile = UserFormSchema.omit({id: true, balance: true, role: true, admin: true})
+const UpdateProfile = UserFormSchema.omit({id: true, balance: true, role: true, admin: true, title: true})
 export async function updateProfile(
   id: string,
   prevState: UserState,
@@ -330,6 +342,9 @@ export async function updateProfile(
     name: formData.get('name'),
     email: formData.get('email'),
     password: formData.get('password'),
+    likes: formData.get('likes'),
+    dislikes: formData.get('dislikes'),
+    nickname: formData.get('nickname')
   });
 
   if (!validatedFields.success) {
@@ -340,7 +355,10 @@ export async function updateProfile(
     };
   }
 
-  const { name, email, password } = validatedFields.data;
+  const { name, email, password, likes, dislikes, nickname } = validatedFields.data;
+  console.log("likes:", likes);
+  console.log("dislikes:", dislikes);
+
 
   // ⬇️ Handle file uploads
   const niceFile = formData.get('image_nice') as File | null;
@@ -380,6 +398,11 @@ export async function updateProfile(
     hashedPassword = await bcrypt.hash(password, 10);
   }
 
+  // await sql`
+  // ALTER TABLE users
+  // ADD nickname VARCHAR(255);
+  // `;
+
   try {
     if (hashedPassword && niceUrl && chaoticUrl) {
       // console.log("psw, nice, chaos");
@@ -390,7 +413,10 @@ export async function updateProfile(
           email = ${email},
           password = ${hashedPassword},
           image_nice_url = ${niceUrl},
-          image_chaotic_url = ${chaoticUrl}
+          image_chaotic_url = ${chaoticUrl},
+          likes = ${likes},
+          dislikes = ${dislikes},
+          nickname = ${nickname}
         WHERE id = ${id}
       `;
     } else if (hashedPassword && niceUrl) {
@@ -401,7 +427,10 @@ export async function updateProfile(
           name = ${name},
           email = ${email},
           password = ${hashedPassword},
-          image_nice_url = ${niceUrl}
+          image_nice_url = ${niceUrl},
+          likes = ${likes},
+          dislikes = ${dislikes},
+          nickname = ${nickname}
         WHERE id = ${id}
       `;
     } else if (hashedPassword && chaoticUrl) {
@@ -412,7 +441,10 @@ export async function updateProfile(
           name = ${name},
           email = ${email},
           password = ${hashedPassword},
-          image_chaotic_url = ${chaoticUrl}
+          image_chaotic_url = ${chaoticUrl},
+          likes = ${likes},
+          dislikes = ${dislikes},
+          nickname = ${nickname}
         WHERE id = ${id}
       `;
     } else if (niceUrl && chaoticUrl) {
@@ -423,7 +455,10 @@ export async function updateProfile(
           name = ${name},
           email = ${email},
           image_nice_url = ${niceUrl},
-          image_chaotic_url = ${chaoticUrl}
+          image_chaotic_url = ${chaoticUrl},
+          likes = ${likes},
+          dislikes = ${dislikes},
+          nickname = ${nickname}
         WHERE id = ${id}
       `;
     } else if (niceUrl) {
@@ -433,7 +468,10 @@ export async function updateProfile(
         SET
           name = ${name},
           email = ${email},
-          image_nice_url = ${niceUrl}
+          image_nice_url = ${niceUrl},
+          likes = ${likes},
+          dislikes = ${dislikes},
+          nickname = ${nickname}
         WHERE id = ${id}
       `;
     } else if (chaoticUrl) {
@@ -444,7 +482,22 @@ export async function updateProfile(
         SET
           name = ${name},
           email = ${email},
-          image_chaotic_url = ${chaoticUrl}
+          image_chaotic_url = ${chaoticUrl},
+          likes = ${likes},
+          dislikes = ${dislikes},
+          nickname = ${nickname}
+        WHERE id = ${id}
+      `;
+    } else if (hashedPassword) {
+      await sql`
+        UPDATE users
+        SET
+          name = ${name},
+          email = ${email},
+          password = ${hashedPassword},
+          likes = ${likes},
+          dislikes = ${dislikes},
+          nickname = ${nickname}
         WHERE id = ${id}
       `;
     } else {
@@ -453,7 +506,10 @@ export async function updateProfile(
         UPDATE users
         SET
           name = ${name},
-          email = ${email}
+          email = ${email},
+          likes = ${likes},
+          dislikes = ${dislikes},
+          nickname = ${nickname}
         WHERE id = ${id}
       `;
     }
@@ -463,19 +519,19 @@ export async function updateProfile(
     return { message: 'Database Error: Failed to Update User' };
   }
   // Testing
-  // try {
+  try {
 
-  //   const res = await sql`
-  //     SELECT *
-  //     FROM users
-  //     WHERE id = ${id}
-  //   `;
-  //   console.log("Response: ", res.rows[0]);
+    const res = await sql`
+      SELECT *
+      FROM users
+      WHERE id = ${id}
+    `;
+    console.log("Response: ", res.rows[0]);
 
-  // } catch (error) {
-  //   console.error("Error when testing:", error);
-  //   return {message: 'Databse Error: Wack!'};
-  // }
+  } catch (error) {
+    console.error("Error when testing:", error);
+    return {message: 'Databse Error: Wack!'};
+  }
   // console.log("seems to have worked???");
   revalidatePath('/dashboard/profile');
   redirect('/dashboard/profile');

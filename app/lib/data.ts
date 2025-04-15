@@ -11,7 +11,8 @@ import {
   UserForm,
   UserField,
   EventsTable,
-  EventForm
+  EventForm,
+  DisplayUser
 } from '@/app/lib/definitions';
 import { formatCurrency } from '@/app/lib/utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -184,14 +185,18 @@ export async function fetchUserById(id: string) {
   try {
     const data = await sql<UserForm>`
       SELECT
-        users.id,
-        users.name,
-        users.email,
-        users.balance,
-        users.role,
-        users.admin,
-        users.image_nice_url,
-        users.image_chaotic_url
+        id,
+        name,
+        email,
+        balance,
+        role,
+        admin,
+        image_nice_url,
+        image_chaotic_url,
+        nickname,
+        likes,
+        dislikes,
+        title
       FROM users
       WHERE users.id = ${id};
     `;
@@ -199,6 +204,7 @@ export async function fetchUserById(id: string) {
     const user = data.rows.map((user) => ({
       ...user
     }));
+    console.log("fetched user: ", user[0]);
     return user[0];
 
   } catch (error) {
@@ -528,5 +534,53 @@ export async function getTopList() {
   } catch (error) {
     console.error('Failed to fetch Top List, error: ', error);
     throw new Error('Failed to fetch top list');
+  }
+}
+
+export async function fetchUsersForDisplay() {
+  noStore();
+  try {
+    const res = await sql<DisplayUser>`
+      SELECT
+        name,
+        role,
+        image_nice_url,
+        image_chaotic_url,
+        likes,
+        dislikes
+      FROM users
+    `;
+    return res.rows;
+  } catch (error) {
+    console.error("Error fetching users for display:", error);
+  }
+}
+
+export async function fetchMembersByRole(role: string){
+  noStore();
+  try {
+    // This runs on the server side only
+    const result = await sql<DisplayUser>`
+      SELECT 
+        *
+      FROM users
+      WHERE role = ${role}
+    `;
+    
+    // Convert the result to DisplayUser array
+    return result.rows.map(row => ({
+      // name: row.name,
+      // role: row.role,
+      // image_nice_url: row.image_nice_url,
+      // image_chaotic_url: row.image_chaotic_url,
+      // likes: row.likes,
+      // dislikes: row.dislikes,
+      // nickname: row.nickname,
+      // title: row.title
+      ...row
+    }));
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error(`Failed to fetch members with role: ${role}`);
   }
 }
