@@ -157,6 +157,8 @@ export type UserForm = {
   password: string;
   role: string;
   admin: string;
+  image_nice_url: string;
+  image_chaotic_url: string;
 }
 
 export type EventForm = {

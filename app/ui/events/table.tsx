@@ -1,9 +1,7 @@
-import Image from 'next/image';
 import { fetchFilteredEvents } from '@/app/lib/data';
-// import { UpdateEvent, DeleteEvent } from '@/app/ui/admin/events/buttons';
 import { formatDateToLocal } from '@/app/lib/utils';
 import { auth } from '@/auth';
-import { GoToEvent, SignUp } from './buttons';
+import { GoToEvent } from './buttons';
 
 export default async function EventsTable({
   query,

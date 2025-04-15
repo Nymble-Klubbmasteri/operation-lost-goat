@@ -11,8 +11,10 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-import { updateUser } from '@/app/lib/actions';
+import { updateProfile } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
+import Image from 'next/image';
+import { useState } from 'react';
 
 
 
@@ -22,9 +24,28 @@ export default function EditProfileForm({
   user: UserForm;
 }) {
   const initialState = { message: null, errors: {} };
-  const updateUserWithId = updateUser.bind(null, user.id);
+  const updateUserWithId = updateProfile.bind(null, user.id);
   const [state, dispatch] = useFormState(updateUserWithId, initialState);
 
+  const [nicePreview, setNicePreview] = useState(user.image_nice_url || "/users/evil-rabbit.png");
+  const [chaoticPreview, setChaoticPreview] = useState(user.image_chaotic_url || "/users/evil-rabbit.png");
+
+  const handlePreview = (e: React.ChangeEvent<HTMLInputElement>, setPreview: Function) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => setPreview(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // console.log("user (edit profile form):", user);
+  // if (user.image_nice_url) {
+  //   console.log("user nice image url:", user.image_nice_url);
+  // }
+  // if (user.image_chaotic_url) {
+  //   console.log("user chaotic image url:", user.image_chaotic_url);
+  // }
 
   // console.log("edit profile role:", user.role);
   // console.log("edit profile name:'", user.name, "'");
@@ -92,19 +113,89 @@ export default function EditProfileForm({
                     />
                     <LockClosedIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
                 </div>
-                <div id="password-error" aria-live="polite" aria-atomic="true">
+                {/* <div id="password-error" aria-live="polite" aria-atomic="true">
                 {state.errors?.password &&
                   state.errors.password.map((error: string) => (
                     <p className="mt-2 text-sm text-red-500" key={error}>
                       {error}
                     </p>
                 ))}
-                </div>
+                </div> */}
             </div>
         </div>
 
+        {/* Profile Images */}
+        <div className="mb-4">
+          <h2 className="mb-2 block text-sm font-medium">Your Current Profile Images</h2>
+          <div className="flex gap-4">
+            <div className="flex flex-col items-center">
+              <p className="text-xs mb-1 text-gray-600">Nice</p>
+              <Image
+                src={user.image_nice_url || "/users/evil-rabbit.png"}
+                alt="Nice version"
+                width={160}
+                height={160}
+                className="rounded-md border border-gray-300"
+              />
+            </div>
+            <div className="flex flex-col items-center">
+              <p className="text-xs mb-1 text-gray-600">Chaotic</p>
+              <Image
+                src={user.image_chaotic_url || "/users/evil-rabbit.png"}
+                alt="Chaotic version"
+                width={160}
+                height={160}
+                className="rounded-md border border-gray-300"
+              />
+            </div>
+          </div>
+        </div>
 
+        {/* Upload New Images */}
+        <div className="mb-4">
+          <h2 className="mb-2 block text-sm font-medium">Upload New Profile Images</h2>
+          <div className="flex gap-4">
+            {/* Nice image upload */}
+            <div className="flex flex-col items-center">
+              <label className="text-xs mb-1 text-gray-600">Nice</label>
+              <Image
+                src={nicePreview}
+                alt="Nice preview"
+                width={80}
+                height={80}
+                className="rounded-md border border-gray-300"
+              />
+              <input
+                id="image_nice"
+                type="file"
+                name="image_nice"
+                accept="image/*"
+                onChange={(e) => handlePreview(e, setNicePreview)}
+                className="mt-2 text-xs"
+              />
+            </div>
 
+            {/* Chaotic image upload */}
+            <div className="flex flex-col items-center">
+              <label className="text-xs mb-1 text-gray-600">Chaotic</label>
+              <Image
+                src={chaoticPreview}
+                alt="Chaotic preview"
+                width={80}
+                height={80}
+                className="rounded-md border border-gray-300"
+              />
+              <input
+                id="image_chaotic"
+                type="file"
+                name="image_chaotic"
+                accept="image/*"
+                onChange={(e) => handlePreview(e, setChaoticPreview)}
+                className="mt-2 text-xs"
+              />
+            </div>
+          </div>
+        </div>
 
       </div>
       <div className="mt-6 flex justify-end gap-4">

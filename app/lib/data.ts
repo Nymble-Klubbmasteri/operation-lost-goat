@@ -189,7 +189,9 @@ export async function fetchUserById(id: string) {
         users.email,
         users.balance,
         users.role,
-        users.admin
+        users.admin,
+        users.image_nice_url,
+        users.image_chaotic_url
       FROM users
       WHERE users.id = ${id};
     `;

@@ -7,6 +7,11 @@ import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 import bcrypt from "bcrypt";
+import fs from 'fs/promises';
+import path from 'path';
+import { randomUUID } from 'crypto';
+import { writeFile, mkdir } from 'fs/promises';
+
 
 export type InvoiceState = {
   errors?: {
@@ -26,6 +31,8 @@ export type UserState = {
     password?: string[];
     admin?: string[];
     role?: string[];
+    image_nice?: string[];
+    image_chaotic?: string[];
   };
   message?: string | null;
 }
@@ -70,7 +77,7 @@ const UserFormSchema = z.object({
     invalid_type_error: "balance must be a number",}),
   password: z.string(),
   role: z.string(),
-  admin: z.string(),
+  admin: z.string()
 });
 
 const EventFormSchema = z.object({
@@ -125,7 +132,7 @@ export async function createInvoice(prevState: InvoiceState, formData: FormData)
   redirect('/dashboard/invoices');
 }
 
-const CreateUser = UserFormSchema.omit({id: true});
+const CreateUser = UserFormSchema.omit({id: true, image_chaotic_url: true, image_nice_url: true});
 export async function createUser(prevState: UserState, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
     name: formData.get('name'),
@@ -253,7 +260,7 @@ export async function updateInvoice(
 }
 
 
-const UpdateUser = UserFormSchema.omit({id: true})
+const UpdateUser = UserFormSchema.omit({id: true, image_chaotic_url: true, image_nice_url: true})
 export async function updateUser(
   id: string,
   prevState: UserState,
@@ -313,58 +320,165 @@ export async function updateUser(
   redirect('/dashboard/admin/users');
 }
 
-const UpdateProfile = UserFormSchema.omit({balance: true, role: true, admin: true})
+const UpdateProfile = UserFormSchema.omit({id: true, balance: true, role: true, admin: true})
 export async function updateProfile(
   id: string,
   prevState: UserState,
   formData: FormData,  
 ) {
-
   const validatedFields = UpdateProfile.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
     password: formData.get('password'),
   });
 
-
-  if (!validatedFields.success){
-    console.error("Errors:", validatedFields.error.flatten().fieldErrors);
+  if (!validatedFields.success) {
+    console.error("Validated fields error:", validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to update user.',
     };
   }
 
-
   const { name, email, password } = validatedFields.data;
-  if (password.length >= 6) {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    try {
-      await sql`
-        UPDATE users
-        SET name = ${name}, email = ${email}, password = ${hashedPassword}
-        WHERE id = ${id} 
-      `;
-  
-    } catch (error) {
-      return {message: 'Database Error: Failed to Update User'};
-    }
-  } else {
-    try {
-      await sql`
-        UPDATE users
-        SET name = ${name}, email = ${email}
-        WHERE id = ${id} 
-      `;
-  
-    } catch (error) {
-      return {message: 'Database Error: Failed to Update User'};
-    }
+
+  // ⬇️ Handle file uploads
+  const niceFile = formData.get('image_nice') as File | null;
+  const chaoticFile = formData.get('image_chaotic') as File | null;
+  const uploadsDir = path.join(process.cwd(), 'public/users');
+
+  // if (niceFile) {
+  //   console.log("niceFile exists");
+  // }
+  // if (chaoticFile) {
+  //   console.log("chaoticFile exists");
+  // }
+  await mkdir(uploadsDir, { recursive: true });
+
+  let niceUrl = null;
+  let chaoticUrl = null;
+
+  if (niceFile && niceFile.size > 0) {
+    const nicePath = path.join(uploadsDir, `nice-${id}.png`);
+    const niceBuffer = Buffer.from(await niceFile.arrayBuffer());
+    await writeFile(nicePath, new Uint8Array(niceBuffer));
+    niceUrl = `/users/nice-${id}.png`;
+    // console.log("Nice Url: ", niceUrl);
   }
 
+  if (chaoticFile && chaoticFile.size > 0) {
+    const chaoticPath = path.join(uploadsDir, `chaotic-${id}.png`);
+    const chaoticBuffer = Buffer.from(await chaoticFile.arrayBuffer());
+    await writeFile(chaoticPath, new Uint8Array(chaoticBuffer));
+    chaoticUrl = `/users/chaotic-${id}.png`;
+    // console.log("Chaotic Url: ", chaoticUrl);
+  }
 
-  revalidatePath(`/dashboard/profile/${id}`);
-  redirect(`/dashboard/profile/${id}`);
+  var hashedPassword;
+  // ⬇️ Update user record with optional image URLs
+  if (password.length >= 6) {
+    hashedPassword = await bcrypt.hash(password, 10);
+  }
+
+  try {
+    if (hashedPassword && niceUrl && chaoticUrl) {
+      // console.log("psw, nice, chaos");
+      await sql`
+        UPDATE users
+        SET
+          name = ${name},
+          email = ${email},
+          password = ${hashedPassword},
+          image_nice_url = ${niceUrl},
+          image_chaotic_url = ${chaoticUrl}
+        WHERE id = ${id}
+      `;
+    } else if (hashedPassword && niceUrl) {
+      // console.log("psw, nice");
+      await sql`
+        UPDATE users
+        SET
+          name = ${name},
+          email = ${email},
+          password = ${hashedPassword},
+          image_nice_url = ${niceUrl}
+        WHERE id = ${id}
+      `;
+    } else if (hashedPassword && chaoticUrl) {
+      // console.log("psw, chaos");
+      await sql`
+        UPDATE users
+        SET
+          name = ${name},
+          email = ${email},
+          password = ${hashedPassword},
+          image_chaotic_url = ${chaoticUrl}
+        WHERE id = ${id}
+      `;
+    } else if (niceUrl && chaoticUrl) {
+      // console.log("nice, chaos");
+      await sql`
+        UPDATE users
+        SET
+          name = ${name},
+          email = ${email},
+          image_nice_url = ${niceUrl},
+          image_chaotic_url = ${chaoticUrl}
+        WHERE id = ${id}
+      `;
+    } else if (niceUrl) {
+      // console.log("nice");
+      await sql`
+        UPDATE users
+        SET
+          name = ${name},
+          email = ${email},
+          image_nice_url = ${niceUrl}
+        WHERE id = ${id}
+      `;
+    } else if (chaoticUrl) {
+      // console.log("chaos");
+
+      await sql`
+        UPDATE users
+        SET
+          name = ${name},
+          email = ${email},
+          image_chaotic_url = ${chaoticUrl}
+        WHERE id = ${id}
+      `;
+    } else {
+      // console.log("no psw or nice or chaos");
+      await sql`
+        UPDATE users
+        SET
+          name = ${name},
+          email = ${email}
+        WHERE id = ${id}
+      `;
+    }
+  } catch (error) {
+    console.log("AAAAAAAAH");
+    console.error("Error:", error);
+    return { message: 'Database Error: Failed to Update User' };
+  }
+  // Testing
+  // try {
+
+  //   const res = await sql`
+  //     SELECT *
+  //     FROM users
+  //     WHERE id = ${id}
+  //   `;
+  //   console.log("Response: ", res.rows[0]);
+
+  // } catch (error) {
+  //   console.error("Error when testing:", error);
+  //   return {message: 'Databse Error: Wack!'};
+  // }
+  // console.log("seems to have worked???");
+  revalidatePath('/dashboard/profile');
+  redirect('/dashboard/profile');
 }
 
 const UpdateEvent = EventFormSchema.omit({id: true, workers: true})
