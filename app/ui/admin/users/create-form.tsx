@@ -24,7 +24,7 @@ export default function Form() {
         {/* User Name */}
         <div className="mb-4">
             <label htmlFor="name" className="mb-2 block text-sm font-medium">
-                Name
+                Namn
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -44,7 +44,7 @@ export default function Form() {
         {/* User Nickname */}
         <div className="mb-4">
             <label htmlFor="nickname" className="mb-2 block text-sm font-medium">
-                Nickname
+                Smeknamn
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -64,7 +64,7 @@ export default function Form() {
         {/* User Title */}
         <div className="mb-4">
             <label htmlFor="title" className="mb-2 block text-sm font-medium">
-                Title
+                Titel
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -84,7 +84,7 @@ export default function Form() {
          {/* User Password */}
          <div className="mb-4">
             <label htmlFor="password" className="mb-2 block text-sm font-medium">
-                Password
+                Lösenord
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -124,7 +124,7 @@ export default function Form() {
         {/* User Balance */}
         <div className="mb-4">
             <label htmlFor="balance" className="mb-2 block text-sm font-medium">
-                Balance
+                Saldo
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -145,7 +145,7 @@ export default function Form() {
         {/* User Role */}
         <div className="mb-4">
           <label htmlFor="role" className="mb-2 block text-sm font-medium">
-            User Role
+            Roll
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -173,7 +173,7 @@ export default function Form() {
         {/* User Admin Status */}
         <div className="mb-4">
           <label htmlFor="admin" className="mb-2 block text-sm font-medium">
-            User Admin Status
+            Admin Status
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -182,7 +182,7 @@ export default function Form() {
                 name="admin"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 pr-10 text-sm outline-2 placeholder:text-gray-500"
               >
-                <option value="No">Not Admin</option>
+                <option value="No">Inte Admin</option>
                 <option value="Yes">Admin</option>
               </select>
               <svg
@@ -207,9 +207,9 @@ export default function Form() {
           href="/dashboard/admin/users"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          Cancel
+          Avbryt
         </Link>
-        <Button type="submit">Create User</Button>
+        <Button type="submit">Skapa Användare</Button>
       </div>
     </form>
   );

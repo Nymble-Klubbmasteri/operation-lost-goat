@@ -15,7 +15,7 @@ export function SignUp({event_id, user_id}: {event_id: string, user_id: string |
   return (
     <form action={add}>
       <button className="rounded-md border p-2 hover:bg-gray-100">
-        <span className="sr-only">Sign Up</span>
+        <span className="sr-only">Skriv Upp Dig</span>
         <UserPlusIcon className="w-5" />
       </button>
     </form>    
@@ -31,7 +31,7 @@ export function Remove({ event_id, user_id }: { event_id: string; user_id: strin
   return (
     <form action={remove}>
       <button className="rounded-md border p-2 hover:bg-gray-100">
-        <span className="sr-only">Remove</span>
+        <span className="sr-only">Ta bort dig</span>
         <UserMinusIcon className="w-5" />
       </button>
     </form>

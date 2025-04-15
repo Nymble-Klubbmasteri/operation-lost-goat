@@ -60,7 +60,7 @@ export default function EditProfileForm({
         {/* User Name */}
         <div className="mb-4">
           <label htmlFor="name" className="mb-2 block text-sm font-medium">
-            User Name
+            Namn
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -80,7 +80,7 @@ export default function EditProfileForm({
         {/* User Nickname */}
         <div className="mb-4">
           <label htmlFor="nickname" className="mb-2 block text-sm font-medium">
-            User Nickname
+            Smeknamn
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -100,7 +100,7 @@ export default function EditProfileForm({
         {/* User Email */}
         <div className="mb-4">
           <label htmlFor="email" className="mb-2 block text-sm font-medium">
-            User Email
+            Email
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -120,7 +120,7 @@ export default function EditProfileForm({
         {/* User Password */}
         <div className="mb-4">
             <label htmlFor="password" className="mb-2 block text-sm font-medium">
-                Password
+                Lösenord
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -129,7 +129,7 @@ export default function EditProfileForm({
                         name="password"
                         type="password"
                         defaultValue={user.password}
-                        placeholder="Enter new users password"
+                        placeholder="lösenord"
                         className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                         aria-describedby='password-error'
                         minLength={6}
@@ -170,7 +170,7 @@ export default function EditProfileForm({
         {/* User DisLikes */}
         <div className="mb-4">
           <label htmlFor="dislikes" className="mb-2 block text-sm font-medium">
-            Gillar:
+            Ogillar:
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -189,7 +189,7 @@ export default function EditProfileForm({
 
         {/* Profile Images */}
         <div className="mb-4">
-          <h2 className="mb-2 block text-sm font-medium">Your Current Profile Images</h2>
+          <h2 className="mb-2 block text-sm font-medium">Dina Profilbilder</h2>
           <div className="flex gap-4">
             <div className="flex flex-col items-center">
               <p className="text-xs mb-1 text-gray-600">Nice</p>
@@ -216,11 +216,11 @@ export default function EditProfileForm({
 
         {/* Upload New Images */}
         <div className="mb-4">
-          <h2 className="mb-2 block text-sm font-medium">Upload New Profile Images</h2>
+          <h2 className="mb-2 block text-sm font-medium">Ladda upp nya profilbilder</h2>
           <div className="flex gap-4">
             {/* Nice image upload */}
             <div className="flex flex-col items-center">
-              <label className="text-xs mb-1 text-gray-600">Nice</label>
+              <label className="text-xs mb-1 text-gray-600">Fin</label>
               <Image
                 src={nicePreview}
                 alt="Nice preview"
@@ -240,7 +240,7 @@ export default function EditProfileForm({
 
             {/* Chaotic image upload */}
             <div className="flex flex-col items-center">
-              <label className="text-xs mb-1 text-gray-600">Chaotic</label>
+              <label className="text-xs mb-1 text-gray-600">Kaotisk</label>
               <Image
                 src={chaoticPreview}
                 alt="Chaotic preview"
@@ -262,7 +262,7 @@ export default function EditProfileForm({
 
       </div>
       <div className="mt-6 flex justify-end gap-4">
-        <Button type="submit">Save Changes</Button>
+        <Button type="submit">Spara ändringar</Button>
       </div>
     </form>
 }

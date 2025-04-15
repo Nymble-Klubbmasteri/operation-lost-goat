@@ -38,7 +38,7 @@ export default function EditEventForm({
         {/* Event Name */}
         <div className="mb-4">
             <label htmlFor="name" className="mb-2 block text-sm font-medium">
-                Name
+                Eventnamn
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -59,7 +59,7 @@ export default function EditEventForm({
         {/* Event Start Work Time */}
         <div className="mb-4">
             <label htmlFor="start_work_time" className="mb-2 block text-sm font-medium">
-                Starting Work Time
+                När börjar man jobba?
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -80,7 +80,7 @@ export default function EditEventForm({
         {/* Event Start Event Time */}
         <div className="mb-4">
             <label htmlFor="start_event_time" className="mb-2 block text-sm font-medium">
-                Starting Event Time
+                När börjar eventet?
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -100,7 +100,7 @@ export default function EditEventForm({
         {/* Event End Work Time */}
         <div className="mb-4">
             <label htmlFor="end_work_time" className="mb-2 block text-sm font-medium">
-                End Work Time
+                När slutar man jobba?
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -120,7 +120,7 @@ export default function EditEventForm({
         {/* Event End Event Time */}
         <div className="mb-4">
             <label htmlFor="end_event_time" className="mb-2 block text-sm font-medium">
-                Ending Event Time
+                När slutar eventet?
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -141,7 +141,7 @@ export default function EditEventForm({
         {/* Sought Workers */}
         <div className="mb-4">
             <label htmlFor="sought_workers" className="mb-2 block text-sm font-medium">
-                Sought Workers
+                Antal Arbetare
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -163,7 +163,7 @@ export default function EditEventForm({
         {/* Workers */}
         {event.workers.length > 0 && (
             <div className="mb-4">
-                <label className="mb-2 block text-sm font-medium">Signed-Up Workers</label>
+                <label className="mb-2 block text-sm font-medium">Uppskrivna</label>
                 <ul className="space-y-2">
                 {event.workers.map((workerId) => {
                     const user = users.find((u) => u.id === workerId);
@@ -175,7 +175,7 @@ export default function EditEventForm({
                             type="button"
                             onClick={() => AdminRemoveUserFromEvent(event.id, user.id)}
                         >
-                        Remove
+                        Ta bort
                         </Button>
                         </li>
                     )
@@ -186,10 +186,10 @@ export default function EditEventForm({
         )}
 
 
-        {/* Event Locations Time */}
+        {/* Event Locations */}
         <div className="mb-4">
             <label htmlFor="locations" className="mb-2 block text-sm font-medium">
-                Ending Event Time
+                Lokaler
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -210,7 +210,7 @@ export default function EditEventForm({
         {/* Responsible User */}
         <div className="mb-4">
             <label htmlFor="responsible" className="mb-2 block text-sm font-medium">
-            Choose Responsible
+            Ansvarig
             </label>
             <div className="relative">
             <select
@@ -221,7 +221,7 @@ export default function EditEventForm({
                 aria-describedby="responsible-error"
             >
                 <option value="" disabled>
-                Select a user
+                Välj en användare
                 </option>
                 {users.map((user) => (
                 <option key={user.id} value={user.id}>
@@ -236,7 +236,7 @@ export default function EditEventForm({
         {/* Event type */}
         <div className="mb-4">
             <label htmlFor="sought_workers" className="mb-2 block text-sm font-medium">
-                Type of Event: 0: Inte Arbetspass, 1: Fredagspub, 2: Storevent, 3: Betalevent
+                Typ av Event: 0: Inte Arbetspass, 1: Fredagspub, 2: Storevent, 3: Betalevent
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -258,7 +258,7 @@ export default function EditEventForm({
         {/* Event Date */}
         <div className="mb-4">
             <label htmlFor="date" className="mb-2 block text-sm font-medium">
-                Select Event Date
+                Datum
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -277,7 +277,7 @@ export default function EditEventForm({
         {/* Event Notes */}
         <div className="mb-4">
             <label htmlFor="notes" className="mb-2 block text-sm font-medium">
-                Enter Event Notes
+                Anteckningar
             </label>
             <div className="relative">
                 <DocumentTextIcon className="pointer-events-none absolute left-3 top-4 h-[18px] w-[18px] text-gray-500 peer-focus:text-gray-900" />
@@ -298,9 +298,9 @@ export default function EditEventForm({
           href="/dashboard/admin/events"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          Cancel
+          Avbryt
         </Link>
-        <Button type="submit">Edit Event</Button>
+        <Button type="submit">Spara ändringar</Button>
       </div>
     </form>
 }

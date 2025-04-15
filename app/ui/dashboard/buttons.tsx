@@ -66,7 +66,7 @@ export function Strecka({ id, role }: { id: string, role: string}) {
             <form action={handleStrecka}>
               <div className="mb-4">
                 <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-1">
-                  Antal strecks:
+                  Antal streck:
                 </label>
                 <div className="flex items-center">
                   <button 

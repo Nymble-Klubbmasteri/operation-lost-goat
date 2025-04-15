@@ -12,7 +12,7 @@ export default async function TopListByDate() {
     // console.log("balance is...:", balance.balance);
     return (
         <div className="p-4">
-          <h2 className="text-xl font-bold mb-4">High Score Last 24 Hours</h2>
+          <h2 className="text-xl font-bold mb-4">High Score Senaste 24 Timmar</h2>
           
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">

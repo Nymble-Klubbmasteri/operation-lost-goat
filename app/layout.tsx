@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     template: '%s | NKM Dashboard',
     default: 'NKM Dashboard',
   },
-  description: 'The ALPHA NKM Site.',
+  description: 'NKMs Majestätiska Hemsida',
   // metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
 };
 export default function RootLayout({

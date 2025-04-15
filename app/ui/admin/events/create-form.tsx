@@ -28,7 +28,7 @@ export default function Form({ users }: {users: UserField[]}) {
         {/* Event Name */}
         <div className="mb-4">
             <label htmlFor="name" className="mb-2 block text-sm font-medium">
-                Name
+                Eventnamn
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -48,7 +48,7 @@ export default function Form({ users }: {users: UserField[]}) {
         {/* Event Start Work Time */}
         <div className="mb-4">
             <label htmlFor="start_work_time" className="mb-2 block text-sm font-medium">
-                Starting Work Time
+                När börjar man jobba?
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -68,7 +68,7 @@ export default function Form({ users }: {users: UserField[]}) {
         {/* Event Start Event Time */}
         <div className="mb-4">
             <label htmlFor="start_event_time" className="mb-2 block text-sm font-medium">
-                Starting Event Time
+                När börjar eventet?
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -87,7 +87,7 @@ export default function Form({ users }: {users: UserField[]}) {
         {/* Event End Work Time */}
         <div className="mb-4">
             <label htmlFor="end_work_time" className="mb-2 block text-sm font-medium">
-                End Work Time
+                När slutar man jobba?
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -106,7 +106,7 @@ export default function Form({ users }: {users: UserField[]}) {
         {/* Event End Event Time */}
         <div className="mb-4">
             <label htmlFor="end_event_time" className="mb-2 block text-sm font-medium">
-                Ending Event Time
+                När slutar eventet?
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -126,7 +126,7 @@ export default function Form({ users }: {users: UserField[]}) {
         {/* Sought Workers */}
         <div className="mb-4">
             <label htmlFor="sought_workers" className="mb-2 block text-sm font-medium">
-                Sought Workers
+                Antal Arbetare
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -147,7 +147,7 @@ export default function Form({ users }: {users: UserField[]}) {
         {/* Event type */}
         <div className="mb-4">
             <label htmlFor="sought_workers" className="mb-2 block text-sm font-medium">
-                Type of Event: 0: Inte Arbetspass, 1: Fredagspub, 2: Storevent, 3: Betalevent
+                Typ av Event: 0: Inte Arbetspass, 1: Fredagspub, 2: Storevent, 3: Betalevent
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -168,7 +168,7 @@ export default function Form({ users }: {users: UserField[]}) {
         {/* Event Locations Time */}
         <div className="mb-4">
             <label htmlFor="locations" className="mb-2 block text-sm font-medium">
-                Locations
+                Platser
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -188,7 +188,7 @@ export default function Form({ users }: {users: UserField[]}) {
         {/* Responsible User */}
         <div className="mb-4">
             <label htmlFor="responsible" className="mb-2 block text-sm font-medium">
-            Choose Responsible
+            Ansvarig
             </label>
             <div className="relative">
             <select
@@ -199,7 +199,7 @@ export default function Form({ users }: {users: UserField[]}) {
                 aria-describedby="responsible-error"
             >
                 <option value="" disabled>
-                Select a user
+                Välj en användare
                 </option>
                 {users.map((user) => (
                 <option key={user.id} value={user.id}>
@@ -214,7 +214,7 @@ export default function Form({ users }: {users: UserField[]}) {
         {/* Event Date */}
         <div className="mb-4">
             <label htmlFor="date" className="mb-2 block text-sm font-medium">
-                Select Event Date
+                Datum
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -233,7 +233,7 @@ export default function Form({ users }: {users: UserField[]}) {
         {/* Event Notes */}
         <div className="mb-4">
             <label htmlFor="notes" className="mb-2 block text-sm font-medium">
-                Enter Event Notes
+                Anteckningar
             </label>
             <div className="relative">
                 <DocumentTextIcon className="pointer-events-none absolute left-3 top-4 h-[18px] w-[18px] text-gray-500 peer-focus:text-gray-900" />
@@ -254,9 +254,9 @@ export default function Form({ users }: {users: UserField[]}) {
           href="/dashboard/admin/events"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          Cancel
+          Avbryt
         </Link>
-        <Button type="submit">Create Event</Button>
+        <Button type="submit">Skapa Event</Button>
       </div>
     </form>
   );

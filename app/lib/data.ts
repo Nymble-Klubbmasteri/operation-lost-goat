@@ -650,3 +650,25 @@ export async function getTopListLast24Hours() {
     throw new Error('Failed to fetch top list for last 24 hours');
   }
 }
+
+export async function getUpcomingPub() {
+  try {
+    const res = await sql<EventsTable>`
+      SELECT 
+        *
+      FROM
+        events
+      WHERE
+        type = 1 OR type = 2
+      ORDER BY date DESC
+      LIMIT 1
+    `;
+
+    // console.log("Latest event:", res.rows[0]);
+    return res.rows[0];
+    
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch upcoming event.');
+  }
+}

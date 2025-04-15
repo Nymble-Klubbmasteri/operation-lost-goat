@@ -15,11 +15,11 @@ import { fetchUserById } from '@/app/lib/data';
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  { name: 'Home', href: '/dashboard', icon: HomeIcon, adminProtect: false, marskalkProtect: false },
-  { name: 'Profile', href: '/dashboard/profile', icon: UserIcon, adminProtect: false, marskalkProtect: false },
-  { name: 'Events', href: '/dashboard/events', icon: NewspaperIcon, adminProtect: false, marskalkProtect: false },
-  { name: 'Administer Users', href: '/dashboard/admin/users', icon: UserGroupIcon, adminProtect: true, marskalkProtect: false },
-  { name: 'Administer Events', href: '/dashboard/admin/events', icon: InboxStackIcon, adminProtect: true, marskalkProtect: false },
+  { name: 'Strecka', href: '/dashboard', icon: HomeIcon, adminProtect: false, marskalkProtect: false },
+  { name: 'Profil', href: '/dashboard/profile', icon: UserIcon, adminProtect: false, marskalkProtect: false },
+  { name: 'Event', href: '/dashboard/events', icon: NewspaperIcon, adminProtect: false, marskalkProtect: false },
+  { name: 'Administrera Användare', href: '/dashboard/admin/users', icon: UserGroupIcon, adminProtect: true, marskalkProtect: false },
+  { name: 'Administrera Event', href: '/dashboard/admin/events', icon: InboxStackIcon, adminProtect: true, marskalkProtect: false },
 
 
 ];
