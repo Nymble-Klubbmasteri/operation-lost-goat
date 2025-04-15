@@ -525,6 +525,7 @@ export async function getTopList() {
         u.id, u.name
       ORDER BY 
         streck_count DESC
+      LIMIT 10
     `;
     //        COALESCE(SUM(s.amount), 0) as total_amount
 
@@ -606,6 +607,7 @@ export async function getTopListByYear() {
         u.id, u.name
       ORDER BY 
         streck_count DESC
+      LIMIT 10
     `;
     //        COALESCE(SUM(s.amount), 0) as total_amount
 
@@ -615,5 +617,36 @@ export async function getTopListByYear() {
   } catch (error) {
     console.error('Failed to fetch Top List by year, error: ', error);
     throw new Error('Failed to fetch top list by year');
+  }
+}
+
+export async function getTopListLast24Hours() {
+  noStore();
+  try {
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+    const result = await sql`
+      SELECT 
+        u.id, 
+        u.name, 
+        u.role,
+        COUNT(s.id) as streck_count
+      FROM 
+        users u
+      LEFT JOIN 
+        streck s ON u.id = s.user_id
+      WHERE
+        (u.role = 'Marskalk' OR u.role = 'WraQ' OR u.role = 'Qnekt')
+        AND s.time > ${twentyFourHoursAgo}
+      GROUP BY 
+        u.id, u.name
+      ORDER BY 
+        streck_count DESC
+    `;
+
+    return result.rows;
+  } catch (error) {
+    console.error('Failed to fetch Top List for last 24 hours, error: ', error);
+    throw new Error('Failed to fetch top list for last 24 hours');
   }
 }

@@ -2,6 +2,7 @@ import { fetchFilteredEvents } from '@/app/lib/data';
 import { formatDateToLocal } from '@/app/lib/utils';
 import { auth } from '@/auth';
 import { GoToEvent } from './buttons';
+import Link from 'next/link';
 
 export default async function EventsTable({
   query,

@@ -7,6 +7,7 @@ import { auth } from '@/auth';
 import SaldoBox from '@/app/ui/dashboard/saldo';
 import TopList from '@/app/ui/dashboard/top-list';
 import TopListByYear from '@/app/ui/dashboard/top-list-year';
+import TopListByDate from '@/app/ui/dashboard/top-list-date';
  
 export const metadata: Metadata = {
   title: 'NKM',
@@ -52,6 +53,9 @@ export default async function Page() {
           </Suspense>
           <Suspense fallback={<div>Loading Top List by year...</div>}>
             <TopListByYear />
+          </Suspense>
+          <Suspense fallback={<div>Loading Top List last 24 hours...</div>}>
+            <TopListByDate />
           </Suspense>
         </div>
       </div>
