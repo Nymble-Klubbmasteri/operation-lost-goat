@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import { auth } from '@/auth';
 import SaldoBox from '@/app/ui/dashboard/saldo';
 import TopList from '@/app/ui/dashboard/top-list';
+import TopListByYear from '@/app/ui/dashboard/top-list-year';
  
 export const metadata: Metadata = {
   title: 'NKM',
@@ -48,6 +49,9 @@ export default async function Page() {
         <div className="w-full md:w-2/3">
           <Suspense fallback={<div>Loading Top List...</div>}>
             <TopList />
+          </Suspense>
+          <Suspense fallback={<div>Loading Top List by year...</div>}>
+            <TopListByYear />
           </Suspense>
         </div>
       </div>

@@ -1,7 +1,7 @@
 'use client';
 import { PencilIcon } from '@heroicons/react/24/outline';
 import { strecka } from '@/app/lib/actions';
-import flattis from '@/app/icons/favicon.ico'
+import can from '@/app/icons/favicon-96x96.png'
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -49,7 +49,7 @@ export function Strecka({ id, role }: { id: string, role: string}) {
       >
         <span className="hidden md:block mr-4 text-lg">Strecka</span>{' '}
         <Image
-          src={flattis}
+          src={can}
           className="mr-2 flex"
           width={60}
           height={60}

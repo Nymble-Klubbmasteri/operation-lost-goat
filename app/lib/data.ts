@@ -584,3 +584,36 @@ export async function fetchMembersByRole(role: string){
     throw new Error(`Failed to fetch members with role: ${role}`);
   }
 }
+
+export async function getTopListByYear() {
+  noStore();
+  try {
+    const current_year = new Date().toISOString().split('T')[0];
+
+    const result = await sql`
+      SELECT 
+        u.id, 
+        u.name, 
+        u.role,
+        COUNT(s.id) as streck_count
+      FROM 
+        users u
+      LEFT JOIN 
+        streck s ON u.id = s.user_id
+      WHERE
+        u.role = 'Marskalk' OR u.role = 'WraQ' OR u.role = 'Qnekt' AND s.time > ${current_year}
+      GROUP BY 
+        u.id, u.name
+      ORDER BY 
+        streck_count DESC
+    `;
+    //        COALESCE(SUM(s.amount), 0) as total_amount
+
+
+    // console.log(result.rows);
+    return result.rows;
+  } catch (error) {
+    console.error('Failed to fetch Top List by year, error: ', error);
+    throw new Error('Failed to fetch top list by year');
+  }
+}
