@@ -709,6 +709,9 @@ export async function resetStrecklistaPermanent() {
         time DATE DEFAULT NOW(),
         amount INT
       );
+      UPDATE users
+      SET
+        balance = 0
     `;
   } catch (error) {
     console.error("error when reseting strecklista:", error);

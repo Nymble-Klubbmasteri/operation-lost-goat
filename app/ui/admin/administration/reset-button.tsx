@@ -29,7 +29,7 @@ export default function ResetButton() {
         </button>
       ) : (
         <div className="flex flex-col gap-2">
-          <p className="text-sm text-gray-700">Är du säker? Du kommer att permanent ta bort alla streck!</p>
+          <p className="text-sm text-gray-700">Är du säker? Du kommer att permanent ta bort alla streck! Du kommer också att nolla allas saldo</p>
           <div className="flex justify-center gap-2">
             <button
               onClick={handleReset}
