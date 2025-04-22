@@ -310,8 +310,8 @@ export async function updateUser(
   }
 
 
-  const { name, email, balance, password, role, admin, nickname, title } = validatedFields.data;
-
+  var { name, email, balance, password, role, admin, nickname, title } = validatedFields.data;
+  email = email.toLowerCase();
 
   if (password.length >= 6) {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -369,7 +369,8 @@ export async function updateProfile(
     };
   }
 
-  const { name, email, password, likes, dislikes, nickname } = validatedFields.data;
+  var { name, email, password, likes, dislikes, nickname } = validatedFields.data;
+  email = email.toLowerCase();
   // console.log("likes:", likes);
   // console.log("dislikes:", dislikes);
 
@@ -415,6 +416,7 @@ export async function updateProfile(
       SET
         name = ${name},
         email = ${email},
+        likes = ${likes},
         dislikes = ${dislikes},
         nickname = ${nickname}
       WHERE id = ${id}
