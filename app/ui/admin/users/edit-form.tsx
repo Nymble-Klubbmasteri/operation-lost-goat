@@ -183,7 +183,7 @@ export default function EditUserForm({
               </select>
               <svg
                 className="pointer-events-none absolute right-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"
-                xmlns="http://www.w3.org/2000/svg"
+                xmlns="https://www.w3.org/TR/SVG/"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -211,7 +211,7 @@ export default function EditUserForm({
               </select>
               <svg
                 className="pointer-events-none absolute right-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"
-                xmlns="http://www.w3.org/2000/svg"
+                xmlns="https://www.w3.org/TR/SVG/"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
