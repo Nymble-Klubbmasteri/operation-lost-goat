@@ -157,7 +157,7 @@ export async function createInvoice(prevState: InvoiceState, formData: FormData)
   redirect('/dashboard/invoices');
 }
 
-const CreateUser = UserFormSchema.omit({id: true, image_chaotic_url: true, image_nice_url: true, likes: true, dislikes: true});
+const CreateUser = UserFormSchema.omit({id: true, likes: true, dislikes: true});
 export async function createUser(prevState: UserState, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
     name: formData.get('name'),
@@ -288,7 +288,7 @@ export async function updateInvoice(
 }
 
 
-const UpdateUser = UserFormSchema.omit({id: true, image_chaotic_url: true, image_nice_url: true, likes: true, dislikes: true})
+const UpdateUser = UserFormSchema.omit({id: true, likes: true, dislikes: true})
 export async function updateUser(
   id: string,
   prevState: UserState,
@@ -574,7 +574,7 @@ export async function authenticate(
     await signIn('credentials', formData);
   } catch (error) {
     if (error instanceof AuthError) {
-      switch (error.type) {
+      switch (error.cause) {
         case 'CredentialsSignin':
           return 'Invalid credentials.';
         default:
