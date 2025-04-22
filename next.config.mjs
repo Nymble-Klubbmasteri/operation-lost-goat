@@ -7,6 +7,11 @@ const nextConfig = {
           hostname: 'storage.googleapis.com',
           pathname: '/**', // allow all paths
         },
+        {
+          protocol: 'https',
+          hostname: 'storage.cloud.google.com',
+          pathname: '/**', // allow all paths
+        },
       ],
     },
   };

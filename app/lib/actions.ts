@@ -11,6 +11,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { randomUUID } from 'crypto';
 import { getGCSClient } from './gcs';
+import sharp from 'sharp';
+
 
 const bucketName = process.env.GCS_BUCKET_NAME!;
 const storage = getGCSClient().bucket(bucketName);
@@ -19,8 +21,12 @@ async function uploadToGCS(file: File, filename: string): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer());
   const fileRef = storage.file(filename);
 
-  await fileRef.save(buffer, {
+  const pngBuffer = await sharp(buffer).png().toBuffer();
+
+
+  await fileRef.save(pngBuffer, {
     resumable: false,
+    public: true,
     metadata: { contentType: file.type }}
   );
 
