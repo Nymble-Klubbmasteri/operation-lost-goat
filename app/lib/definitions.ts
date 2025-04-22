@@ -192,3 +192,8 @@ export type EventForm = {
   notes: string;
   workers: string[];
 };
+
+export type Setting = {
+  key: string;
+  value: string;
+}

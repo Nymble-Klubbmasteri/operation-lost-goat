@@ -12,6 +12,7 @@ import path from 'path';
 import { randomUUID } from 'crypto';
 import { getGCSClient } from './gcs';
 import sharp from 'sharp';
+import { getStreckPrice } from './data';
 
 
 const bucketName = process.env.GCS_BUCKET_NAME!;
@@ -586,6 +587,12 @@ export async function authenticate(
 
 export async function strecka(id: string, num_streck: number) {
   try {
+    const sp = await getStreckPrice();
+    let spv = 20;
+    if (sp?.value) {
+      spv = sp.value as unknown as number;
+    }
+
     // Fetch the user's current balance
     if (num_streck < 1) {
       revalidatePath('/dashboard');
@@ -595,7 +602,7 @@ export async function strecka(id: string, num_streck: number) {
         const balance = result.rows[0]?.balance ?? 0;
     
         // Determine the deduction amount
-        const deduction = balance < 0 ? 25 : 20;
+        const deduction = balance < 0 ? spv + 5 : spv;
     
         // Update the balance
         await sql`
@@ -676,4 +683,35 @@ export async function AdminRemoveUserFromEvent(event_id: string, user_id: string
     return { success: false, message: 'Failed to remove user from event' };
   }
   revalidatePath(`dashboard/admin/events/${event_id}/edit`);
+}
+
+export async function updateSetting(key: string, value: string) {
+  await sql`
+    UPDATE settings
+    SET value = ${value}
+    WHERE key = ${key}
+  `;
+  revalidatePath('/dashboard/admin/administration'); 
+  redirect('/dashboard/admin/administration');
+}
+
+export async function resetStrecklistaPermanent() {
+  //scaaaaarrryyyyy
+  try {
+    await sql`DROP TABLE IF EXISTS streck`;
+    await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // create the "streck" table if it doesnt exist
+    await sql`
+      CREATE TABLE IF NOT EXISTS streck (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        user_id UUID NOT NULL,
+        time DATE DEFAULT NOW(),
+        amount INT
+      );
+    `;
+  } catch (error) {
+    console.error("error when reseting strecklista:", error);
+  }
+  
 }

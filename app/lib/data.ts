@@ -12,7 +12,8 @@ import {
   UserField,
   EventsTable,
   EventForm,
-  DisplayUser
+  DisplayUser,
+  Setting
 } from '@/app/lib/definitions';
 import { formatCurrency } from '@/app/lib/utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -674,5 +675,39 @@ export async function getUpcomingPub() {
   } catch (error) {
     console.error(error);
     throw new Error('Failed to fetch upcoming event.');
+  }
+}
+
+export async function getStreckPrice() {
+  noStore();
+  try {
+    const res = await sql<Setting>`
+    SELECT
+      *
+    FROM
+      settings
+    WHERE
+      key = 'streck_price'
+    `;
+    return res.rows[0];
+  } catch (error) {
+    console.error("Error fetching streck price: ", error);
+  }
+}
+
+export async function getSwishNumber() {
+  noStore();
+  try {
+    const res = await sql<Setting>`
+    SELECT
+      *
+    FROM
+      settings
+    WHERE
+      key = 'swish_number'
+    `;
+    return res.rows[0];
+  } catch (error) {
+    console.error("Error fetching swish_number: ", error);
   }
 }
