@@ -20,6 +20,7 @@ async function uploadToGCS(file: File, filename: string): Promise<string> {
   const fileRef = storage.file(filename);
 
   await fileRef.save(buffer, {
+    resumable: false,
     metadata: { contentType: file.type }}
   );
 
