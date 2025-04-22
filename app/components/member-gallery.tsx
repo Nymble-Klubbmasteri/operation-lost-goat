@@ -16,33 +16,33 @@ export default function MemberGallery({ members }: { members: DisplayUser[] }) {
         <div key={member.name} className="group bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
           <div className="aspect-square relative overflow-hidden">
             {/* Nice image */}
-            <Image
+            {/* <Image
               src={member.image_nice_url || placeholder_image}
               alt={`${member.name}`}
-              height={100}
-              width={60}
+              height={5000}
+              width={6000}
               className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0"
             >
-            </Image>
-            {/* <img 
-              src={member.image_nice_url || '/api/placeholder/400/400'} 
+            </Image> */}
+            <img 
+              src={member.image_nice_url || '@/public/users/evil-rabbit.png'} 
               alt={`${member.name}`}
               className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0"
-            /> */}
+            />
             {/* Chaotic image */}
-            <Image
+            {/* <Image
               src={member.image_chaotic_url || placeholder_image}
               alt={`${member.nickname}`}
-              height={100}
-              width={60}
+              height={500}
+              width={600}
               className="w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0"
             >
-            </Image>
-            {/* <img 
-              src={member.image_chaotic_url || '/api/placeholder/400/400'} 
+            </Image> */}
+            <img 
+              src={member.image_chaotic_url || '@/public/users/evil-rabbit.png'} 
               alt={`${member.name} (alternate)`}
               className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            /> */}
+            />
           </div>
 
           {/* Normal (non-hovered) content */}
