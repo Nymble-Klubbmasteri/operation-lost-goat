@@ -298,7 +298,6 @@ export async function updateUser(
 
   const { name, email, balance, password, role, admin, nickname, title } = validatedFields.data;
 
-  console.log("input title:", title);
 
   if (password.length >= 6) {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -311,6 +310,7 @@ export async function updateUser(
       `;
   
     } catch (error) {
+      console.error("Update user error 1: ", error);
       return {message: 'Database Error: Failed to Update User'};
     }
   } else {
@@ -319,14 +319,14 @@ export async function updateUser(
       await sql`
         UPDATE users
         SET name = ${name}, email = ${email}, balance = ${balance}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}
+        WHERE id = ${id}
       `;
   
     } catch (error) {
-      console.error("Update user error: ", error);
+      console.error("Update user error 2: ", error);
       return {message: 'Database Error: Failed to Update User'};
     }
-  }
-
+  } 
 
   revalidatePath('/dashboard/admin/users');
   redirect('/dashboard/admin/users');
@@ -356,8 +356,8 @@ export async function updateProfile(
   }
 
   const { name, email, password, likes, dislikes, nickname } = validatedFields.data;
-  console.log("likes:", likes);
-  console.log("dislikes:", dislikes);
+  // console.log("likes:", likes);
+  // console.log("dislikes:", dislikes);
 
 
   // ⬇️ Handle file uploads
@@ -402,136 +402,79 @@ export async function updateProfile(
   // ALTER TABLE users
   // ADD nickname VARCHAR(255);
   // `;
+  console.log("hash: ", hashedPassword);
+  console.log("niceurl: ", niceUrl);
+  console.log("chaoticurl: ", chaoticUrl);
 
   try {
-    if (hashedPassword && niceUrl && chaoticUrl) {
-      // console.log("psw, nice, chaos");
-      await sql`
+    // const res = await sql`${sql_string}`;
+    var res2;
+    var res3;
+    var res4;
+    const res1 = await sql`
+      UPDATE users
+      SET
+        name = ${name},
+        email = ${email},
+        dislikes = ${dislikes},
+        nickname = ${nickname}
+      WHERE id = ${id}
+    `;
+    if (hashedPassword ) {
+      res2 = await sql`
         UPDATE users
         SET
-          name = ${name},
-          email = ${email},
-          password = ${hashedPassword},
-          image_nice_url = ${niceUrl},
-          image_chaotic_url = ${chaoticUrl},
-          likes = ${likes},
-          dislikes = ${dislikes},
-          nickname = ${nickname}
-        WHERE id = ${id}
-      `;
-    } else if (hashedPassword && niceUrl) {
-      // console.log("psw, nice");
-      await sql`
-        UPDATE users
-        SET
-          name = ${name},
-          email = ${email},
-          password = ${hashedPassword},
-          image_nice_url = ${niceUrl},
-          likes = ${likes},
-          dislikes = ${dislikes},
-          nickname = ${nickname}
-        WHERE id = ${id}
-      `;
-    } else if (hashedPassword && chaoticUrl) {
-      // console.log("psw, chaos");
-      await sql`
-        UPDATE users
-        SET
-          name = ${name},
-          email = ${email},
-          password = ${hashedPassword},
-          image_chaotic_url = ${chaoticUrl},
-          likes = ${likes},
-          dislikes = ${dislikes},
-          nickname = ${nickname}
-        WHERE id = ${id}
-      `;
-    } else if (niceUrl && chaoticUrl) {
-      // console.log("nice, chaos");
-      await sql`
-        UPDATE users
-        SET
-          name = ${name},
-          email = ${email},
-          image_nice_url = ${niceUrl},
-          image_chaotic_url = ${chaoticUrl},
-          likes = ${likes},
-          dislikes = ${dislikes},
-          nickname = ${nickname}
-        WHERE id = ${id}
-      `;
-    } else if (niceUrl) {
-      // console.log("nice");
-      await sql`
-        UPDATE users
-        SET
-          name = ${name},
-          email = ${email},
-          image_nice_url = ${niceUrl},
-          likes = ${likes},
-          dislikes = ${dislikes},
-          nickname = ${nickname}
-        WHERE id = ${id}
-      `;
-    } else if (chaoticUrl) {
-      // console.log("chaos");
-
-      await sql`
-        UPDATE users
-        SET
-          name = ${name},
-          email = ${email},
-          image_chaotic_url = ${chaoticUrl},
-          likes = ${likes},
-          dislikes = ${dislikes},
-          nickname = ${nickname}
-        WHERE id = ${id}
-      `;
-    } else if (hashedPassword) {
-      await sql`
-        UPDATE users
-        SET
-          name = ${name},
-          email = ${email},
-          password = ${hashedPassword},
-          likes = ${likes},
-          dislikes = ${dislikes},
-          nickname = ${nickname}
-        WHERE id = ${id}
-      `;
-    } else {
-      // console.log("no psw or nice or chaos");
-      await sql`
-        UPDATE users
-        SET
-          name = ${name},
-          email = ${email},
-          likes = ${likes},
-          dislikes = ${dislikes},
-          nickname = ${nickname}
+          password = ${hashedPassword}
         WHERE id = ${id}
       `;
     }
+    if (niceUrl ) {
+      res3 = await sql`
+        UPDATE users
+        SET
+          image_nice_url = ${niceUrl}
+        WHERE id = ${id}
+      `;
+    }
+    if (chaoticUrl ) {
+      res4 = await sql`
+        UPDATE users
+        SET
+          image_chaotic_url = ${chaoticUrl}
+        WHERE id = ${id}
+      `;
+    }
+
+    console.log("result from updating user res1: ", res1);
+    if (res2) {
+      console.log("result from updating user res2: ", res2);
+    }
+    if (res3) {
+      console.log("result from updating user res2: ", res3);
+    }
+    if (res4) {
+      console.log("result from updating user res2: ", res4);
+    }
   } catch (error) {
     console.log("AAAAAAAAH");
+    console.log("error: ", error);
     console.error("Error:", error);
     return { message: 'Database Error: Failed to Update User' };
   }
   // Testing
-  try {
+  // try {
 
-    const res = await sql`
-      SELECT *
-      FROM users
-      WHERE id = ${id}
-    `;
-    console.log("Response: ", res.rows[0]);
+  //   const res = await sql`
+  //     SELECT *
+  //     FROM users
+  //     WHERE id = ${id}
+  //   `;
+  //   console.log("Response: ", res.rows[0]);
 
-  } catch (error) {
-    console.error("Error when testing:", error);
-    return {message: 'Databse Error: Wack!'};
-  }
+  // } catch (error) {
+  //   console.error("Error when testing:", error);
+  //   return {message: 'Databse Error: Wack!'};
+  // }
   // console.log("seems to have worked???");
   revalidatePath('/dashboard/profile');
   redirect('/dashboard/profile');

@@ -41,7 +41,7 @@ export default function EditProfileForm({
     }
   };
 
-  console.log("user (edit profile form):", user);
+  // console.log("user (edit profile form):", user);
   // if (user.image_nice_url) {
   //   console.log("user nice image url:", user.image_nice_url);
   // }

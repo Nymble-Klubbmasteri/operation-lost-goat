@@ -204,7 +204,7 @@ export async function fetchUserById(id: string) {
     const user = data.rows.map((user) => ({
       ...user
     }));
-    console.log("fetched user: ", user[0]);
+    // console.log("fetched user: ", user[0]);
     return user[0];
 
   } catch (error) {
@@ -512,7 +512,7 @@ export async function getTopList() {
     const result = await sql`
       SELECT 
         u.id, 
-        u.name, 
+        u.nickname, 
         u.role,
         COUNT(s.id) as streck_count
       FROM 
@@ -522,7 +522,7 @@ export async function getTopList() {
       WHERE
         u.role = 'Marskalk' OR u.role = 'WraQ' OR u.role = 'Qnekt'
       GROUP BY 
-        u.id, u.name
+        u.id, u.nickname
       ORDER BY 
         streck_count DESC
       LIMIT 10
@@ -594,7 +594,7 @@ export async function getTopListByYear() {
     const result = await sql`
       SELECT 
         u.id, 
-        u.name, 
+        u.nickname, 
         u.role,
         COUNT(s.id) as streck_count
       FROM 
@@ -604,7 +604,7 @@ export async function getTopListByYear() {
       WHERE
         u.role = 'Marskalk' OR u.role = 'WraQ' OR u.role = 'Qnekt' AND s.time > ${current_year}
       GROUP BY 
-        u.id, u.name
+        u.id, u.nickname
       ORDER BY 
         streck_count DESC
       LIMIT 10
@@ -628,7 +628,7 @@ export async function getTopListLast24Hours() {
     const result = await sql`
       SELECT 
         u.id, 
-        u.name, 
+        u.nickname, 
         u.role,
         COUNT(s.id) as streck_count
       FROM 
@@ -639,7 +639,7 @@ export async function getTopListLast24Hours() {
         (u.role = 'Marskalk' OR u.role = 'WraQ' OR u.role = 'Qnekt')
         AND s.time > ${twentyFourHoursAgo}
       GROUP BY 
-        u.id, u.name
+        u.id, u.nickname
       ORDER BY 
         streck_count DESC
     `;

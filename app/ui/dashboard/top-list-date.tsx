@@ -29,7 +29,7 @@ export default async function TopListByDate() {
                     <tr key={user.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <span>{user.name}</span>
+                          <span>{user.nickname}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">{user.streck_count}</td>
