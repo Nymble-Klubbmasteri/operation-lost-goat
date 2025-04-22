@@ -10,8 +10,21 @@ import bcrypt, { hash } from "bcrypt";
 import fs from 'fs/promises';
 import path from 'path';
 import { randomUUID } from 'crypto';
-import { writeFile, mkdir } from 'fs/promises';
+import { getGCSClient } from './gcs';
 
+const bucketName = process.env.GCS_BUCKET_NAME!;
+const storage = getGCSClient().bucket(bucketName);
+
+async function uploadToGCS(file: File, filename: string): Promise<string> {
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const fileRef = storage.file(filename);
+
+  await fileRef.save(buffer, {
+    metadata: { contentType: file.type }}
+  );
+
+  return `https://storage.googleapis.com/${bucketName}/${filename}`;
+}
 
 export type InvoiceState = {
   errors?: {
@@ -363,33 +376,18 @@ export async function updateProfile(
   // ⬇️ Handle file uploads
   const niceFile = formData.get('image_nice') as File | null;
   const chaoticFile = formData.get('image_chaotic') as File | null;
-  const uploadsDir = path.join(process.cwd(), 'public/users');
-
-  // if (niceFile) {
-  //   console.log("niceFile exists");
-  // }
-  // if (chaoticFile) {
-  //   console.log("chaoticFile exists");
-  // }
-  await mkdir(uploadsDir, { recursive: true });
 
   let niceUrl = null;
   let chaoticUrl = null;
 
   if (niceFile && niceFile.size > 0) {
-    const nicePath = path.join(uploadsDir, `nice-${id}.png`);
-    const niceBuffer = Buffer.from(await niceFile.arrayBuffer());
-    await writeFile(nicePath, new Uint8Array(niceBuffer));
-    niceUrl = `/users/nice-${id}.png`;
-    // console.log("Nice Url: ", niceUrl);
+    const filename = `users/nice-${id}.png`;
+    niceUrl = await uploadToGCS(niceFile, filename);
   }
 
   if (chaoticFile && chaoticFile.size > 0) {
-    const chaoticPath = path.join(uploadsDir, `chaotic-${id}.png`);
-    const chaoticBuffer = Buffer.from(await chaoticFile.arrayBuffer());
-    await writeFile(chaoticPath, new Uint8Array(chaoticBuffer));
-    chaoticUrl = `/users/chaotic-${id}.png`;
-    // console.log("Chaotic Url: ", chaoticUrl);
+    const filename = `users/chaotic-${id}.png`;
+    chaoticUrl = await uploadToGCS(chaoticFile, filename);
   }
 
   var hashedPassword;
@@ -402,9 +400,9 @@ export async function updateProfile(
   // ALTER TABLE users
   // ADD nickname VARCHAR(255);
   // `;
-  console.log("hash: ", hashedPassword);
-  console.log("niceurl: ", niceUrl);
-  console.log("chaoticurl: ", chaoticUrl);
+  // console.log("hash: ", hashedPassword);
+  // console.log("niceurl: ", niceUrl);
+  // console.log("chaoticurl: ", chaoticUrl);
 
   try {
     // const res = await sql`${sql_string}`;
@@ -445,37 +443,22 @@ export async function updateProfile(
       `;
     }
 
-    console.log("result from updating user res1: ", res1);
-    if (res2) {
-      console.log("result from updating user res2: ", res2);
-    }
-    if (res3) {
-      console.log("result from updating user res2: ", res3);
-    }
-    if (res4) {
-      console.log("result from updating user res2: ", res4);
-    }
+    // console.log("result from updating user basics: ", res1);
+    // if (res2) {
+    //   console.log("result from updating user password: ", res2);
+    // }
+    // if (res3) {
+    //   console.log("result from updating user nice url: ", res3);
+    // }
+    // if (res4) {
+    //   console.log("result from updating user chaotic url: ", res4);
+    // }
   } catch (error) {
-    console.log("AAAAAAAAH");
+    // console.log("AAAAAAAAH");
     console.log("error: ", error);
     console.error("Error:", error);
     return { message: 'Database Error: Failed to Update User' };
   }
-  // Testing
-  // try {
-
-  //   const res = await sql`
-  //     SELECT *
-  //     FROM users
-  //     WHERE id = ${id}
-  //   `;
-  //   console.log("Response: ", res.rows[0]);
-
-  // } catch (error) {
-  //   console.error("Error when testing:", error);
-  //   return {message: 'Databse Error: Wack!'};
-  // }
-  // console.log("seems to have worked???");
   revalidatePath('/dashboard/profile');
   redirect('/dashboard/profile');
 }

@@ -7,7 +7,7 @@ import { fetchMembersByRole } from '@/app/lib/data';
 export default async function KillingarPage() {
   // Fetch data on the server side
   const members = await fetchMembersByRole('WraQ');
-  console.log(members[0]);
+  // console.log(members[0]);
   
   return (
     <div className="max-w-6xl mx-auto p-4">
