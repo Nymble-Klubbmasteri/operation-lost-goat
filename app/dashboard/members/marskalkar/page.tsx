@@ -1,7 +1,7 @@
 // app/members/marskalkar/page.tsx
 import { Suspense } from 'react';
 import MemberGallery from '@/app/components/member-gallery';
-import MemberNav from '@/app/components/member-nav';
+import MemberNav from '@/app/components/member-inside-nav';
 import { fetchMembersByRole } from '@/app/lib/data';
 
 export default async function MarskalkarPage() {
