@@ -17,12 +17,14 @@ import { useFormState } from 'react-dom';
 
 
 export default function EditUserForm({
-  user
+  user,
+  admin_id
 }: {
   user: UserForm;
+  admin_id: string;
 }) {
   const initialState = { message: null, errors: {} };
-  const updateUserWithId = updateUser.bind(null, user.id);
+  const updateUserWithId = updateUser.bind(null, user.id, admin_id);
   const [state, dispatch] = useFormState(updateUserWithId, initialState);
 
 
@@ -237,7 +239,3 @@ export default function EditUserForm({
       </div>
     </form>
 }
-function useState(arg0: string): [any, any] {
-  throw new Error('Function not implemented.');
-}
-

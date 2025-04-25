@@ -1,8 +1,7 @@
-import Image from 'next/image';
 import { fetchFilteredUsers } from '@/app/lib/data';
 import { UpdateUser, DeleteUser } from '@/app/ui/admin/users/buttons';
-import { auth } from '@/auth';
-import { lusitana } from '../../fonts';
+import { ArrowDownIcon, PencilIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
 export default async function UsersTable({
   query,
@@ -12,15 +11,6 @@ export default async function UsersTable({
   currentPage: number;
 }) {
   const users = await fetchFilteredUsers(query, currentPage);
-
-  const session = await auth();
-  if (!session?.user.id) {
-      return (
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-          Du har inget id!
-      </h1>
-      );
-  }
 
   return (
     <div className="mt-6 flow-root">
@@ -36,20 +26,15 @@ export default async function UsersTable({
                   <div className="mb-2 flex items-center">
                     <p>{user.name}</p>
                   </div>
-                  <p className="text-sm text-gray-500">{user.email}</p>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
                     <p className="text-xl font-medium">
                       {(user.balance)}
                     </p>
-                    <p className="text-xl font-medium">
-                      {(user.role)}
-                    </p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateUser id={user.id} />
-                    <DeleteUser id={user.id} />
+                    {/* <UpdateUser id={user.id} /> */}
                   </div>
                 </div>
               </div>
@@ -62,19 +47,10 @@ export default async function UsersTable({
                   User
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Email
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
                   Balance
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Role
-                </th>
-                {/* <th scope="col" className="px-3 py-5 font-medium">
-                  Status
-                </th> */}
                 <th scope="col" className="relative py-3 pl-6 pr-3">
-                  <span className="sr-only">Edit</span>
+                  <span className="sr-only">Open</span>
                 </th>
               </tr>
             </thead>
@@ -88,25 +64,14 @@ export default async function UsersTable({
                     <div className="flex items-center gap-3">
                       <p>{user.name}</p>
                     </div>
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {user.email}
-                  </td>                  
+                  </td>                
                   <td className="whitespace-nowrap px-3 py-3">
                     {(user.balance)}
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {(user.role)}
-                  </td>
-
-                  {/* <td className="whitespace-nowrap px-3 py-3">
-                    <InvoiceStatus status={user.status} />
-                  </td>  */}
                  
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <UpdateUser id={user.id} />
-                      <DeleteUser id={user.id} />
+                      <SeeUser id={user.id}/>
                     </div>
                   </td>
                 </tr>
@@ -116,5 +81,17 @@ export default async function UsersTable({
         </div>
       </div>
     </div>
+  );
+}
+
+
+export function SeeUser({ id }: { id: string }) {
+  return (
+    <Link
+      href={`/dashboard/admin/listan/${id}`}
+      className="rounded-md border p-2 hover:bg-gray-100"
+    >
+      <ArrowDownIcon className="w-5" />
+    </Link>
   );
 }

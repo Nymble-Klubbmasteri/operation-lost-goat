@@ -13,6 +13,19 @@ async function seedStreck(client) {
     await client.sql`DROP TABLE IF EXISTS streck`;
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
+    await client.sql`
+        DROP TABLE IF EXISTS logs
+        `;
+    await client.sql`
+    CREATE TABLE IF NOT EXISTS logs(
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      user_id UUID NOT NULL,
+      type TEXT,
+      value TEXT,
+      time DATE DEFAULT NOW()
+    );
+    `;
+    
     // create the "streck" table if it doesnt exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS streck (

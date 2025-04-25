@@ -13,6 +13,7 @@ import { randomUUID } from 'crypto';
 import { getGCSClient } from './gcs';
 import sharp from 'sharp';
 import { getStreckPrice } from './data';
+import { User } from './definitions';
 
 
 const bucketName = process.env.GCS_BUCKET_NAME!;
@@ -291,6 +292,7 @@ export async function updateInvoice(
 const UpdateUser = UserFormSchema.omit({id: true, likes: true, dislikes: true})
 export async function updateUser(
   id: string,
+  admin_id: string,
   prevState: UserState,
   formData: FormData,  
 ) {
@@ -319,6 +321,58 @@ export async function updateUser(
 
   var { name, email, balance, password, role, admin, nickname, title } = validatedFields.data;
   email = email.toLowerCase();
+
+  // Log balance updates:
+  try {
+    let res;
+
+    // Run ONCE
+    // res = await sql`
+    // DROP TABLE IF EXISTS logs
+    // `;
+    // await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // res = await sql`
+    // CREATE TABLE IF NOT EXISTS logs(
+    //   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    //   user_id UUID NOT NULL,
+    //   type TEXT,
+    //   value TEXT,
+    //   time DATE DEFAULT NOW(),
+    //   admin_id UUID NOT NULL
+    // );
+    // `;
+    // Actual code:
+
+    res = await sql<User>`
+    SELECT *
+    FROM users
+    WHERE id = ${id}
+    `;
+    if ((res.rows[0].balance as unknown as number) != balance) {
+      // console.log("log log, res.balance:", res.rows[0].balance as unknown as number, "field balance:", balance);
+      const diff = balance - (res.rows[0].balance as unknown as number);
+      // console.log("diff: ", diff);
+
+      await sql`
+      INSERT INTO logs(
+        user_id,
+        type,
+        value,
+        admin_id
+      )
+      VALUES(
+        ${id},
+        'balance_change',
+        ${diff},
+        ${admin_id}
+      )
+      `;
+    }
+
+  } catch (error) {
+    console.error("Error fetching user balance for accounting purposes:", error);
+  }
 
   if (password.length >= 6) {
     const hashedPassword = await bcrypt.hash(password, 10);

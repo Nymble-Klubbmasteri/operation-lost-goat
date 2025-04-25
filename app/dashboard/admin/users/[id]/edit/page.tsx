@@ -7,7 +7,7 @@ import { auth } from '@/auth';
 import { lusitana } from '@/app/ui/fonts';
  
 export const metadata: Metadata = {
-  title: 'Invoice',
+  title: 'User',
 };
 
 
@@ -34,6 +34,14 @@ export default async function Page({ params }: { params: { id: string } }) {
     );
     }
 
+    if (!session.user.id){
+        return (
+            <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+                Du har inget id!
+            </h1>
+        );
+    }
+
     if (!user) {
     notFound();
     }
@@ -49,7 +57,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             },
             ]}
         />
-        <Form user={user[0]}/>
+        <Form user={user[0]} admin_id={session.user.id}/>
         </main>
     );
 }

@@ -487,8 +487,26 @@ export async function fetchUserStrecks(id: string) {
 
     return result.rows;
   } catch (error) {
-    console.error('Database All Users Streck Fetching Error:', error);
+    console.error("Database All User's Streck Fetching Error:", error);
     throw new Error('Failed to fetch users streck');
+  }
+}
+
+export async function fetchUserLogs(id: string) {
+  noStore();
+
+  try {
+    const result = await sql`
+      SELECT logs.*, admins.name AS admin_name
+      FROM logs
+      LEFT JOIN users AS admins ON logs.admin_id = admins.id
+      WHERE logs.user_id = ${id}
+    `;
+    // console.log("logs:", result.rows);
+    return result.rows;
+  } catch (error) {
+    console.error("Database All User's Logs Fetching Error:", error);
+    throw new Error('Failed to fetch users logs');
   }
 }
 
@@ -711,3 +729,4 @@ export async function getSwishNumber() {
     console.error("Error fetching swish_number: ", error);
   }
 }
+
