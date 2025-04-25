@@ -753,6 +753,7 @@ export async function resetStrecklistaPermanent() {
   //scaaaaarrryyyyy
   try {
     await sql`DROP TABLE IF EXISTS streck`;
+    await sql`DROP TABLE IF EXISTS logs`;
     await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
     // create the "streck" table if it doesnt exist
@@ -766,6 +767,16 @@ export async function resetStrecklistaPermanent() {
       UPDATE users
       SET
         balance = 0
+    `;
+
+    await sql`
+    CREATE TABLE IF NOT EXISTS logs(
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      user_id UUID NOT NULL,
+      type TEXT,
+      value TEXT,
+      time DATE DEFAULT NOW()
+    );
     `;
   } catch (error) {
     console.error("error when reseting strecklista:", error);
