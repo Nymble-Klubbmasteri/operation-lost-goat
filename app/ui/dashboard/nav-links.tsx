@@ -9,6 +9,7 @@ import {
   WrenchIcon,
   UsersIcon,
   CurrencyDollarIcon,
+  CalendarIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -22,6 +23,7 @@ const links = [
   { name: 'Medlemmar', href: '/dashboard/members/marskalkar', icon: UsersIcon, adminProtect: false, marskalkProtect: false },
   { name: 'Profil', href: '/dashboard/profile', icon: UserIcon, adminProtect: false, marskalkProtect: false },
   { name: 'Event', href: '/dashboard/events', icon: NewspaperIcon, adminProtect: false, marskalkProtect: false },
+  { name: 'Mitt Schema', href: '/dashboard/schedule', icon: CalendarIcon, adminProtect: false, marskalkProtect: false },
   { name: 'Administrera Användare', href: '/dashboard/admin/users', icon: UserGroupIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Administrera Event', href: '/dashboard/admin/events', icon: InboxStackIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Administrera Sidan', href: '/dashboard/admin/administration', icon: WrenchIcon, adminProtect: true, marskalkProtect: false },

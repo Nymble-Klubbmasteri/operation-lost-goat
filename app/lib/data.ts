@@ -730,3 +730,29 @@ export async function getSwishNumber() {
   }
 }
 
+export async function fetchUserEvents(userId: string) {
+  noStore();
+
+  try {
+    const userEvents = await sql<{
+      id: string;
+      name: string;
+      date: string;
+      type: number;
+    }>`
+      SELECT
+        id,
+        name,
+        date,
+        type
+      FROM events
+      WHERE ${userId} = ANY(workers)
+      ORDER BY date DESC
+    `;
+
+    return userEvents.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user events.');
+  }
+}
