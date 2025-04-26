@@ -197,3 +197,9 @@ export type Setting = {
   key: string;
   value: string;
 }
+
+export type UpdateBalanceForm = {
+  user_id: string;
+  diff: string;
+  admin_id: string;
+}

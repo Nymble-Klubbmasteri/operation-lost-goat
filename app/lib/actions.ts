@@ -783,3 +783,47 @@ export async function resetStrecklistaPermanent() {
   }
   
 }
+
+export async function updateBalance(user_id: string, admin_id: string, diff: string) {
+  try {
+    let res = await sql`
+      SELECT
+        balance
+      FROM
+        users
+      WHERE
+        id = ${user_id}
+    `;
+    let old_balance = Number((res.rows[0].balance));
+    console.log("old balance:", old_balance);
+    let difff = Number(diff);
+    let new_balance = old_balance + difff;
+    console.log("new balance:", new_balance);
+    await sql`
+      UPDATE
+        users
+      SET
+        balance = ${new_balance}
+      WHERE
+        id = ${user_id}
+    `;
+
+    await sql`
+    INSERT INTO logs(
+      user_id,
+      type,
+      value,
+      admin_id
+    )
+    VALUES(
+      ${user_id},
+      'balance_change',
+      ${diff},
+      ${admin_id}
+    )
+    `;
+
+  } catch (error) {
+    console.error("Error updating balance of user with id:", user_id);
+  }
+}

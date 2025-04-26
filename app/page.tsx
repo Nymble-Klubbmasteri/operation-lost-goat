@@ -43,7 +43,13 @@ export default async function Page() {
               <span>Medlemmar</span> <UserGroupIcon className="w-5 md:w-6" />
             </Link>
           </div>
+          <div className="mt-6 rounded-lg bg-gray-100 p-4 text-sm text-gray-700">
+            Vill du kontakta Nymble Klubbmästeri? Då kan du maila vårt klubbmästarpar på: 
+            <a href="mailto:kbm@ths.kth.se" className="text-blue-600 hover:underline ml-1">kbm@ths.kth.se</a>
+          </div>
         </div>
+
+        
 
         <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
           <Image

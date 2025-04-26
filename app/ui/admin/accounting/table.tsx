@@ -2,6 +2,8 @@ import { fetchFilteredUsers } from '@/app/lib/data';
 import { UpdateUser, DeleteUser } from '@/app/ui/admin/users/buttons';
 import { ArrowDownIcon, PencilIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { AdjustBalanceButton } from './buttons';
+import { auth } from '@/auth';
 
 export default async function UsersTable({
   query,
@@ -11,6 +13,14 @@ export default async function UsersTable({
   currentPage: number;
 }) {
   const users = await fetchFilteredUsers(query, currentPage);
+  const session = await auth();
+  if (!session?.user.id) {
+    return (
+      <div>
+        <p>Du har inget id!</p>
+      </div>
+    )
+  }
 
   return (
     <div className="mt-6 flow-root">
@@ -71,7 +81,7 @@ export default async function UsersTable({
                  
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <SeeUser id={user.id}/>
+                      <SeeUser id={user.id} admin_id={session.user.id!}/>
                     </div>
                   </td>
                 </tr>
@@ -85,13 +95,16 @@ export default async function UsersTable({
 }
 
 
-export function SeeUser({ id }: { id: string }) {
+export function SeeUser({ id, admin_id }: { id: string, admin_id: string }) {
   return (
-    <Link
-      href={`/dashboard/admin/listan/${id}`}
-      className="rounded-md border p-2 hover:bg-gray-100"
-    >
-      <ArrowDownIcon className="w-5" />
-    </Link>
+    <div className="flex gap-2">
+      <Link
+        href={`/dashboard/admin/listan/${id}`}
+        className="rounded-md border p-2 hover:bg-gray-100"
+      >
+        <ArrowDownIcon className="w-5" />
+      </Link>
+      <AdjustBalanceButton userId={id} adminId={admin_id} />
+    </div>
   );
 }
