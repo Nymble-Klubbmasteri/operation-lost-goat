@@ -7,7 +7,8 @@ import {
   CurrencyDollarIcon,
   UserCircleIcon,
   EnvelopeIcon,
-  LockClosedIcon
+  LockClosedIcon,
+  ChevronUpDownIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
@@ -39,7 +40,7 @@ export default function EditUserForm({
         {/* User Name */}
         <div className="mb-4">
           <label htmlFor="name" className="mb-2 block text-sm font-medium">
-            User Name
+            Namn
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -59,7 +60,7 @@ export default function EditUserForm({
         {/* User Nickname */}
         <div className="mb-4">
           <label htmlFor="nickname" className="mb-2 block text-sm font-medium">
-            User Nickname
+            Smeknamn
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -79,7 +80,7 @@ export default function EditUserForm({
         {/* User Title */}
         <div className="mb-4">
           <label htmlFor="title" className="mb-2 block text-sm font-medium">
-            User Title
+            Titel
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -99,7 +100,7 @@ export default function EditUserForm({
         {/* User Email */}
         <div className="mb-4">
           <label htmlFor="email" className="mb-2 block text-sm font-medium">
-            User Email
+            Email
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -119,7 +120,7 @@ export default function EditUserForm({
         {/* User Password */}
         <div className="mb-4">
             <label htmlFor="password" className="mb-2 block text-sm font-medium">
-                Password
+                Lösenord
             </label>
             <div className="relative mt-2 rounded-md">
                 <div className="relative">
@@ -149,7 +150,7 @@ export default function EditUserForm({
         {/* User Balance */}
         <div className="mb-4">
           <label htmlFor="balance" className="mb-2 block text-sm font-medium">
-            Choose a balance
+            Sätt saldo
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -166,10 +167,30 @@ export default function EditUserForm({
           </div>
         </div>
 
+        {/* User Priority */}
+        <div className="mb-4">
+          <label htmlFor="priority" className="mb-2 block text-sm font-medium">
+            Sorteringsprioritet
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="priority"
+                name="priority"
+                type="number"
+                defaultValue={user.priority}
+                placeholder="Enter user priority"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+              <ChevronUpDownIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
+        </div>
+
         {/* User Role */}
         <div className="mb-4">
           <label htmlFor="role" className="mb-2 block text-sm font-medium">
-            User Role
+            Marskalksstatus
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -198,7 +219,7 @@ export default function EditUserForm({
         {/* User Admin Status */}
         <div className="mb-4">
           <label htmlFor="admin" className="mb-2 block text-sm font-medium">
-            User Admin Status
+            Admin Status
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -209,7 +230,7 @@ export default function EditUserForm({
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 pr-10 text-sm outline-2 placeholder:text-gray-500"
               >
                 <option value="Yes">Admin</option>
-                <option value="No">Not Admin</option>
+                <option value="No">Inte Admin</option>
               </select>
               <svg
                 className="pointer-events-none absolute right-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"
@@ -233,9 +254,9 @@ export default function EditUserForm({
           href="/dashboard/admin/users"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
-          Cancel
+          Avbryt
         </Link>
-        <Button type="submit">Edit User</Button>
+        <Button type="submit">Spara Ändringar</Button>
       </div>
     </form>
 }

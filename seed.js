@@ -63,7 +63,8 @@ async function seedUsers(client) {
         role VARCHAR(255) DEFAULT 'Killing',
         admin VARCHAR(255) DEFAULT 'No',
         title VARCHAR(255) DEFAULT '',
-        nickname VARCHAR(255) DEFAULT ''
+        nickname VARCHAR(255) DEFAULT '',
+        priority INT DEFAULT 10
       );
     `;
 

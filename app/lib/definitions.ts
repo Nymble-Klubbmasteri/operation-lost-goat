@@ -13,6 +13,7 @@ export type User = {
   role: string;
   admin: string;
   nickname: string;
+  priority: number;
 };
 
 export type DisplayUser = {
@@ -175,6 +176,7 @@ export type UserForm = {
   dislikes: string;
   nickname: string;
   title: string;
+  priority: number;
 }
 
 export type EventForm = {

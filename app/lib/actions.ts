@@ -55,6 +55,7 @@ export type UserState = {
     role?: string[];
     image_nice?: string[];
     image_chaotic?: string[];
+    priority?: string[];
   };
   message?: string | null;
 }
@@ -103,7 +104,8 @@ const UserFormSchema = z.object({
   likes: z.string(),
   dislikes: z.string(),
   title: z.string(),
-  nickname: z.string()
+  nickname: z.string(),
+  priority: z.coerce.number(),
 });
 
 const EventFormSchema = z.object({
@@ -158,7 +160,7 @@ export async function createInvoice(prevState: InvoiceState, formData: FormData)
   redirect('/dashboard/invoices');
 }
 
-const CreateUser = UserFormSchema.omit({id: true, likes: true, dislikes: true});
+const CreateUser = UserFormSchema.omit({id: true, likes: true, dislikes: true, priority: true});
 export async function createUser(prevState: UserState, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
     name: formData.get('name'),
@@ -305,7 +307,8 @@ export async function updateUser(
     role: formData.get('role'),
     admin: formData.get('admin'),
     nickname: formData.get('nickname'),
-    title: formData.get('title')
+    title: formData.get('title'),
+    priority: formData.get('priority'),
   });
 
 
@@ -319,7 +322,7 @@ export async function updateUser(
   }
 
 
-  var { name, email, balance, password, role, admin, nickname, title } = validatedFields.data;
+  var { name, email, balance, password, role, admin, nickname, title, priority } = validatedFields.data;
   email = email.toLowerCase();
 
   // Log balance updates:
@@ -342,7 +345,14 @@ export async function updateUser(
     //   admin_id UUID NOT NULL
     // );
     // `;
+    
+    // await sql`
+    // ALTER TABLE users
+    // ADD priority INT DEFAULT 10
+    // `;
+    
     // Actual code:
+
 
     res = await sql<User>`
     SELECT *
@@ -380,7 +390,7 @@ export async function updateUser(
     try {
       await sql`
         UPDATE users
-        SET name = ${name}, email = ${email}, balance = ${balance}, password = ${hashedPassword}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}
+        SET name = ${name}, email = ${email}, balance = ${balance}, password = ${hashedPassword}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}, priority = ${priority}
         WHERE id = ${id} 
       `;
   
@@ -393,7 +403,7 @@ export async function updateUser(
     try {
       await sql`
         UPDATE users
-        SET name = ${name}, email = ${email}, balance = ${balance}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}
+        SET name = ${name}, email = ${email}, balance = ${balance}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}, priority = ${priority}
         WHERE id = ${id}
       `;
   

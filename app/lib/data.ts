@@ -586,7 +586,7 @@ export async function fetchMembersByRole(role: string){
       FROM users
       WHERE role = ${role}
       ORDER BY
-        name ASC
+        priority ASC
     `;
 
     // console.log("results fetch users by role:", result.rows, "---");
