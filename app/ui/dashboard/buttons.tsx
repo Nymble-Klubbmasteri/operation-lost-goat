@@ -37,8 +37,8 @@ export function Strecka({ id, role }: { id: string, role: string}) {
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    // Ensure amount is between 1 and 10
-    setAmount(Math.max(1, Math.min(778, value || 1)));
+    // Ensure amount is between 1 and 1000
+    setAmount(Math.max(0, Math.min(1000, value || 1)));
   };
 
   return (
@@ -71,7 +71,7 @@ export function Strecka({ id, role }: { id: string, role: string}) {
                 <div className="flex items-center">
                   <button 
                     type="button"
-                    onClick={() => setAmount(prev => Math.max(1, prev - 1))}
+                    onClick={() => setAmount(prev => Math.max(0, prev - 1))}
                     className="px-3 py-1 bg-gray-200 rounded-l-md"
                   >
                     -
@@ -88,7 +88,7 @@ export function Strecka({ id, role }: { id: string, role: string}) {
                   />
                   <button 
                     type="button"
-                    onClick={() => setAmount(prev => Math.min(10, prev + 1))}
+                    onClick={() => setAmount(prev => Math.min(1000, prev + 1))}
                     className="px-3 py-1 bg-gray-200 rounded-r-md"
                   >
                     +

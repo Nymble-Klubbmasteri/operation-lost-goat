@@ -5,13 +5,13 @@ import { useState } from 'react';
 
 export default function EditForm({ setting }: { setting: { key: string, value: string } }) {
   const [value, setValue] = useState(setting.value);
-  const [status, setStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
+  const [status, setStatus] = useState<'väntar' | 'sparar' | 'sparat'>('väntar');
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setStatus('saving');
+    setStatus('sparar');
     await updateSetting(setting.key, value);
-    setStatus('saved');
+    setStatus('sparat');
   }
 
   return (
@@ -26,8 +26,8 @@ export default function EditForm({ setting }: { setting: { key: string, value: s
       <button type="submit" className="bg-blue-500 text-white px-3 py-1 rounded">
         Spara
       </button>
-      {status === 'saving' && <p className="text-sm text-gray-500 mt-1">Sparar...</p>}
-      {status === 'saved' && <p className="text-sm text-green-600 mt-1">Sparat!</p>}
+      {status === 'sparar' && <p className="text-sm text-gray-500 mt-1">Sparar...</p>}
+      {status === 'sparat' && <p className="text-sm text-green-600 mt-1">Sparat!</p>}
     </form>
   );
 }

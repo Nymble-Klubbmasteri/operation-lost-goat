@@ -192,20 +192,20 @@ export default function EditProfileForm({
           <h2 className="mb-2 block text-sm font-medium">Dina Profilbilder</h2>
           <div className="flex gap-4">
             <div className="flex flex-col items-center">
-              <p className="text-xs mb-1 text-gray-600">Nice</p>
+              <p className="text-xs mb-1 text-gray-600">Fin</p>
               <Image
                 src={user.image_nice_url || "/users/evil-rabbit.png"}
-                alt="Nice version"
+                alt="Fin version"
                 width={160}
                 height={160}
                 className="rounded-md border border-gray-300"
               />
             </div>
             <div className="flex flex-col items-center">
-              <p className="text-xs mb-1 text-gray-600">Chaotic</p>
+              <p className="text-xs mb-1 text-gray-600">Kaotisk</p>
               <Image
                 src={user.image_chaotic_url || "/users/evil-rabbit.png"}
-                alt="Chaotic version"
+                alt="Kaotisk version"
                 width={160}
                 height={160}
                 className="rounded-md border border-gray-300"

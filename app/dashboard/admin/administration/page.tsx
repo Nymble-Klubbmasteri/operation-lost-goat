@@ -36,7 +36,8 @@ export default async function Page() {
       <div className="flex gap-4">
         <EditForm setting={sp!} />
         <EditForm setting={sn!} />
-        <ResetButton />
+        {/* Uncomment below when ready to launch */}
+        {/* <ResetButton /> */}
 
       </div>
     );
