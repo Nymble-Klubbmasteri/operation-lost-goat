@@ -533,7 +533,7 @@ export async function getTopList() {
         u.id, 
         u.nickname, 
         u.role,
-        COUNT(s.id) as streck_count
+        SUM(s.num_streck) as streck_count
       FROM 
         users u
       LEFT JOIN 
@@ -543,7 +543,7 @@ export async function getTopList() {
       GROUP BY 
         u.id, u.nickname
       ORDER BY 
-        streck_count DESC
+        streck_count ASC
       LIMIT 10
     `;
     //        COALESCE(SUM(s.amount), 0) as total_amount
@@ -619,7 +619,7 @@ export async function getTopListByYear() {
         u.id, 
         u.nickname, 
         u.role,
-        COUNT(s.id) as streck_count
+        SUM(s.num_streck) as streck_count
       FROM 
         users u
       LEFT JOIN 
@@ -629,7 +629,7 @@ export async function getTopListByYear() {
       GROUP BY 
         u.id, u.nickname
       ORDER BY 
-        streck_count DESC
+        streck_count ASC
       LIMIT 10
     `;
     //        COALESCE(SUM(s.amount), 0) as total_amount
@@ -653,7 +653,7 @@ export async function getTopListLast24Hours() {
         u.id, 
         u.nickname, 
         u.role,
-        COUNT(s.id) as streck_count
+        SUM(s.num_streck) as streck_count
       FROM 
         users u
       LEFT JOIN 
@@ -664,7 +664,7 @@ export async function getTopListLast24Hours() {
       GROUP BY 
         u.id, u.nickname
       ORDER BY 
-        streck_count DESC
+        streck_count ASC
     `;
 
     return result.rows;

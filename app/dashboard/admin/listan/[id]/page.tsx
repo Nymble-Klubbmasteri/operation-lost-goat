@@ -1,11 +1,12 @@
-import Form from '@/app/ui/admin/users/edit-form';
-import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchUserById, fetchUserLogs, fetchUserStrecks } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 import { lusitana } from '@/app/ui/fonts';
- 
+import { removeStreck } from '@/app/lib/actions';
+import { DeleteStreckButton } from '@/app/ui/admin/accounting/buttons';
+
+
 export const metadata: Metadata = {
   title: 'User Balance Logs',
 };
@@ -78,17 +79,22 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </tr>
             </thead>
             <tbody>
-                {combined.map((entry) => (
-                <tr key={entry.id}>
-                    <td className="px-4 py-2 border">{entry.time.toLocaleDateString()}</td>
-                    <td className="px-4 py-2 border">{entry.type}</td>
-                    <td className="px-4 py-2 border">{entry.message}</td>
-                    <td className={`px-4 py-2 border ${entry.amount < 0 ? 'text-red-600' : 'text-green-600'}`}>
-                    {entry.amount > 0 ? '+' : ''}{entry.amount} kr
-                    </td>
-                    <td className="px-4 py-2 border">{entry.admin ?? '-'}</td>
-                </tr>
-                ))}
+            {combined.map((entry) => (
+              <tr key={entry.id}>
+                <td className="px-4 py-2 border">{entry.time.toLocaleDateString()}</td>
+                <td className="px-4 py-2 border">{entry.type}</td>
+                <td className="px-4 py-2 border">{entry.message}</td>
+                <td className={`px-4 py-2 border ${entry.amount < 0 ? 'text-red-600' : 'text-green-600'}`}>
+                  {entry.amount > 0 ? '+' : ''}{entry.amount} kr
+                </td>
+                <td className="px-4 py-2 border">
+                  {entry.admin ?? '-'}
+                  {entry.type === 'Streck' && (
+                    <DeleteStreckButton id={entry.id}/>
+                  )}
+                </td>
+              </tr>
+            ))}
             </tbody>
         </table>
       </main>

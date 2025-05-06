@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { updateBalance } from '@/app/lib/actions'; // adjust path if needed
+import { removeStreck, updateBalance } from '@/app/lib/actions'; // adjust path if needed
 import { useSession } from 'next-auth/react'; // if you're using next-auth
-import { PencilIcon } from '@heroicons/react/24/outline';
+import { MinusIcon, PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { auth } from '@/auth';
 import toast from 'react-hot-toast';
 
@@ -13,7 +13,7 @@ export function AdjustBalanceButton({ userId, adminId }: { userId: string, admin
 
   async function handleUpdate() {
     if (!adminId) {
-      toast.error('Ingen adminsessions hittades!'); // prettier error
+      toast.error('Ingen admin session hittades!'); // prettier error
       return;
     }
 
@@ -43,7 +43,7 @@ export function AdjustBalanceButton({ userId, adminId }: { userId: string, admin
         onClick={() => setOpen(true)}
         className="rounded-md border p-2 hover:bg-gray-100"
       >
-        <PencilIcon className="w-5" />
+        <PlusIcon className="w-5" />
       </button>
       {open && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30">
@@ -74,5 +74,17 @@ export function AdjustBalanceButton({ userId, adminId }: { userId: string, admin
         </div>
       )}
     </>
+  );
+}
+
+export function DeleteStreckButton({ id , user_id}: { id: string, user_id: string }) {
+  const deleteStreckWithID = removeStreck.bind(null, id, user_id);  
+  return (
+    <form action={deleteStreckWithID}>
+      <button className="rounded-md border p-2 hover:bg-gray-100">
+        <span className="sr-only">Ta bort streck</span>
+        <MinusIcon className="w-5" />
+      </button>
+    </form>
   );
 }

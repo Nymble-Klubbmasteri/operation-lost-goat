@@ -13,7 +13,7 @@ import { randomUUID } from 'crypto';
 import { getGCSClient } from './gcs';
 import sharp from 'sharp';
 import { getStreckPrice } from './data';
-import { User } from './definitions';
+import { Streck, User } from './definitions';
 
 
 const bucketName = process.env.GCS_BUCKET_NAME!;
@@ -680,12 +680,10 @@ export async function strecka(id: string, num_streck: number) {
       SET balance = balance - ${deduction} 
       WHERE id = ${id}`;
 
-      for (let index = 0; index < num_streck; index++) {       
-        sql`
-          INSERT INTO streck (user_id, amount)
-          VALUES (${id}, ${deduction})
+      await sql`
+          INSERT INTO streck (user_id, amount, num_streck)
+          VALUES (${id}, ${deduction}, ${num_streck})
         `;
-      }
       revalidatePath('/dasboard');
     }
   } catch (error) {
@@ -780,8 +778,11 @@ export async function resetStrecklistaPermanent() {
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         user_id UUID NOT NULL,
         time DATE DEFAULT NOW(),
+        num_streck INT,
         amount INT
-      );
+      )
+    `;
+    await sql`
       UPDATE users
       SET
         balance = 0
@@ -791,6 +792,7 @@ export async function resetStrecklistaPermanent() {
     CREATE TABLE IF NOT EXISTS logs(
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       user_id UUID NOT NULL,
+      admin_id UUID NOT NULL,
       type TEXT,
       value TEXT,
       time DATE DEFAULT NOW()
@@ -813,10 +815,10 @@ export async function updateBalance(user_id: string, admin_id: string, diff: str
         id = ${user_id}
     `;
     let old_balance = Number((res.rows[0].balance));
-    console.log("old balance:", old_balance);
+    // console.log("old balance:", old_balance);
     let difff = Number(diff);
     let new_balance = old_balance + difff;
-    console.log("new balance:", new_balance);
+    // console.log("new balance:", new_balance);
     await sql`
       UPDATE
         users
@@ -842,6 +844,31 @@ export async function updateBalance(user_id: string, admin_id: string, diff: str
     `;
 
   } catch (error) {
-    console.error("Error updating balance of user with id:", user_id);
+    console.error("Error updating balance of user with id:", user_id, "error:", error);
   }
+}
+
+export async function removeStreck(streck_id: string, user_id: string) {
+  try {
+    let streck = await sql<Streck>`
+    SELECT *
+    FROM streck
+    WHERE id = ${streck_id}
+    `;
+
+    const amount = streck.rows[0].amount;
+    const user_id = streck.rows[0].user_id;
+    await sql`
+    UPDATE users
+    SET balance = balance + ${amount} 
+    WHERE id = ${user_id}`;
+
+    await sql`
+    DELETE FROM streck WHERE id = ${streck_id}
+    `;
+  } catch (error) {
+    console.error("Error removing streck with id:", streck_id, "error:", error);
+  }
+
+  revalidatePath(`/dashboard/admin/listan/${user_id}`)
 }

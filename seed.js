@@ -32,6 +32,7 @@ async function seedStreck(client) {
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         user_id UUID NOT NULL,
         time DATE DEFAULT NOW(),
+        num_streck INT,
         amount INT
       );
     `;

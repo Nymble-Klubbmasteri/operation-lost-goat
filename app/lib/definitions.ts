@@ -47,6 +47,7 @@ export type Streck = {
   id: string;
   user_id: string;
   amount: number;
+  num_streck: number;
   date: Date;
 };
 
