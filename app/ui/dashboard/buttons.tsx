@@ -80,8 +80,8 @@ export function Strecka({ id, role }: { id: string, role: string}) {
                     id="amount"
                     name="amount"
                     type="number"
-                    min="1"
-                    max="10"
+                    placeholder="1"
+                    max="1000"
                     value={amount}
                     onChange={handleAmountChange}
                     className="w-16 text-center border-t border-b border-gray-300 py-1"

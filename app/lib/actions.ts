@@ -661,19 +661,27 @@ export async function strecka(id: string, num_streck: number) {
     if (num_streck < 1) {
       revalidatePath('/dashboard');
     } else {
-      for (let index = 0; index < num_streck; index++) {
-        const result = await sql`SELECT balance FROM users WHERE id = ${id}`;
-        const balance = result.rows[0]?.balance ?? 0;
-    
-        // Determine the deduction amount
-        const deduction = balance < 0 ? spv + 5 : spv;
-    
-        // Update the balance
-        await sql`
-          UPDATE users 
-          SET balance = balance - ${deduction} 
-          WHERE id = ${id}`;
-        await sql`
+      const result = await sql`SELECT balance FROM users WHERE id = ${id}`;
+      const balance = result.rows[0]?.balance ?? 0;
+
+      // Determine the deduction amount
+      let deduction = num_streck*spv;
+      if (balance < 0){
+        deduction += num_streck*5;
+      }
+      else if(balance - deduction < -1*spv){
+        const new_num = (((balance-(balance%spv))/spv)+1)
+        deduction += 5*(num_streck-new_num);
+      }
+
+      // Update the balance
+      await sql`
+      UPDATE users 
+      SET balance = balance - ${deduction} 
+      WHERE id = ${id}`;
+
+      for (let index = 0; index < num_streck; index++) {       
+        sql`
           INSERT INTO streck (user_id, amount)
           VALUES (${id}, ${deduction})
         `;
