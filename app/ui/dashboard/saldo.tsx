@@ -14,10 +14,10 @@ export default async function SaldoBox({ id, role }: { id: string, role: string}
     );
   }
 
-  if (role === "Killing" || role === "Inaktiv") {
+  if (role === "Killing" || role === "Inaktiv" || role === "Utesluten") {
     return (
       <div>
-        Killingar har inget saldo...
+        
       </div>
     )
   }

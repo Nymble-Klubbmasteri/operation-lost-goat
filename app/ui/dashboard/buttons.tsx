@@ -18,10 +18,10 @@ export function Strecka({ id, role }: { id: string, role: string}) {
     return strecka(id, parseInt(streckAmount));
   };
 
-  if (role === "Killing" || role === "Inaktiv") {
+  if (role === "Killing" || role === "Inaktiv" || role === "Utesluten") {
     return (
       <div>
-        Du har inte rätt att strecka
+        Du får tyvärr inte strecka. Skill Issue
       </div>
     )
   }
