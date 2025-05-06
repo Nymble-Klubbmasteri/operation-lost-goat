@@ -90,7 +90,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <td className="px-4 py-2 border">
                   {entry.admin ?? '-'}
                   {entry.type === 'Streck' && (
-                    <DeleteStreckButton id={entry.id}/>
+                    <DeleteStreckButton id={entry.id} user_id={id}/>
                   )}
                 </td>
               </tr>
