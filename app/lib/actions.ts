@@ -417,7 +417,7 @@ export async function updateUser(
   redirect('/dashboard/admin/users');
 }
 
-const UpdateProfile = UserFormSchema.omit({id: true, balance: true, role: true, admin: true, title: true})
+const UpdateProfile = UserFormSchema.omit({id: true, balance: true, role: true, admin: true, title: true, priority: true})
 export async function updateProfile(
   id: string,
   prevState: UserState,
