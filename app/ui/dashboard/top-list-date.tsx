@@ -4,7 +4,7 @@ import { fetchBalanceByID, getTopList, getTopListByYear, getTopListLast24Hours }
 
 
 export default async function TopListByDate() {
-  const top_list = await getTopListLast24Hours();
+  var top_list = await getTopListLast24Hours();
   const tl_length = top_list.length;
   
 

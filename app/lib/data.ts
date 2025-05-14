@@ -543,7 +543,7 @@ export async function getTopList() {
       GROUP BY 
         u.id, u.nickname
       ORDER BY 
-        streck_count ASC
+        streck_count DESC
       LIMIT 10
     `;
     //        COALESCE(SUM(s.amount), 0) as total_amount
@@ -629,7 +629,7 @@ export async function getTopListByYear() {
       GROUP BY 
         u.id, u.nickname
       ORDER BY 
-        streck_count ASC
+        streck_count DESC
       LIMIT 10
     `;
     //        COALESCE(SUM(s.amount), 0) as total_amount
@@ -664,7 +664,7 @@ export async function getTopListLast24Hours() {
       GROUP BY 
         u.id, u.nickname
       ORDER BY 
-        streck_count ASC
+        streck_count DESC
     `;
 
     return result.rows;
