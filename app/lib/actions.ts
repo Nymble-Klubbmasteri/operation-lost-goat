@@ -534,7 +534,7 @@ export async function updateProfile(
     return { message: 'Database Error: Failed to Update User' };
   }
   revalidatePath('/dashboard/profile');
-  redirect('/dashboard/profile');
+  return { message: 'Profilen uppdaterades!' };
 }
 
 const UpdateEvent = EventFormSchema.omit({id: true, workers: true})

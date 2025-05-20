@@ -55,7 +55,14 @@ export default function EditProfileForm({
 
 
  
-  return <form action={dispatch}>
+  return (
+    <>
+      {state?.message && (
+        <div className="mb-4 rounded-md bg-green-100 p-4 text-sm text-green-800 border border-green-300">
+          {state.message}
+        </div>
+      )}
+      <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* User Name */}
         <div className="mb-4">
@@ -265,6 +272,8 @@ export default function EditProfileForm({
         <Button type="submit">Spara ändringar</Button>
       </div>
     </form>
+    </>
+  );
 }
 
 

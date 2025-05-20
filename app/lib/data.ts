@@ -533,7 +533,7 @@ export async function getTopList() {
         u.id, 
         u.nickname, 
         u.role,
-        SUM(s.num_streck) as streck_count
+        COALESCE(SUM(s.num_streck), 0) as streck_count
       FROM 
         users u
       LEFT JOIN 
@@ -541,13 +541,14 @@ export async function getTopList() {
       WHERE
         u.role = 'Marskalk' OR u.role = 'WraQ' OR u.role = 'Qnekt'
       GROUP BY 
-        u.id, u.nickname
+        u.id, u.nickname, u.role
+      HAVING 
+        COALESCE(SUM(s.num_streck), 0) > 0
       ORDER BY 
         streck_count DESC
       LIMIT 10
     `;
     //        COALESCE(SUM(s.amount), 0) as total_amount
-
 
     // console.log(result.rows);
     return result.rows;
@@ -619,7 +620,7 @@ export async function getTopListByYear() {
         u.id, 
         u.nickname, 
         u.role,
-        SUM(s.num_streck) as streck_count
+        COALESCE(SUM(s.num_streck), 0) as streck_count
       FROM 
         users u
       LEFT JOIN 
@@ -628,6 +629,8 @@ export async function getTopListByYear() {
         u.role = 'Marskalk' OR u.role = 'WraQ' OR u.role = 'Qnekt' AND s.time > ${current_year}
       GROUP BY 
         u.id, u.nickname
+      HAVING 
+        COALESCE(SUM(s.num_streck), 0) > 0
       ORDER BY 
         streck_count DESC
       LIMIT 10
@@ -653,7 +656,7 @@ export async function getTopListLast24Hours() {
         u.id, 
         u.nickname, 
         u.role,
-        SUM(s.num_streck) as streck_count
+        COALESCE(SUM(s.num_streck), 0) as streck_count
       FROM 
         users u
       LEFT JOIN 
@@ -663,6 +666,8 @@ export async function getTopListLast24Hours() {
         AND s.time > ${twentyFourHoursAgo}
       GROUP BY 
         u.id, u.nickname
+      HAVING 
+        COALESCE(SUM(s.num_streck), 0) > 0
       ORDER BY 
         streck_count DESC
     `;
