@@ -25,18 +25,18 @@ export default async function UsersTable({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+        <div className="rounded-lg bg-surface-light dark:bg-surface-dark p-2 md:pt-0">
           <div className="md:hidden">
             {users?.map((user) => (
               <div
                 key={user.id}
-                className="mb-2 w-full rounded-md bg-white p-4"
+                className="mb-2 w-full rounded-md bg-white dark:bg-gray-800 p-4"
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div className="mb-2 flex items-center">
                     <p>{user.name}</p>
                   </div>
-                  <p className="text-sm text-gray-500">{user.email}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{user.email}</p>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
@@ -55,7 +55,7 @@ export default async function UsersTable({
               </div>
             ))}
           </div>
-          <table className="hidden min-w-full text-gray-900 md:table">
+          <table className="hidden min-w-full text-gray-900 dark:text-gray-100 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
@@ -78,7 +78,7 @@ export default async function UsersTable({
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white">
+            <tbody className="bg-white dark:bg-gray-800">
               {users?.map((user) => (
                 <tr
                   key={user.id}

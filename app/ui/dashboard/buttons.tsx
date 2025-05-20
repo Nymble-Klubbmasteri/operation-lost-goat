@@ -60,19 +60,19 @@ export function Strecka({ id, role }: { id: string, role: string}) {
       {/* Confirmation Modal with Form */}
       {showConfirmation && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+          <div className="bg-surface-light dark:bg-surface-dark p-6 rounded-lg shadow-lg max-w-sm w-full">
             <h3 className="text-lg font-bold mb-4">Bekräfta streckning</h3>
             
             <form action={handleStrecka}>
               <div className="mb-4">
-                <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="amount" className="block text-sm font-medium text-text-light dark:text-text-dark mb-1">
                   Antal streck:
                 </label>
                 <div className="flex items-center">
                   <button 
                     type="button"
                     onClick={() => setAmount(prev => Math.max(0, prev - 1))}
-                    className="px-3 py-1 bg-gray-200 rounded-l-md"
+                    className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-l-md"
                   >
                     -
                   </button>
@@ -84,12 +84,12 @@ export function Strecka({ id, role }: { id: string, role: string}) {
                     max="1000"
                     value={amount}
                     onChange={handleAmountChange}
-                    className="w-16 text-center border-t border-b border-gray-300 py-1"
+                    className="w-16 text-center border-t border-b border-gray-300 dark:border-gray-600 py-1"
                   />
                   <button 
                     type="button"
                     onClick={() => setAmount(prev => Math.min(1000, prev + 1))}
-                    className="px-3 py-1 bg-gray-200 rounded-r-md"
+                    className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-r-md"
                   >
                     +
                   </button>
@@ -102,7 +102,7 @@ export function Strecka({ id, role }: { id: string, role: string}) {
                 <button 
                   type="button"
                   onClick={handleCancel}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-600"
                 >
                   Avbryt
                 </button>

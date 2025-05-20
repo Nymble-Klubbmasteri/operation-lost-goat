@@ -15,18 +15,18 @@ export default async function TopListByDate() {
           <h2 className="text-xl font-bold mb-4">High Score Senaste 24 Timmar</h2>
           
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Namn</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Antal Streck</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Roll</th>
+            <table className="min-w-full bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 shadow-md rounded-lg">
+              <thead className="bg-surface-light dark:bg-surface-dark">
+                <tr className="border-b border-gray-400 dark:border-gray-500">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-text-light dark:text-text-dark uppercase tracking-wider">Namn</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-text-light dark:text-text-dark uppercase tracking-wider">Antal Streck</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-text-light dark:text-text-dark uppercase tracking-wider">Roll</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody>
                 {tl_length > 0 ? (
                   top_list.map((user) => (
-                    <tr key={user.id} className="hover:bg-gray-50">
+                    <tr key={user.id} className="border-t border-gray-300 dark:border-gray-600 first:border-t-0 bg-surface-light dark:bg-surface-dark hover:bg-surface-light dark:hover:bg-gray-700">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <span>{user.nickname}</span>
@@ -38,7 +38,7 @@ export default async function TopListByDate() {
                   ))
                 ) : (
                   <tr>
-                    <td className="px-6 py-4 text-center text-gray-500">
+                    <td className="px-6 py-4 text-center text-text-light dark:text-text-dark">
                       No streck data found
                     </td>
                   </tr>

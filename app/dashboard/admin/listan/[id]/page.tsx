@@ -66,10 +66,10 @@ export default async function Page({ params }: { params: { id: string } }) {
       combined.sort((a, b) => b.time.getTime() - a.time.getTime());
   
     return (
-      <main className="p-4">
+      <main className="p-4 bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">
         <h2 className="text-xl font-semibold mt-4 mb-2">Saldohistorik</h2>
         <table className="min-w-full text-left border">
-            <thead className="bg-gray-100">
+            <thead className="bg-surface-light dark:bg-surface-dark">
                 <tr>
                 <th className="px-4 py-2 border">Datum</th>
                 <th className="px-4 py-2 border">Typ</th>
@@ -80,11 +80,11 @@ export default async function Page({ params }: { params: { id: string } }) {
             </thead>
             <tbody>
             {combined.map((entry) => (
-              <tr key={entry.id}>
+              <tr key={entry.id} className="bg-white dark:bg-gray-800">
                 <td className="px-4 py-2 border">{entry.time.toLocaleDateString()}</td>
                 <td className="px-4 py-2 border">{entry.type}</td>
                 <td className="px-4 py-2 border">{entry.message}</td>
-                <td className={`px-4 py-2 border ${entry.amount < 0 ? 'text-red-600' : 'text-green-600'}`}>
+                <td className={`px-4 py-2 border ${entry.amount < 0 ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>
                   {entry.amount > 0 ? '+' : ''}{entry.amount} kr
                 </td>
                 <td className="px-4 py-2 border">

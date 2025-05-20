@@ -15,10 +15,10 @@ export default function Error({
   }, [error]);
  
   return (
-    <main className="flex h-full flex-col items-center justify-center">
+    <main className="flex h-full flex-col items-center justify-center bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">
       <h2 className="text-center">Something went wrong!</h2>
       <button
-        className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
+        className="mt-4 rounded-md bg-blue-500 dark:bg-blue-600 px-4 py-2 text-sm text-white dark:text-gray-100 transition-colors hover:bg-blue-400 dark:hover:bg-blue-500"
         onClick={
           // Attempt to recover by trying to re-render the events route
           () => reset()

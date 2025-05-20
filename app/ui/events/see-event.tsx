@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { EventForm, UserField } from '@/app/lib/definitions';
 import { useFormState } from 'react-dom';
@@ -17,30 +16,30 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
     // console.log("worker names: ", workers);
     
     return (
-        <div className="rounded-md bg-gray-50 p-6">
+        <div className="rounded-md bg-surface-light dark:bg-surface-dark p-6 text-text-light dark:text-text-dark">
             {/* Event Name */}
             <h1 className="text-xl font-bold">{event.name}</h1>
-            <p className="text-sm text-gray-600">{event.notes}</p>
+            <p className="text-sm text-text-light dark:text-text-dark">{event.notes}</p>
 
             {/* Event Date */}
             <div className="mt-4 flex items-center">
-                <CalendarIcon className="h-5 w-5 text-gray-500 mr-2" />
+                <CalendarIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 mr-2" />
                 <p>{new Date(event.date).toLocaleDateString()}</p>
             </div>
 
             {/* Event Time */}
             <div className="mt-2 flex items-center">
-                <ClockIcon className="h-5 w-5 text-gray-500 mr-2" />
+                <ClockIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 mr-2" />
                 <p>Jobbtider: {event.start_work_time} - {event.end_work_time}</p>
             </div>
             <div className="mt-2 flex items-center">
-                <ClockIcon className="h-5 w-5 text-gray-500 mr-2" />
+                <ClockIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 mr-2" />
                 <p>Eventtider: {event.start_event_time} - {event.end_event_time}</p>
             </div>
 
             {/* Number of Workers */}
             <div className="mt-4 flex items-center">
-                <UsersIcon className="h-5 w-5 text-gray-500 mr-2" />
+                <UsersIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 mr-2" />
                 <p>{(event.workers ?? []).length}/{event.sought_workers} uppskrivna</p>
             </div>
 
@@ -59,7 +58,7 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
             {/* Signed up */}
             <div className="mt-4">
             <div className="flex items-center mb-2">
-                <UsersIcon className="h-5 w-5 text-gray-500 mr-2" />
+                <UsersIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 mr-2" />
                 <span>Uppskrivna:</span>
             </div>
             <div className="flex flex-col gap-1">
@@ -71,21 +70,21 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
 
             {/* Sign Up / Remove Button */}
             <div className="mt-6">
-                <div className="flex justify-end gap-3">
+                <div className="flex justify-end gap-4 [&>*]:px-6 [&>*]:py-3 [&>*]:text-lg [&>*]:rounded-lg">
                     {new Date(event.date) > new Date() && event.workers.length < event.sought_workers && !event.workers.includes(user_id) && (
-                    <SignUp event_id={event_id} user_id={user_id} />
+                    <SignUp event_id={event_id} user_id={user_id} className="w-40 h-12 text-lg" />
                     )}
 
                     {new Date(event.date).getTime() - new Date().getTime() > 3 * 24 * 60 * 60 * 1000 && 
                     event.workers.includes(user_id) && (
-                        <Remove event_id={event_id} user_id={user_id} />
+                        <Remove event_id={event_id} user_id={user_id} className="w-40 h-12 text-lg" />
                     )}
                 </div>
             </div>
 
             {/* Back to Events */}
             <div className="mt-6">
-                <Link href="/dashboard/events" className="text-blue-600 hover:underline">
+                <Link href="/dashboard/events" className="text-blue-600 dark:text-blue-400 hover:underline">
                     Tillbaka till evenemang
                 </Link>
             </div>

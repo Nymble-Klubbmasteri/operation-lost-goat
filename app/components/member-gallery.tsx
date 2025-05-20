@@ -7,13 +7,13 @@ import placeholder_image from '@/public/users/evil-rabbit.png';
 
 export default function MemberGallery({ members }: { members: DisplayUser[] }) {
   if (members.length === 0) {
-    return <div className="text-center p-8 text-gray-500">No members found for this role.</div>;
+    return <div className="text-center p-8 text-text-light dark:text-text-dark">No members found for this role.</div>;
   }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {members.map((member) => (
-        <div key={member.name} className="group bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+        <div key={member.name} className="group bg-surface-light dark:bg-surface-dark rounded-lg shadow-md overflow-hidden transition-all duration-300">
           <div className="aspect-square relative overflow-hidden">
             {/* Nice image */}
             {/* <Image
@@ -48,14 +48,14 @@ export default function MemberGallery({ members }: { members: DisplayUser[] }) {
           {/* Normal (non-hovered) content */}
           <div className="p-4 group-hover:hidden">
             <h2 className="text-lg font-semibold text-center mb-2">{member.name}</h2>
-            <p className="text-center text-sm text-gray-500">{member.title || 'Medlem'}</p>
+            <p className="text-center text-sm text-text-light dark:text-text-dark">{member.title || 'Medlem'}</p>
           </div>
 
           {/* Hovered content */}
           <div className="p-4 hidden group-hover:block text-center">
             <h2 className="text-lg font-semibold mb-2">{member.nickname || member.name}</h2>
-            <p className="text-sm text-gray-500">Gillar: {member.likes || 'Öl & Fernet'}</p>
-            <p className="text-sm text-gray-500">Ogillar: {member.dislikes || 'Kommando Bajs'}</p>
+            <p className="text-sm text-text-light dark:text-text-dark">Gillar: {member.likes || 'Öl & Fernet'}</p>
+            <p className="text-sm text-text-light dark:text-text-dark">Ogillar: {member.dislikes || 'Kommando Bajs'}</p>
           </div>
         </div>
       ))}

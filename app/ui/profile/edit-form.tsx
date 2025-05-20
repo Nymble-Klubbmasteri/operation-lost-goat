@@ -63,7 +63,7 @@ export default function EditProfileForm({
         </div>
       )}
       <form action={dispatch}>
-      <div className="rounded-md bg-gray-50 p-4 md:p-6">
+      <div className="rounded-md bg-surface-light dark:bg-surface-dark p-4 md:p-6">
         {/* User Name */}
         <div className="mb-4">
           <label htmlFor="name" className="mb-2 block text-sm font-medium">
@@ -77,9 +77,9 @@ export default function EditProfileForm({
                 type="text"
                 defaultValue={user.name}
                 placeholder="Enter new users name"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 outline-2"
               />
-              <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-text-dark peer-focus:text-text-light dark:peer-focus:text-text-dark" />
             </div>
           </div>
         </div>
@@ -97,9 +97,9 @@ export default function EditProfileForm({
                 type="text"
                 defaultValue={user.nickname}
                 placeholder="Enter users nickname"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 outline-2"
               />
-              <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-text-dark peer-focus:text-text-light dark:peer-focus:text-text-dark" />
             </div>
           </div>
         </div>
@@ -117,9 +117,9 @@ export default function EditProfileForm({
                 type="text"
                 defaultValue={user.email}
                 placeholder="Enter users email"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 outline-2"
               />
-              <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-text-dark peer-focus:text-text-light dark:peer-focus:text-text-dark" />
             </div>
           </div>
         </div>
@@ -137,11 +137,11 @@ export default function EditProfileForm({
                         type="password"
                         defaultValue={user.password}
                         placeholder="lösenord"
-                        className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                        className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 outline-2"
                         aria-describedby='password-error'
                         minLength={6}
                     />
-                    <LockClosedIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+                    <LockClosedIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-text-dark" />
                 </div>
                 {/* <div id="password-error" aria-live="polite" aria-atomic="true">
                 {state.errors?.password &&
@@ -167,9 +167,9 @@ export default function EditProfileForm({
                 type="text"
                 defaultValue={user.likes}
                 placeholder="Vad gillar du?"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 outline-2"
               />
-              <HandThumbUpIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <HandThumbUpIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-text-dark peer-focus:text-text-light dark:peer-focus:text-text-dark" />
             </div>
           </div>
         </div>
@@ -187,35 +187,35 @@ export default function EditProfileForm({
                 type="text"
                 defaultValue={user.dislikes}
                 placeholder="Vad ogillar du?"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 outline-2"
               />
-              <HandThumbDownIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <HandThumbDownIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-text-dark peer-focus:text-text-light dark:peer-focus:text-text-dark" />
             </div>
           </div>
         </div>
 
         {/* Profile Images */}
         <div className="mb-4">
-          <h2 className="mb-2 block text-sm font-medium">Dina Profilbilder</h2>
+          <h2 className="mb-2 block text-sm font-medium text-text-light dark:text-text-dark">Dina Profilbilder</h2>
           <div className="flex gap-4">
             <div className="flex flex-col items-center">
-              <p className="text-xs mb-1 text-gray-600">Fin</p>
+              <p className="text-xs mb-1 text-text-light dark:text-text-dark">Fin</p>
               <Image
                 src={user.image_nice_url || "/users/evil-rabbit.png"}
                 alt="Fin version"
                 width={160}
                 height={160}
-                className="rounded-md border border-gray-300"
+                className="rounded-md border border-gray-300 dark:border-gray-600"
               />
             </div>
             <div className="flex flex-col items-center">
-              <p className="text-xs mb-1 text-gray-600">Kaotisk</p>
+              <p className="text-xs mb-1 text-text-light dark:text-text-dark">Kaotisk</p>
               <Image
                 src={user.image_chaotic_url || "/users/evil-rabbit.png"}
                 alt="Kaotisk version"
                 width={160}
                 height={160}
-                className="rounded-md border border-gray-300"
+                className="rounded-md border border-gray-300 dark:border-gray-600"
               />
             </div>
           </div>
@@ -223,17 +223,17 @@ export default function EditProfileForm({
 
         {/* Upload New Images */}
         <div className="mb-4">
-          <h2 className="mb-2 block text-sm font-medium">Ladda upp nya profilbilder</h2>
+          <h2 className="mb-2 block text-sm font-medium text-text-light dark:text-text-dark">Ladda upp nya profilbilder</h2>
           <div className="flex gap-4">
             {/* Nice image upload */}
             <div className="flex flex-col items-center">
-              <label className="text-xs mb-1 text-gray-600">Fin</label>
+              <label className="text-xs mb-1 text-text-light dark:text-text-dark">Fin</label>
               <Image
                 src={nicePreview}
                 alt="Nice preview"
                 width={80}
                 height={80}
-                className="rounded-md border border-gray-300"
+                className="rounded-md border border-gray-300 dark:border-gray-600"
               />
               <input
                 id="image_nice"
@@ -247,13 +247,13 @@ export default function EditProfileForm({
 
             {/* Chaotic image upload */}
             <div className="flex flex-col items-center">
-              <label className="text-xs mb-1 text-gray-600">Kaotisk</label>
+              <label className="text-xs mb-1 text-text-light dark:text-text-dark">Kaotisk</label>
               <Image
                 src={chaoticPreview}
                 alt="Chaotic preview"
                 width={80}
                 height={80}
-                className="rounded-md border border-gray-300"
+                className="rounded-md border border-gray-300 dark:border-gray-600"
               />
               <input
                 id="image_chaotic"

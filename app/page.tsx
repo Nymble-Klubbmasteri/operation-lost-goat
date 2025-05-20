@@ -12,17 +12,17 @@ export default async function Page() {
 
   return (
     <main className="flex min-h-screen flex-col p-6">
-      <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
+      <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 dark:bg-blue-900 p-4 md:h-52">
         <NKMLogo />
       </div>
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-        <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
-          <p className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}>
+        <div className="flex flex-col justify-center gap-6 rounded-lg bg-surface-light dark:bg-surface-dark px-6 py-10 md:w-2/5 md:px-20">
+          <p className={`${lusitana.className} text-xl text-text-light dark:text-text-dark md:text-3xl md:leading-normal`}>
             <strong>Välkommen till NKMs nya hemsida</strong>, utvecklad av Weebmästare Dadde.
           </p>
 
           {upcoming && (
-            <div className="rounded bg-blue-100 p-4 text-sm text-blue-900">
+            <div className="rounded bg-blue-100 dark:bg-blue-900 p-4 text-sm text-blue-900 dark:text-blue-100">
               <p className="font-semibold">Nästa event:</p>
               <p>{upcoming.name}</p>
               <p>{new Date(upcoming.date).toLocaleDateString('sv-SE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
@@ -32,7 +32,7 @@ export default async function Page() {
           <div className="flex flex-col gap-4 sm:flex-row">
             <Link
               href="/login"
-              className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
+              className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 dark:bg-blue-600 dark:hover:bg-blue-500 md:text-base"
             >
               <span>Logga in</span> <ArrowRightIcon className="w-5 md:w-6" />
             </Link>
@@ -43,7 +43,7 @@ export default async function Page() {
               <span>Medlemmar</span> <UserGroupIcon className="w-5 md:w-6" />
             </Link>
           </div>
-          <div className="mt-6 rounded-lg bg-gray-100 p-4 text-sm text-gray-700">
+          <div className="mt-6 rounded-lg bg-surface-light dark:bg-surface-dark p-4 text-sm text-text-light dark:text-text-dark">
             Vill du kontakta Nymble Klubbmästeri? Då kan du maila vårt klubbmästarpar på: 
             <a href="mailto:kbm@ths.kth.se" className="text-blue-600 hover:underline ml-1">kbm@ths.kth.se</a>
           </div>

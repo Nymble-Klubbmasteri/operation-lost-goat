@@ -19,7 +19,7 @@ export function UpdateEvent({ id }: { id: string }) {
   return (
     <Link
       href={`/dashboard/admin/events/${id}/edit`}
-      className="rounded-md border p-2 hover:bg-gray-100"
+      className="rounded-md border p-2 hover:bg-gray-100  border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 text-gray-900 dark:text-gray-100 dark:hover:bg-gray-700"
     >
       <PencilIcon className="w-5" />
     </Link>
@@ -30,7 +30,7 @@ export function DeleteEvent({ id }: { id: string }) {
   const deleteEventWithID = deleteEvent.bind(null, id);  
   return (
     <form action={deleteEventWithID}>
-      <button className="rounded-md border p-2 hover:bg-gray-100">
+      <button className="flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
         <span className="sr-only">Ta bort event</span>
         <TrashIcon className="w-5" />
       </button>

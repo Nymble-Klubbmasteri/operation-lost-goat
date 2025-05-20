@@ -41,17 +41,17 @@ export function AdjustBalanceButton({ userId, adminId }: { userId: string, admin
     <>
       <button
         onClick={() => setOpen(true)}
-        className="rounded-md border p-2 hover:bg-gray-100"
+        className="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-2 hover:bg-gray-100 dark:hover:bg-gray-700"
       >
         <PlusIcon className="w-5" />
       </button>
       {open && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30">
-          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col gap-2">
+          <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-6 rounded-lg shadow-lg flex flex-col gap-2">
             <h2 className="text-lg font-semibold">Justera Saldo</h2>
             <input
               type="number"
-              className="border p-2"
+              className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-2"
               placeholder="Belopp"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -59,13 +59,13 @@ export function AdjustBalanceButton({ userId, adminId }: { userId: string, admin
             <div className="flex gap-2 mt-4">
               <button
                 onClick={handleUpdate}
-                className="bg-green-600 text-white px-4 py-2 rounded-md"
+                className="bg-green-600 dark:bg-green-700 hover:bg-green-500 dark:hover:bg-green-600 text-white px-4 py-2 rounded-md"
               >
                 Uppdatera
               </button>
               <button
                 onClick={() => setOpen(false)}
-                className="bg-gray-400 text-white px-4 py-2 rounded-md"
+                className="bg-gray-400 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-white px-4 py-2 rounded-md"
               >
                 Avbryt
               </button>
@@ -81,7 +81,7 @@ export function DeleteStreckButton({ id , user_id}: { id: string, user_id: strin
   const deleteStreckWithID = removeStreck.bind(null, id, user_id);  
   return (
     <form action={deleteStreckWithID}>
-      <button className="rounded-md border p-2 hover:bg-gray-100">
+      <button className="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-2 hover:bg-gray-100 dark:hover:bg-gray-700">
         <span className="sr-only">Ta bort streck</span>
         <MinusIcon className="w-5" />
       </button>

@@ -43,7 +43,7 @@ export default async function Page({
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">
       <div className="flex w-full items-center justify-between">
         <h1 className={`${lusitana.className} text-2xl`}>Användare</h1>
       </div>
