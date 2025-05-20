@@ -19,7 +19,7 @@ export function UpdateEvent({ id }: { id: string }) {
   return (
     <Link
       href={`/dashboard/admin/events/${id}/edit`}
-      className="rounded-md border p-2 hover:bg-gray-100  border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 text-gray-900 dark:text-gray-100 dark:hover:bg-gray-700"
+      className="rounded-md border p-2 hover:bg-gray-100  border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 dark:hover:bg-gray-700"
     >
       <PencilIcon className="w-5" />
     </Link>
