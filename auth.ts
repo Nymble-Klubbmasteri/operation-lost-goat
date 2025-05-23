@@ -66,13 +66,13 @@ export const { auth, signIn, signOut } = NextAuth({
               return user;
             } 
             else{
-              // console.log("Passwords do not match!");
+              console.log("Passwords do not match!");
             }
         } else {
-          // console.log("Parsed:", parsedCredentials.error);
+          console.log("Parsed:", parsedCredentials.error);
         }
 
-        // console.log('Invalid credentials');
+        console.log('Invalid credentials');
         return null;
       },
     }),

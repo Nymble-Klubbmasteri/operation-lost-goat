@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 const rolePages = [
   { name: 'Marskalkar', path: '/dashboard/members/marskalkar' },
   { name: 'Killingar', path: '/dashboard/members/killingar' },
-  { name: 'Wraq', path: '/dashboard/members/wraq' },
+  { name: 'WraQ', path: '/dashboard/members/wraq' },
   { name: 'Qnektar', path: '/dashboard/members/qnektar' },
 ];
 

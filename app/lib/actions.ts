@@ -185,7 +185,8 @@ export async function createUser(prevState: UserState, formData: FormData) {
   // console.log("hi! create_user 2");
 
   // Prepare Data for insertion into the database
-  const {name, email, balance, password, role, admin, title, nickname} = validatedFields.data;
+  var {name, email, balance, password, role, admin, title, nickname} = validatedFields.data;
+  email = email.toLocaleLowerCase();
   const hashedPassword = await bcrypt.hash(password, 10);
   // console.log("hi! create_user 3");
 

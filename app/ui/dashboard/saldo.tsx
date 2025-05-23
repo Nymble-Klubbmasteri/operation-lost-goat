@@ -27,7 +27,8 @@ export default async function SaldoBox({ id, role }: { id: string, role: string}
     // console.log("balance is...:", balance.balance);
   return (
     <div className="p-4 border rounded-lg shadow-md bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark w-64 text-center">
-      <p className="text-lg font-semibold">Strecka av dig till: {sn?.value ? sn.value : "Laddar..."}</p>
+      <p className="text-lg font-semibold">Strecka av dig till: </p>
+      <p className="text-lg font-semibold">{sn?.value ? sn.value : "Laddar..."}</p>
 
       <p className="text-lg font-semibold">Ditt Saldo:</p>
       <p className="text-xl font-bold mt-2">{balance.balance !== null ? `${balance.balance} kr` : "Laddar..."}</p>

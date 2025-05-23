@@ -8,7 +8,7 @@ const rolePages = [
   { name: 'Tillbaka', path: '/'},
   { name: 'Marskalkar', path: '/members/marskalkar' },
   { name: 'Killingar', path: '/members/killingar' },
-  { name: 'Wraq', path: '/members/wraq' },
+  { name: 'WraQ', path: '/members/wraq' },
   { name: 'Qnektar', path: '/members/qnektar' },
 ];
 
