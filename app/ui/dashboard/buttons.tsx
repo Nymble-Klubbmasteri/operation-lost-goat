@@ -15,7 +15,9 @@ export function Strecka({ id, role }: { id: string, role: string}) {
     const streckAmount = formData.get('amount') as string;
     // Call your strecka function with the user ID and amount
     setShowConfirmation(false);
-    return strecka(id, parseInt(streckAmount));
+    let sa = streckAmount;
+    setAmount(1);
+    return strecka(id, parseInt(sa));
   };
 
   if (role === "Killing" || role === "Inaktiv" || role === "Utesluten") {
