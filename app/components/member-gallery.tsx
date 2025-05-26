@@ -10,6 +10,10 @@ export default function MemberGallery({ members }: { members: DisplayUser[] }) {
     return <div className="text-center p-8 text-text-light dark:text-text-dark">No members found for this role.</div>;
   }
 
+  if (members[0].role === 'WraQ' || members[0].role === 'Qnekt') {
+    members.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {members.map((member) => (

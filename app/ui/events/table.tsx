@@ -11,10 +11,8 @@ export default async function EventsTable({
   query: string;
   currentPage: number;
 }) {
-  let events = await fetchFilteredEvents(query, currentPage);
   
   const session = await auth();
-
 
   if (!session?.user?.id) {
     console.log("Events Table User not found");
@@ -25,10 +23,12 @@ export default async function EventsTable({
     return null;
   }
 
+  let events = await fetchFilteredEvents(query, currentPage);
   // Filter events of type 3 unless the user is Marskalk or WraQ
-  if (session.user.role !== 'Marskalk' && session.user.role !== 'WraQ') {
-    events = events.filter((event) => event.type !== 3);
+  if ((session.user.role !== 'Marskalk' && session.user.role !== 'WraQ')) {
+    events = events.filter((event) => event.type == 3 && event.open == 1);
   }
+
 
   return (
     <div className="mt-6 flow-root">

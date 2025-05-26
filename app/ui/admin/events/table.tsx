@@ -11,6 +11,7 @@ export default async function EventsTable({
   currentPage: number;
 }) {
   const events = await fetchFilteredEvents(query, currentPage);
+  // console.log("events: ", events);
 
   return (
     <div className="mt-6 flow-root">

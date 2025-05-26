@@ -32,6 +32,8 @@ export default function EditEventForm({
   const initialState = { message: null, errors: {} };
   const updateEventWithId = updateEvent.bind(null, event.id);
   const [state, dispatch] = useFormState(updateEventWithId, initialState);
+
+//   console.log("event: ", event);
  
   return <form action={dispatch}>
       <div className="rounded-md bg-surface-light dark:bg-surface-dark p-4 md:p-6">
@@ -254,6 +256,28 @@ export default function EditEventForm({
                 </div>
             </div>
         </div>
+
+        {/* Open for all members toggle (only for Betalevent) */}
+        {event.type === 3 && (
+          <div className="mb-4">
+            <label htmlFor="open" className="mb-2 block text-sm font-medium">
+              Öppna för alla medlemmar
+            </label>
+            <div className="flex items-center">
+              <input
+                id="open"
+                name="open"
+                type="checkbox"
+                value={event.open || 1}
+                defaultChecked={event.open === 1}
+                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">Ja</span>
+            </div>
+            {/* Hidden input to ensure '0' is sent if checkbox is unchecked */}
+            <input type="hidden" name="open" value="0" />
+          </div>
+        )}
 
         {/* Event Date */}
         <div className="mb-4">

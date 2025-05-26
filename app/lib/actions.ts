@@ -74,6 +74,7 @@ export type EventState = {
     sought_workers?: string[];
     date?: string[],
     notes?: string[];
+    open?: string[];
   }
 }
  
@@ -121,7 +122,8 @@ const EventFormSchema = z.object({
   type: z.coerce.number(),
   date: z.string(),
   notes: z.string(),
-  workers: z.string().array()
+  workers: z.string().array(),
+  open: z.coerce.number()
 });
  
 const CreateInvoice = InvoiceFormSchema.omit({ id: true, date: true });
@@ -192,8 +194,8 @@ export async function createUser(prevState: UserState, formData: FormData) {
 
   try {
     await sql`
-      INSERT INTO users (name, email, password, balance, role, admin, title, nickname)
-      VALUES (${name}, ${email}, ${hashedPassword}, ${balance}, ${role}, ${admin}, ${title}, ${nickname})
+      INSERT INTO users (name, email, password, balance, role, admin, title, nickname, priority)
+      VALUES (${name}, ${email}, ${hashedPassword}, ${balance}, ${role}, ${admin}, ${title}, ${nickname}, 10)
     `;
   } catch (error) {
     console.error(error);
@@ -207,7 +209,7 @@ export async function createUser(prevState: UserState, formData: FormData) {
   redirect('/dashboard/admin/users');
 }
 
-const CreateEvent = EventFormSchema.omit({id: true, workers: true});
+const CreateEvent = EventFormSchema.omit({id: true, workers: true, open: true});
 export async function createEvent(prevState: EventState, formData: FormData) {
   const validatedFields = CreateEvent.safeParse({
     name: formData.get('name'),
@@ -325,6 +327,11 @@ export async function updateUser(
 
   var { name, email, balance, password, role, admin, nickname, title, priority } = validatedFields.data;
   email = email.toLowerCase();
+  if (priority) {
+
+  } else {
+    priority = 10;
+  }
 
   // Log balance updates:
   try {
@@ -556,7 +563,8 @@ export async function updateEvent(
     type: formData.get('type'),
     sought_workers: formData.get('sought_workers'),
     responsible: formData.get('responsible'),
-    notes: formData.get('notes')
+    notes: formData.get('notes'),
+    open: formData.get('open')
   });
 
 
@@ -569,7 +577,17 @@ export async function updateEvent(
   }
 
 
-  const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes } = validatedFields.data;
+  const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes, open } = validatedFields.data;
+  // run once
+  // try {
+  //   await sql`
+  //   ALTER TABLE events
+  //   ADD open INT
+  //   `;
+  // } catch (error) {
+  //   console.log("error altering table: ", error);
+  // }
+
   try {
     await sql`
       UPDATE events
@@ -584,7 +602,8 @@ export async function updateEvent(
         type = ${type},
         sought_workers = ${sought_workers},
         date = ${date},
-        notes = ${notes}
+        notes = ${notes},
+        open = ${open}
       WHERE id = ${id} 
     `;
 

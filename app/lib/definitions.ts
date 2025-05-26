@@ -41,6 +41,7 @@ export type Event = {
   date: Date;
   notes: string;
   workers: string[];
+  open: number;
 };
 
 export type Streck = {
@@ -139,6 +140,7 @@ export type EventsTable = {
   name: string;
   date: string;
   type: number;
+  open: number;
 }
 
 export type CustomerField = {
@@ -194,6 +196,7 @@ export type EventForm = {
   date: Date,
   notes: string;
   workers: string[];
+  open: number;
 };
 
 export type Setting = {

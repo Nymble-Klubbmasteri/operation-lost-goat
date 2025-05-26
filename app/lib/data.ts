@@ -232,7 +232,8 @@ export async function fetchEventById(id: string) {
         events.type,
         events.sought_workers,
         events.notes,
-        events.workers
+        events.workers,
+        events.open
       FROM events
       WHERE events.id = ${id};
     `;
@@ -480,7 +481,8 @@ export async function fetchFilteredEvents(
         events.id,
         events.name,
         events.date,
-        events.type
+        events.type,
+        events.open
       FROM events
       WHERE
         events.name ILIKE ${`%${query}%`}
@@ -495,6 +497,8 @@ export async function fetchFilteredEvents(
     throw new Error('Failed to fetch events.');
   }
 }
+
+
 
 export async function fetchBalanceByID(id: string) {
   noStore();
