@@ -21,6 +21,7 @@ export const formatDateToLocal = (
   return formatter.format(date);
 };
 
+//Från placeholder, har inte testat om man kan ta bort
 export const generateYAxis = (revenue: Revenue[]) => {
   // Calculate what labels we need to display on the y-axis
   // based on highest record and in 1000s

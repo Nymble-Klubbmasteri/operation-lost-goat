@@ -48,7 +48,7 @@ export default function MemberGallery({ members }: { members: DisplayUser[] }) {
           {/* Normal (non-hovered) content */}
           <div className="p-4 group-hover:hidden">
             <h2 className="text-lg font-semibold text-center mb-2">{member.name}</h2>
-            <p className="text-center text-sm text-text-light dark:text-text-dark">{member.title || 'Medlem'}</p>
+            <p className="text-center text-sm text-text-light dark:text-text-dark">{member.title || member.role}</p>
           </div>
 
           {/* Hovered content */}

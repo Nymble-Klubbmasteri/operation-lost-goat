@@ -371,6 +371,31 @@ export async function fetchUsersPages(query: string) {
   }
 }
 
+export async function fetchStreckUsersPages(query: string) {
+  noStore();
+  try {
+    const count = await 
+    sql`
+      SELECT COUNT(*)
+        FROM users
+        WHERE 
+          (users.email ILIKE ${`%${query}%`} OR
+          users.name ILIKE ${`%${query}%`} OR
+          users.balance::text ILIKE ${`%${query}%`}) AND
+          (users.role ILIKE 'Marskalk' OR 
+          users.role ILIKE 'WraQ' OR
+          users.role ILIKE 'Qnekt')
+    `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch number of users.');
+  }
+}
+
 export async function fetchFilteredUsers(
   query: string,
   currentPage: number,
@@ -394,6 +419,43 @@ export async function fetchFilteredUsers(
         users.email ILIKE ${`%${query}%`} OR 
         users.role ILIKE ${`%${query}%`} OR 
         users.balance::text ILIKE ${`%${query}%`} 
+      ORDER BY users.name ASC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `;
+
+    return users.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch users.');
+  }
+}
+
+export async function fetchStreckFilteredUsers(
+  query: string,
+  currentPage: number,
+) {
+  noStore();
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const users = await sql<UsersTable>`
+      SELECT
+        users.id,
+        users.name,
+        users.email,
+        users.image_nice_url,
+        users.image_chaotic_url,
+        users.balance,
+        users.role
+      FROM users
+      WHERE
+        (users.name ILIKE ${`%${query}%`} OR
+        users.email ILIKE ${`%${query}%`} OR 
+        users.role ILIKE ${`%${query}%`} OR 
+        users.balance::text ILIKE ${`%${query}%`}) AND
+        (users.role ILIKE 'Marskalk' OR
+        users.role ILIKE 'WraQ' OR
+        users.role ILIKE 'Qnekt')
       ORDER BY users.name ASC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;

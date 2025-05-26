@@ -1,4 +1,4 @@
-import { fetchFilteredUsers } from '@/app/lib/data';
+import { fetchStreckFilteredUsers } from '@/app/lib/data';
 import { UpdateUser, DeleteUser } from '@/app/ui/admin/users/buttons';
 import { ArrowDownIcon, PencilIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -12,7 +12,7 @@ export default async function UsersTable({
   query: string;
   currentPage: number;
 }) {
-  const users = await fetchFilteredUsers(query, currentPage);
+  var users = (await fetchStreckFilteredUsers(query, currentPage))
   const session = await auth();
   if (!session?.user.id) {
     return (
