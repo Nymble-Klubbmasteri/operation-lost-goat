@@ -4,8 +4,9 @@ import Table from '@/app/ui/events/table';
 import { lusitana } from '@/app/ui/fonts';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
-import { fetchEventsPages } from '@/app/lib/data';
+import { fetchEventsPages, fetchFilteredEvents } from '@/app/lib/data';
 import { Metadata } from 'next';
+import { auth } from '@/auth';
  
 export const metadata: Metadata = {
   title: 'Event',
@@ -19,10 +20,14 @@ export default async function Page({
     page?: string;
   };
 }) {
+
+  const session = await auth();
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
 
   const totalPages = await fetchEventsPages(query);
+
+  const events = await fetchFilteredEvents(query, currentPage);
 
 
   return (
@@ -34,7 +39,7 @@ export default async function Page({
         <Search placeholder="Sök event..." />
       </div>
        <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
-        <Table query={query} currentPage={currentPage} />
+        <Table events={events} session={session} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />

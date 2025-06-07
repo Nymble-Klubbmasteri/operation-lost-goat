@@ -3,16 +3,17 @@ import { formatDateToLocal } from '@/app/lib/utils';
 import { auth } from '@/auth';
 import { GoToEvent } from './buttons';
 import Link from 'next/link';
+import { EventsTable } from '@/app/lib/definitions';
 
-export default async function EventsTable({
-  query,
-  currentPage,
+export default function EventsTablePage({
+  events,
+  session
 }: {
-  query: string;
-  currentPage: number;
+  events: EventsTable[],
+  session: any
+  
 }) {
   
-  const session = await auth();
 
   if (!session?.user?.id) {
     console.log("Events Table User not found");
@@ -23,7 +24,6 @@ export default async function EventsTable({
     return null;
   }
 
-  let events = await fetchFilteredEvents(query, currentPage);
   // Filter events of type 3 unless the user is Marskalk or WraQ
   if ((session.user.role !== 'Marskalk' && session.user.role !== 'WraQ')) {
     events = events.filter((event) => event.type == 3 && event.open == 1);
