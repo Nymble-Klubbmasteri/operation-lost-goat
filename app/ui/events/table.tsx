@@ -26,7 +26,7 @@ export default function EventsTablePage({
 
   // Filter events of type 3 unless the user is Marskalk or WraQ
   if ((session.user.role !== 'Marskalk' && session.user.role !== 'WraQ')) {
-    events = events.filter((event) => event.type == 3 && event.open == 1);
+    events = events.filter((event) => event.type != 3 || event.open == 1);
   }
 
 
