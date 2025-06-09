@@ -7,6 +7,7 @@ import { UsersIcon, CalendarIcon, ClockIcon, DocumentTextIcon, AdjustmentsVertic
 import { AddUserToEvent, RemoveUserFromEvent } from '@/app/lib/actions';
 import { fetchEventById, fetchUserById, fetchUserNamesByIDs } from '@/app/lib/data';
 import { Remove, SignUp } from './buttons';
+import { formatDateToLocal } from '@/app/lib/utils';
 
 export default async function SeeEvent({ event_id, user_id }: { event_id: string; user_id: string }) {
     const event = await fetchEventById(event_id);   
@@ -24,7 +25,8 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
             {/* Event Date */}
             <div className="mt-4 flex items-center">
                 <CalendarIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 mr-2" />
-                <p>{new Date(event.date).toLocaleDateString()}</p>
+                {/* <p>{new Date(event.date).toLocaleDateString()}</p> */}
+                <p>{formatDateToLocal(event.date.toISOString())}</p>
             </div>
 
             {/* Event Time */}

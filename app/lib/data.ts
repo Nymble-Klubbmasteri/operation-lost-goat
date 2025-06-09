@@ -197,7 +197,8 @@ export async function fetchUserById(id: string) {
         nickname,
         likes,
         dislikes,
-        title
+        title,
+        priority
       FROM users
       WHERE users.id = ${id};
     `;

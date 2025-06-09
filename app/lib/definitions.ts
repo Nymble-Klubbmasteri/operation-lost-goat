@@ -25,6 +25,7 @@ export type DisplayUser = {
   dislikes: string;
   nickname: string;
   title: string;
+  priority: number;
 }
 
 export type Event = {
