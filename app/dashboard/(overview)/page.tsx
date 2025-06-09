@@ -8,6 +8,7 @@ import SaldoBox from '@/app/ui/dashboard/saldo';
 import TopList from '@/app/ui/dashboard/top-list';
 import TopListByYear from '@/app/ui/dashboard/top-list-year';
 import TopListByDate from '@/app/ui/dashboard/top-list-date';
+import { SessionProvider } from 'next-auth/react';
  
 export const metadata: Metadata = {
   title: 'NKM',
@@ -38,7 +39,9 @@ export default async function Page() {
         {/* Left column with Strecka and SaldoBox */}
         <div className="w-full md:w-1/3 space-y-6">
           <Suspense fallback={<div>Loading Strecka...</div>}>
+          <SessionProvider>
             <Strecka id={session.user.id} role={session.user.role}/>
+          </SessionProvider>
           </Suspense>
           
           <Suspense fallback={<div>Loading Saldo...</div>}>

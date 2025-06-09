@@ -4,13 +4,24 @@ import { strecka } from '@/app/lib/actions';
 import can from '@/app/icons/favicon-96x96.png'
 import Image from 'next/image';
 import { useState } from 'react';
+import { auth } from '@/auth';
+import { useSession } from 'next-auth/react';
 
 export function Strecka({ id, role }: { id: string, role: string}) {
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [amount, setAmount] = useState(1); // Default amount is 1
-  
+  const [amount, setAmount] = useState(1); // Default amount 
+  const {data: session} = useSession();
+  const userId = id ?? session?.user?.id;
+  const userRole = role ?? session?.user?.role;
+
+
+  if (!userId || !userRole) {
+    return <div>Session expired. Ladda om sidan för att fortsätta.</div>;
+  }
+
   // This will bind the user ID and amount to the strecka function
   const handleStrecka = async (formData: FormData) => {
+
     // Get the amount from the form data
     const streckAmount = formData.get('amount') as string;
     // Call your strecka function with the user ID and amount
