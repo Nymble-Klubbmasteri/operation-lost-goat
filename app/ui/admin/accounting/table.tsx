@@ -44,7 +44,7 @@ export default async function UsersTable({
                     </p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    {/* <UpdateUser id={user.id} /> */}
+                    <SeeUser id={user.id} admin_id={session.user.id!} />
                   </div>
                 </div>
               </div>
