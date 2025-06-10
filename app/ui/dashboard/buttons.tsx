@@ -45,13 +45,14 @@ export function Strecka({ id, role }: { id: string, role: string}) {
   };
 
   const handleCancel = () => {
+    setAmount(1);
     setShowConfirmation(false);
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    // Ensure amount is between 1 and 1000
-    setAmount(Math.max(0, Math.min(1000, value || 1)));
+    // Ensure amount is between 0 and 1000
+    setAmount(Math.max(0, Math.min(1000, value)));
   };
 
   return (
@@ -93,9 +94,9 @@ export function Strecka({ id, role }: { id: string, role: string}) {
                     id="amount"
                     name="amount"
                     type="number"
-                    placeholder="1"
                     max="1000"
-                    value={amount}
+                    placeholder='0'
+                    value = {amount}
                     onChange={handleAmountChange}
                     className="w-16 text-center border-t border-b border-gray-300 dark:border-gray-600 py-1"
                   />

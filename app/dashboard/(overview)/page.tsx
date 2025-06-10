@@ -17,6 +17,12 @@ export const metadata: Metadata = {
 export default async function Page() {
   const session = await auth();
 
+  let date = new Date();
+  let bool = false;
+  if (date > new Date(2025, 12)) {
+    bool = true;
+  }
+
   if (!session?.user?.id) {
     // console.log();
     // console.log("Session", session);
@@ -54,9 +60,9 @@ export default async function Page() {
           <Suspense fallback={<div>Loading Top List...</div>}>
             <TopList />
           </Suspense>
-          <Suspense fallback={<div>Loading Top List by year...</div>}>
+          {bool && <Suspense fallback={<div>Loading Top List by year...</div>}>
             <TopListByYear />
-          </Suspense>
+          </Suspense>}
           <Suspense fallback={<div>Loading Top List last 24 hours...</div>}>
             <TopListByDate />
           </Suspense>

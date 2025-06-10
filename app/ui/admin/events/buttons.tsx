@@ -1,3 +1,4 @@
+'use client';
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteEvent } from '@/app/lib/actions';
@@ -27,10 +28,22 @@ export function UpdateEvent({ id }: { id: string }) {
 }
 
 export function DeleteEvent({ id }: { id: string }) {
-  const deleteEventWithID = deleteEvent.bind(null, id);  
+  const deleteEventWithID = deleteEvent.bind(null, id);
+
+  const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const confirmed = confirm("Är du säker på att du vill ta bort detta event?");
+    if (!confirmed) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <form action={deleteEventWithID}>
-      <button className="flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+      <button
+        type="submit"
+        onClick={handleDeleteClick}
+        className="flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
+      >
         <span className="sr-only">Ta bort event</span>
         <TrashIcon className="w-5" />
       </button>
