@@ -18,6 +18,9 @@ import {
 import { formatCurrency } from '@/app/lib/utils';
 import { unstable_noStore as noStore } from 'next/cache';
 
+const ITEMS_PER_PAGE = 7;
+
+
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
@@ -96,7 +99,6 @@ export async function fetchCardData() {
   }
 }
 
-const ITEMS_PER_PAGE = 6;
 export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
@@ -487,7 +489,7 @@ export async function fetchFilteredEvents(
       FROM events
       WHERE
         events.name ILIKE ${`%${query}%`}
-      ORDER BY events.date DESC
+      ORDER BY events.date ASC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
 
