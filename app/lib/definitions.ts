@@ -194,7 +194,7 @@ export type EventForm = {
   responsible: string;
   type: number;
   sought_workers: number;
-  date: Date,
+  date: string,
   notes: string;
   workers: string[];
   open: number;

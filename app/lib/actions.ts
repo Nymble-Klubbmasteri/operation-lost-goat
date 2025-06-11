@@ -239,10 +239,12 @@ export async function createEvent(prevState: EventState, formData: FormData) {
   const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes } = validatedFields.data;
   // console.log("hi! create_event 3");
 
+  console.log("Create Event, date:", date);
+
   try {
     await sql`
-      INSERT INTO events (name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, type, sought_workers, notes)
-      VALUES (${name}, ${date}, ${start_work_time}, ${start_event_time}, ${end_work_time}, ${end_event_time}, ${locations}, ${type}, ${sought_workers}, ${notes})
+      INSERT INTO events (name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, type, sought_workers, notes, responsible)
+      VALUES (${name}, ${date}, ${start_work_time}, ${start_event_time}, ${end_work_time}, ${end_event_time}, ${locations}, ${type}, ${sought_workers}, ${notes}, ${responsible})
     `;
   } catch (error) {
     console.error(error);
@@ -587,6 +589,8 @@ export async function updateEvent(
   // } catch (error) {
   //   console.log("error altering table: ", error);
   // }
+
+  // console.log("Edit event, date: ", date);
 
   try {
     await sql`

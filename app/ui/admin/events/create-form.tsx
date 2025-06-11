@@ -195,7 +195,7 @@ export default function Form({ users }: {users: UserField[]}) {
                 id="responsible"
                 name="responsible"
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
-                defaultValue=""
+                defaultValue="01d86095-0612-4612-8f58-0512d96b84f6"
                 aria-describedby="responsible-error"
             >
                 <option value="" disabled>
