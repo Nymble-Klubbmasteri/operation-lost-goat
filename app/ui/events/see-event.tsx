@@ -26,7 +26,7 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
             <div className="mt-4 flex items-center">
                 <CalendarIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 mr-2" />
                 {/* <p>{new Date(event.date).toLocaleDateString()}</p> */}
-                <p>{formatDateToLocal(event.date.toISOString())}</p>
+                <p>{formatDateToLocal(event.date)}</p>
             </div>
 
             {/* Event Time */}
