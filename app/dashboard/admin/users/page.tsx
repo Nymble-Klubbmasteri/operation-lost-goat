@@ -20,13 +20,18 @@ export default async function Page({
   searchParams?: {
     query?: string;
     page?: string;
+    sort?: 'name' | 'role' | 'balance' | 'email';
+    order?: 'DESC' | 'ASC';
   };
 }) {
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
-
+  const sort = searchParams?.sort || 'name';
+  const order = searchParams?.order === 'DESC' ? 'DESC' : 'ASC'; // Default to ASC  
   const totalPages = await fetchUsersPages(query);
   const session = await auth();
+
+
     if (!session?.user.role) {
         return (
           <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
@@ -52,7 +57,7 @@ export default async function Page({
         <CreateUser />
       </div>
        <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
-        <Table query={query} currentPage={currentPage} />
+        <Table query={query} currentPage={currentPage} sort={sort} order={order} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />

@@ -406,32 +406,179 @@ export async function fetchStreckUsersPages(query: string) {
 export async function fetchFilteredUsers(
   query: string,
   currentPage: number,
+  sort: 'name' | 'email' | 'role' | 'balance' = 'name',
+  order: 'DESC' | 'ASC' = 'ASC'
 ) {
   noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    const users = await sql<UsersTable>`
-      SELECT
-        users.id,
-        users.name,
-        users.email,
-        users.image_nice_url,
-        users.image_chaotic_url,
-        users.balance,
-        users.role
-      FROM users
-      WHERE
-        users.name ILIKE ${`%${query}%`} OR
-        users.email ILIKE ${`%${query}%`} OR 
-        users.role ILIKE ${`%${query}%`} OR 
-        users.nickname ILIKE ${`%${query}`} OR
-        users.balance::text ILIKE ${`%${query}%`} 
-      ORDER BY users.name ASC
-      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
-    `;
+    let queryResult;
+    if (sort === 'name' && order === 'ASC') {
+      queryResult = await sql<UsersTable>`
+        SELECT
+          users.id,
+          users.name,
+          users.email,
+          users.image_nice_url,
+          users.image_chaotic_url,
+          users.balance,
+          users.role
+        FROM users
+        WHERE
+          users.name ILIKE ${`%${query}%`} OR
+          users.email ILIKE ${`%${query}%`} OR 
+          users.role ILIKE ${`%${query}%`} OR 
+          users.nickname ILIKE ${`%${query}`} OR
+          users.balance::text ILIKE ${`%${query}%`} 
+        ORDER BY users.name ASC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+    } else if (sort === 'name' && order === 'DESC') {
+      queryResult = await sql<UsersTable>`
+        SELECT
+          users.id,
+          users.name,
+          users.email,
+          users.image_nice_url,
+          users.image_chaotic_url,
+          users.balance,
+          users.role
+        FROM users
+        WHERE
+          users.name ILIKE ${`%${query}%`} OR
+          users.email ILIKE ${`%${query}%`} OR 
+          users.role ILIKE ${`%${query}%`} OR 
+          users.nickname ILIKE ${`%${query}`} OR
+          users.balance::text ILIKE ${`%${query}%`} 
+        ORDER BY users.name DESC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+    } else if (sort === 'email' && order === 'ASC') {
+      queryResult = await sql<UsersTable>`
+        SELECT
+          users.id,
+          users.name,
+          users.email,
+          users.image_nice_url,
+          users.image_chaotic_url,
+          users.balance,
+          users.role
+        FROM users
+        WHERE
+          users.name ILIKE ${`%${query}%`} OR
+          users.email ILIKE ${`%${query}%`} OR 
+          users.role ILIKE ${`%${query}%`} OR 
+          users.nickname ILIKE ${`%${query}`} OR
+          users.balance::text ILIKE ${`%${query}%`} 
+        ORDER BY users.email ASC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+    } else if (sort === 'email' && order === 'DESC') {
+      queryResult = await sql<UsersTable>`
+        SELECT
+          users.id,
+          users.name,
+          users.email,
+          users.image_nice_url,
+          users.image_chaotic_url,
+          users.balance,
+          users.role
+        FROM users
+        WHERE
+          users.name ILIKE ${`%${query}%`} OR
+          users.email ILIKE ${`%${query}%`} OR 
+          users.role ILIKE ${`%${query}%`} OR 
+          users.nickname ILIKE ${`%${query}`} OR
+          users.balance::text ILIKE ${`%${query}%`} 
+        ORDER BY users.email DESC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+    } else if (sort === 'role' && order === 'ASC') {
+      queryResult = await sql<UsersTable>`
+        SELECT
+          users.id,
+          users.name,
+          users.email,
+          users.image_nice_url,
+          users.image_chaotic_url,
+          users.balance,
+          users.role
+        FROM users
+        WHERE
+          users.name ILIKE ${`%${query}%`} OR
+          users.email ILIKE ${`%${query}%`} OR 
+          users.role ILIKE ${`%${query}%`} OR 
+          users.nickname ILIKE ${`%${query}`} OR
+          users.balance::text ILIKE ${`%${query}%`} 
+        ORDER BY users.role ASC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+    } else if (sort === 'role' && order === 'DESC') {
+      queryResult = await sql<UsersTable>`
+        SELECT
+          users.id,
+          users.name,
+          users.email,
+          users.image_nice_url,
+          users.image_chaotic_url,
+          users.balance,
+          users.role
+        FROM users
+        WHERE
+          users.name ILIKE ${`%${query}%`} OR
+          users.email ILIKE ${`%${query}%`} OR 
+          users.role ILIKE ${`%${query}%`} OR 
+          users.nickname ILIKE ${`%${query}`} OR
+          users.balance::text ILIKE ${`%${query}%`} 
+        ORDER BY users.role DESC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+    } else if (sort === 'balance' && order === 'ASC') {
+      queryResult = await sql<UsersTable>`
+        SELECT
+          users.id,
+          users.name,
+          users.email,
+          users.image_nice_url,
+          users.image_chaotic_url,
+          users.balance,
+          users.role
+        FROM users
+        WHERE
+          users.name ILIKE ${`%${query}%`} OR
+          users.email ILIKE ${`%${query}%`} OR 
+          users.role ILIKE ${`%${query}%`} OR 
+          users.nickname ILIKE ${`%${query}`} OR
+          users.balance::text ILIKE ${`%${query}%`} 
+        ORDER BY users.balance ASC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+    } else if (sort === 'balance' && order === 'DESC') {
+      queryResult = await sql<UsersTable>`
+        SELECT
+          users.id,
+          users.name,
+          users.email,
+          users.image_nice_url,
+          users.image_chaotic_url,
+          users.balance,
+          users.role
+        FROM users
+        WHERE
+          users.name ILIKE ${`%${query}%`} OR
+          users.email ILIKE ${`%${query}%`} OR 
+          users.role ILIKE ${`%${query}%`} OR 
+          users.nickname ILIKE ${`%${query}`} OR
+          users.balance::text ILIKE ${`%${query}%`} 
+        ORDER BY users.balance DESC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+    } else {
+      throw new Error('This shouldnt happen!');
+    }
 
-    return users.rows;
+    return queryResult.rows;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch users.');

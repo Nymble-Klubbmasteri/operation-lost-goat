@@ -1,17 +1,23 @@
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { fetchFilteredUsers } from '@/app/lib/data';
 import { UpdateUser, DeleteUser } from '@/app/ui/admin/users/buttons';
 import { auth } from '@/auth';
 import { lusitana } from '../../fonts';
+import Link from 'next/link';
 
 export default async function UsersTable({
   query,
   currentPage,
+  sort,
+  order,
 }: {
   query: string;
   currentPage: number;
+  sort: 'name' | 'role' | 'balance' | 'email';
+  order: 'DESC' | 'ASC';
 }) {
-  const users = await fetchFilteredUsers(query, currentPage);
+  const users = await fetchFilteredUsers(query, currentPage, sort, order);
 
   const session = await auth();
   if (!session?.user.id) {
@@ -59,20 +65,61 @@ export default async function UsersTable({
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  User
+                  <Link
+                    href={`?sort=name&order=${sort === 'name' && order === 'ASC' ? 'DESC' : 'ASC'}`}
+                    className="flex items-center gap-1"
+                  >
+                    User
+                    {sort === 'name' &&
+                      (order === 'ASC' ? (
+                        <ChevronUpIcon className="h-4 w-4" />
+                      ) : (
+                        <ChevronDownIcon className="h-4 w-4" />
+                      ))}
+                  </Link>
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Email
+                  <Link
+                    href={`?sort=email&order=${sort === 'email' && order === 'ASC' ? 'DESC' : 'ASC'}`}
+                    className="flex items-center gap-1"
+                  >
+                    Email
+                    {sort === 'email' &&
+                      (order === 'ASC' ? (
+                        <ChevronUpIcon className="h-4 w-4" />
+                      ) : (
+                        <ChevronDownIcon className="h-4 w-4" />
+                      ))}
+                  </Link>
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Balance
+                  <Link
+                    href={`?sort=balance&order=${sort === 'balance' && order === 'ASC' ? 'DESC' : 'ASC'}`}
+                    className="flex items-center gap-1"
+                  >
+                    Balance
+                    {sort === 'balance' &&
+                      (order === 'ASC' ? (
+                        <ChevronUpIcon className="h-4 w-4" />
+                      ) : (
+                        <ChevronDownIcon className="h-4 w-4" />
+                      ))}
+                  </Link>
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
-                  Role
+                  <Link
+                    href={`?sort=role&order=${sort === 'role' && order === 'ASC' ? 'DESC' : 'ASC'}`}
+                    className="flex items-center gap-1"
+                  >
+                    Role
+                    {sort === 'role' &&
+                      (order === 'ASC' ? (
+                        <ChevronUpIcon className="h-4 w-4" />
+                      ) : (
+                        <ChevronDownIcon className="h-4 w-4" />
+                      ))}
+                  </Link>
                 </th>
-                {/* <th scope="col" className="px-3 py-5 font-medium">
-                  Status
-                </th> */}
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
                 </th>
