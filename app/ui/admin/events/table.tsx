@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { fetchFilteredEvents } from '@/app/lib/data';
+import { fetchFilteredEvents, fetchFilteredEventsAdmin } from '@/app/lib/data';
 import { UpdateEvent, DeleteEvent } from '@/app/ui/admin/events/buttons';
 import { formatDateToLocal } from '@/app/lib/utils';
 
@@ -10,7 +10,7 @@ export default async function EventsTable({
   query: string;
   currentPage: number;
 }) {
-  const events = await fetchFilteredEvents(query, currentPage);
+  const events = await fetchFilteredEventsAdmin(query, currentPage);
   // console.log("events: ", events);
 
   return (

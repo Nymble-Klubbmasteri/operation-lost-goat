@@ -18,16 +18,18 @@ export default async function Page({
   searchParams?: {
     query?: string;
     page?: string;
+    sort?: 'name' | 'date';
   };
 }) {
 
   const session = await auth();
   const query = searchParams?.query || '';
+  const sort = searchParams?.sort || 'date'
   const currentPage = Number(searchParams?.page) || 1;
 
   const totalPages = await fetchEventsPages(query);
 
-  const events = await fetchFilteredEvents(query, currentPage);
+  const events = await fetchFilteredEvents(query, currentPage, sort);
 
 
   return (

@@ -7,10 +7,12 @@ import { EventsTable } from '@/app/lib/definitions';
 
 export default function EventsTablePage({
   events,
-  session
+  session,
+  sort,
 }: {
   events: EventsTable[],
-  session: any
+  session: any,
+  sort: 'name' | 'date',
   
 }) {
   
@@ -57,12 +59,16 @@ export default function EventsTablePage({
           <table className="hidden min-w-full text-gray-900 dark:text-gray-100 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Event
-                </th>
+                <Link href={`?sort=name`}>
+                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                    Event
+                  </th>
+                </Link>
+              <Link href={`?sort=date`}>
                 <th scope="col" className="px-3 py-5 font-medium">
                   Datum
                 </th>
+              </Link>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Se evenemang</span>
                 </th>
