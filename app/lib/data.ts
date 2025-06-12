@@ -479,16 +479,15 @@ export async function fetchFilteredEvents(
   query: string,
   currentPage: number,
   sort: 'name' | 'date' = 'date',
+  order: 'DESC' | 'ASC' = 'ASC'
 ) {
   noStore();
-  const orderByColumn = sort === 'name' ? 'name' : 'date';
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-
   try {
     let queryResult;
-    if (orderByColumn === 'name') {
+    if (sort === 'name' && order === 'ASC') {
       queryResult = await sql<EventsTable>`
         SELECT
           events.id,
@@ -499,12 +498,11 @@ export async function fetchFilteredEvents(
         FROM events
         WHERE
           events.name ILIKE ${`%${query}%`}
-          AND
-          date > ${twentyFourHoursAgo}
+          AND date > ${twentyFourHoursAgo}
         ORDER BY events.name ASC
         LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
       `;
-    } else {
+    } else if (sort === 'name' && order === 'DESC') {
       queryResult = await sql<EventsTable>`
         SELECT
           events.id,
@@ -515,8 +513,38 @@ export async function fetchFilteredEvents(
         FROM events
         WHERE
           events.name ILIKE ${`%${query}%`}
-          AND
-          date > ${twentyFourHoursAgo}
+          AND date > ${twentyFourHoursAgo}
+        ORDER BY events.name DESC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+    } else if (sort === 'date' && order === 'DESC') {
+      queryResult = await sql<EventsTable>`
+        SELECT
+          events.id,
+          events.name,
+          events.date,
+          events.type,
+          events.open
+        FROM events
+        WHERE
+          events.name ILIKE ${`%${query}%`}
+          AND date > ${twentyFourHoursAgo}
+        ORDER BY events.date DESC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+    } else {
+      // default or sort === 'date' && order === 'ASC'
+      queryResult = await sql<EventsTable>`
+        SELECT
+          events.id,
+          events.name,
+          events.date,
+          events.type,
+          events.open
+        FROM events
+        WHERE
+          events.name ILIKE ${`%${query}%`}
+          AND date > ${twentyFourHoursAgo}
         ORDER BY events.date ASC
         LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
       `;
@@ -524,7 +552,6 @@ export async function fetchFilteredEvents(
 
     return queryResult.rows;
   } catch (error) {
-    // console.log('Error:', error);
     console.error('Database Error:', error);
     throw new Error('Failed to fetch events.');
   }

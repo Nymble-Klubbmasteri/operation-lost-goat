@@ -4,16 +4,18 @@ import { auth } from '@/auth';
 import { GoToEvent } from './buttons';
 import Link from 'next/link';
 import { EventsTable } from '@/app/lib/definitions';
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 
 export default function EventsTablePage({
   events,
   session,
   sort,
+  order,
 }: {
   events: EventsTable[],
   session: any,
   sort: 'name' | 'date',
-  
+  order: 'DESC' | 'ASC'
 }) {
   
 
@@ -59,16 +61,30 @@ export default function EventsTablePage({
           <table className="hidden min-w-full text-gray-900 dark:text-gray-100 md:table">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
-                <Link href={`?sort=name`}>
-                  <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                    Event
-                  </th>
-                </Link>
-              <Link href={`?sort=date`}>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Datum
+                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  <Link href={`?sort=name&order=${sort === 'name' && order === 'ASC' ? 'DESC' : 'ASC'}`}>
+                    <span className="inline-flex items-center gap-1">
+                      Event
+                      {sort === 'name' && (
+                        order === 'ASC'
+                          ? <ChevronUpIcon className="w-4 h-4 inline" />
+                          : <ChevronDownIcon className="w-4 h-4 inline" />
+                      )}
+                    </span>
+                  </Link>
                 </th>
-              </Link>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  <Link href={`?sort=date&order=${sort === 'date' && order === 'ASC' ? 'DESC' : 'ASC'}`}>
+                    <span className="inline-flex items-center gap-1">
+                      Datum
+                      {sort === 'date' && (
+                        order === 'ASC'
+                          ? <ChevronUpIcon className="w-4 h-4 inline" />
+                          : <ChevronDownIcon className="w-4 h-4 inline" />
+                      )}
+                    </span>
+                  </Link>
+                </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Se evenemang</span>
                 </th>
