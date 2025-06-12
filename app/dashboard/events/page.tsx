@@ -41,7 +41,7 @@ export default async function Page({
         <Search placeholder="Sök event..." />
       </div>
        <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
-        <Table events={events} session={session} />
+        <Table events={events} session={session} sort={sort} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
