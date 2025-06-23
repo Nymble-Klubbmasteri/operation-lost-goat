@@ -1002,18 +1002,24 @@ export async function getTopListLast24Hours() {
 
 export async function getUpcomingPub() {
   try {
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+
+
     const res = await sql<EventsTable>`
       SELECT 
         *
       FROM
         events
       WHERE
-        type = 1 OR type = 2
+        (type = 1 OR type = 2)
+        AND
+        events.date > NOW()
       ORDER BY date ASC
       LIMIT 1
     `;
 
     // console.log("Latest event:", res.rows[0]);
+    // console.log("twentyfourhoursago: ", twentyFourHoursAgo);
     return res.rows[0];
     
   } catch (error) {
