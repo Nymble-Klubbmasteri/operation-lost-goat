@@ -28,6 +28,11 @@ export type DisplayUser = {
   priority: number;
 }
 
+export type DisplayEvent = {
+  name: string;
+  date: string;
+}
+
 export type Event = {
   id: string;
   name: string;

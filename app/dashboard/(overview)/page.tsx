@@ -1,6 +1,5 @@
 import { Strecka } from '@/app/ui/dashboard/buttons';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchCardData } from '@/app/lib/data';
 import { Suspense } from 'react'; 
 import { Metadata } from 'next';
 import { auth } from '@/auth';
