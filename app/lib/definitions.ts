@@ -33,6 +33,11 @@ export type DisplayEvent = {
   date: string;
 }
 
+export type DisplayWorkers = {
+  name: string;
+  nickname: string;
+}
+
 export type Event = {
   id: string;
   name: string;

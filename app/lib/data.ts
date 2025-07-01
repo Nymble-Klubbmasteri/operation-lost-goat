@@ -13,7 +13,8 @@ import {
   EventsTable,
   EventForm,
   DisplayUser,
-  Setting
+  Setting,
+  DisplayWorkers
 } from '@/app/lib/definitions';
 import { formatCurrency } from '@/app/lib/utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -599,15 +600,15 @@ export async function fetchUserNamesByIDs(ids: string[]) {
   try {
     const results = await Promise.all(
       ids.map(async (id) => {
-        const name = await sql`
-          SELECT name
+        const name = await sql<DisplayWorkers>`
+          SELECT name, nickname
           FROM users
           WHERE users.id = ${id};
         `;
-        return name.rows[0]?.name; // optional chaining in case no result
+        return (name.rows[0]); // optional chaining in case no result
       })
     );
-
+    console.log("res: ", results);
     return results.filter(Boolean); // removes undefined if any id didn't exist
   } catch (error) {
     console.error('Failed to fetch user names Error:', error);

@@ -64,8 +64,8 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
                 <span>Uppskrivna:</span>
             </div>
             <div className="flex flex-col gap-1">
-                {workers.map((name, idx) => (
-                <div key={idx}>{name}</div>
+                {workers.map((row, idx) => (
+                <div key={idx}>{row.name} | {row.nickname}</div>
                 ))}
             </div>
             </div>
