@@ -700,6 +700,36 @@ export async function getTopList() {
   }
 }
 
+export async function getNumStreckUser(id: string) {
+    noStore();
+  try {
+    const result = await sql`
+      SELECT 
+        u.id, 
+        u.nickname, 
+        u.role,
+        COALESCE(SUM(s.num_streck), 0) as streck_count
+      FROM 
+        users u
+      LEFT JOIN 
+        streck s ON u.id = s.user_id
+      WHERE
+        u.id = ${id}
+      GROUP BY 
+        u.id, u.nickname, u.role
+      HAVING 
+        COALESCE(SUM(s.num_streck), 0) > 0
+    `;
+    //        COALESCE(SUM(s.amount), 0) as total_amount
+
+    // console.log(result.rows);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Failed to fetch Num streck of user, error: ', error);
+    throw new Error('Failed to fetch num streck of user');
+  }
+}
+
 export async function fetchUsersForDisplay() {
   noStore();
   try {

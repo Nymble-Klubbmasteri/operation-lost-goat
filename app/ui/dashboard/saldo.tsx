@@ -1,13 +1,22 @@
 import { CurrencyDollarIcon } from '@heroicons/react/24/outline';
-import { fetchBalanceByID, getSwishNumber } from '@/app/lib/data';
+import { fetchBalanceByID, getNumStreckUser, getSwishNumber } from '@/app/lib/data';
 import Link from 'next/link';
 // wiiii
 
 
 export default async function SaldoBox({ id, role }: { id: string, role: string}) {
   const balance = await fetchBalanceByID(id);
+  const num_streck = await getNumStreckUser(id);
 
-  if (!balance) {
+  if (!balance ) {
+    return (
+      <div>
+        Hittade inte ditt saldo...
+      </div>
+    );
+  }
+
+  if (!num_streck) {
     return (
       <div>
         Hittade inte ditt saldo...
@@ -32,9 +41,12 @@ export default async function SaldoBox({ id, role }: { id: string, role: string}
       {/* <Link href={`https://app.swish.nu/1/p/sw/?sw=`+sn?.value+`&amt=200&cur=SEK&msg=Lista&edit=amt,msg&src=url`}> */}
       <p className="text-lg font-semibold">{sn?.value ? sn.value : "Laddar..."}</p>
       {/* </Link> */}
-
       <p className="text-lg font-semibold">Ditt Saldo:</p>
       <p className="text-xl font-bold mt-2">{balance.balance !== null ? `${balance.balance} kr` : "Laddar..."}</p>
+      <p className="text-lg font-semibold">Antal Streck:</p>
+      <p className="text-xl font-bold mt-2">{num_streck.streck_count !== null ? `${num_streck.streck_count} st` : "Laddar..."}</p>
+
+
     </div>
   );
 }
