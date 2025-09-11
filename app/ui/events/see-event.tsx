@@ -92,7 +92,7 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
                     )}
 
                     {new Date(event.date).getTime() - new Date().getTime() > 3 * 24 * 60 * 60 * 1000 && 
-                    event.workers.includes(user_id) && (
+                    (event.workers.includes(user_id) || event.reserves.includes(user_id)) && (
                         <Remove event_id={event_id} user_id={user_id} className="w-40 h-12 text-lg" />
                     )}
                 </div>
