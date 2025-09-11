@@ -120,7 +120,8 @@ async function seedEvents(client) {
       sought_workers INT DEFAULT 0,
       date DATE DEFAULT NOW(),
       notes VARCHAR(255),
-      workers UUID[] DEFAULT array[]::UUID[]
+      workers UUID[] DEFAULT array[]::UUID[],
+      reserves UUID[] DEFAULT array[]::UUID[]
     );
     `;
 

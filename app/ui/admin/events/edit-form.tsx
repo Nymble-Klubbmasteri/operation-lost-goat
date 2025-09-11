@@ -188,6 +188,31 @@ export default function EditEventForm({
             </div>
         )}
 
+        {/* Workers */}
+        {event.reserves.length > 0 && (
+            <div className="mb-4">
+                <label className="mb-2 block text-sm font-medium">Uppskrivna</label>
+                <ul className="space-y-2">
+                {event.reserves.map((workerId) => {
+                    const user = users.find((u) => u.id === workerId);
+                    return (
+                    user && (
+                        <li key={user.id} className="flex items-center justify-between border border-gray-200 dark:border-gray-600 rounded px-3 py-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+                        <span>{user.name}</span>
+                        <Button
+                            type="button"
+                            onClick={() => AdminRemoveUserFromEvent(event.id, user.id)}
+                        >
+                        Ta bort
+                        </Button>
+                        </li>
+                    )
+                    );
+                })}
+                </ul>
+            </div>
+        )}
+
 
         {/* Event Locations */}
         <div className="mb-4">

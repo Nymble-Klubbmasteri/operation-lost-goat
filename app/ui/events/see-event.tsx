@@ -12,6 +12,7 @@ import { formatDateToLocal } from '@/app/lib/utils';
 export default async function SeeEvent({ event_id, user_id }: { event_id: string; user_id: string }) {
     const event = await fetchEventById(event_id);   
     const workers = await fetchUserNamesByIDs(event.workers);
+    const reserves = await fetchUserNamesByIDs(event.reserves);
     // console.log("see event", event);
     // console.log("event workers:", event.workers);
     // console.log("worker names: ", workers);
@@ -70,10 +71,23 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
             </div>
             </div>
 
+            {/* Reserves */}
+            <div className="mt-4">
+            <div className="flex items-center mb-2">
+                <UsersIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 mr-2" />
+                <span>Reserver:</span>
+            </div>
+            <div className="flex flex-col gap-1">
+                {reserves.map((row, idx) => (
+                <div key={idx}>{row.name} | {row.nickname}</div>
+                ))}
+            </div>
+            </div>
+
             {/* Sign Up / Remove Button */}
             <div className="mt-6">
                 <div className="flex justify-end gap-4 [&>*]:px-6 [&>*]:py-3 [&>*]:text-lg [&>*]:rounded-lg">
-                    {new Date(event.date) > new Date() && event.workers.length < event.sought_workers && !event.workers.includes(user_id) && (
+                    {new Date(event.date) > new Date() && !event.workers.includes(user_id) && !event.reserves.includes(user_id) && (
                     <SignUp event_id={event_id} user_id={user_id} className="w-40 h-12 text-lg" />
                     )}
 

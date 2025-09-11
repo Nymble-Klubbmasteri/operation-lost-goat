@@ -60,6 +60,16 @@ export async function fetchUserById(id: string) {
 
 export async function fetchEventById(id: string) {
   noStore();
+  // try {
+  //   let res = await sql`
+  //   ALTER TABLE events
+  //   ADD reserves UUID[] DEFAULT array[]::UUID[];
+  //   `;
+  //   console.log(res);
+  // } catch (error) {
+  //   console.error(error);
+  // }
+
   try {
     const data = await sql<EventForm>`
       SELECT
@@ -76,7 +86,8 @@ export async function fetchEventById(id: string) {
         events.sought_workers,
         events.notes,
         events.workers,
-        events.open
+        events.open,
+        events.reserves
       FROM events
       WHERE events.id = ${id};
     `;

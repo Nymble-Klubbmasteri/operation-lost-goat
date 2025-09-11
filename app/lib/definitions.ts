@@ -53,6 +53,7 @@ export type Event = {
   notes: string;
   workers: string[];
   open: number;
+  reserves: string[];
 };
 
 export type Streck = {
@@ -208,6 +209,7 @@ export type EventForm = {
   notes: string;
   workers: string[];
   open: number;
+  reserves: string[];
 };
 
 export type Setting = {

@@ -123,7 +123,8 @@ const EventFormSchema = z.object({
   date: z.string(),
   notes: z.string(),
   workers: z.string().array(),
-  open: z.coerce.number()
+  open: z.coerce.number(),
+  reserves: z.string().array()
 });
  
 const CreateInvoice = InvoiceFormSchema.omit({ id: true, date: true });
@@ -209,7 +210,7 @@ export async function createUser(prevState: UserState, formData: FormData) {
   redirect('/dashboard/admin/users');
 }
 
-const CreateEvent = EventFormSchema.omit({id: true, workers: true, open: true});
+const CreateEvent = EventFormSchema.omit({id: true, workers: true, open: true, reserves: true});
 export async function createEvent(prevState: EventState, formData: FormData) {
   const validatedFields = CreateEvent.safeParse({
     name: formData.get('name'),
@@ -547,7 +548,7 @@ export async function updateProfile(
   return { message: 'Profilen uppdaterades!' };
 }
 
-const UpdateEvent = EventFormSchema.omit({id: true, workers: true})
+const UpdateEvent = EventFormSchema.omit({id: true, workers: true, reserves: true})
 export async function updateEvent(
   id: string,
   prevState: EventState,
@@ -720,17 +721,50 @@ export async function strecka(id: string, num_streck: number) {
 
 export async function AddUserToEvent(event_id: string, user_id: string) {
   // console.log("add user to event 1");
+  var max_workers = -1;
+  var num_workers = -1;
   try {
-    await sql`
-      UPDATE events
-      SET workers = 
-        CASE 
-          WHEN array_position(workers, ${user_id}::uuid) IS NULL 
-          THEN array_append(workers, ${user_id}::uuid) 
-          ELSE workers 
-        END
-      WHERE id = ${event_id}::uuid;
+    let res = await sql`
+      SELECT 
+        id,
+        workers,
+        sought_workers
+      FROM events
+      WHERE id = ${event_id};
     `;
+
+    max_workers = res.rows[0].sought_workers;
+    num_workers = res.rows[0].workers.length;
+  } catch (error) {
+    console.error("Error adding user to event, error fetching event:", error);
+    return { success: false, message: "Failed to add user to event., error fetching event" };
+  }
+  try {
+    if (num_workers >= max_workers) {
+      await sql`
+        UPDATE events
+        SET reserves = 
+          CASE 
+            WHEN array_position(reserves, ${user_id}::uuid) IS NULL 
+            THEN array_append(reserves, ${user_id}::uuid) 
+            ELSE reserves 
+          END
+        WHERE id = ${event_id}::uuid;
+      `;
+    } else {
+      await sql`
+        UPDATE events
+        SET workers = 
+          CASE 
+            WHEN array_position(workers, ${user_id}::uuid) IS NULL 
+            THEN array_append(workers, ${user_id}::uuid) 
+            ELSE workers 
+          END
+        WHERE id = ${event_id}::uuid;
+      `;
+    }
+
+
     // console.log("added");
     // const event = await sql`
     //   SELECT
@@ -758,6 +792,11 @@ export async function RemoveUserFromEvent(event_id: string, user_id: string) {
       SET workers = array_remove(workers, ${user_id}::uuid)
       WHERE id = ${event_id}::uuid AND ${user_id} = ANY(workers)
     `;
+    await sql`
+      UPDATE events
+      SET reserves = array_remove(reserves, ${user_id}::uuid)
+      WHERE id = ${event_id}::uuid AND ${user_id} = ANY(reserves)
+    `;
   } catch (error) {
     console.error('Error removing user from event:', error);
     return { success: false, message: 'Failed to remove user from event' };
@@ -771,6 +810,11 @@ export async function AdminRemoveUserFromEvent(event_id: string, user_id: string
       UPDATE events
       SET workers = array_remove(workers, ${user_id}::uuid)
       WHERE id = ${event_id}::uuid AND ${user_id} = ANY(workers)
+    `;
+    await sql`
+      UPDATE events
+      SET reserves = array_remove(reserves, ${user_id}::uuid)
+      WHERE id = ${event_id}::uuid AND ${user_id} = ANY(reserves)
     `;
   } catch (error) {
     console.error('Error removing user from event:', error);
