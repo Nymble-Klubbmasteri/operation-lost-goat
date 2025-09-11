@@ -787,40 +787,82 @@ export async function AddUserToEvent(event_id: string, user_id: string) {
 
 export async function RemoveUserFromEvent(event_id: string, user_id: string) {
   try {
+    // Step 1: Fetch current workers and reserves
+    const result = await sql<{
+      workers: string[],
+      reserves: string[]
+    }>`SELECT workers, reserves FROM events WHERE id = ${event_id}::uuid`;
+
+    const { workers, reserves } = result.rows[0];
+
+    const wasInWorkers = workers.includes(user_id);
+    const wasInReserves = reserves.includes(user_id);
+
+    // Step 2: Remove user from both arrays
     await sql`
       UPDATE events
-      SET workers = array_remove(workers, ${user_id}::uuid)
-      WHERE id = ${event_id}::uuid AND ${user_id} = ANY(workers)
+      SET workers = array_remove(workers, ${user_id}::uuid),
+          reserves = array_remove(reserves, ${user_id}::uuid)
+      WHERE id = ${event_id}::uuid
     `;
-    await sql`
-      UPDATE events
-      SET reserves = array_remove(reserves, ${user_id}::uuid)
-      WHERE id = ${event_id}::uuid AND ${user_id} = ANY(reserves)
-    `;
+
+    // Step 3: Promote a reserve if user was removed from workers only
+    if (wasInWorkers && !wasInReserves && reserves.length > 0) {
+      const promotedUser = reserves[0];
+      await sql`
+        UPDATE events
+        SET workers = array_append(workers, ${promotedUser}::uuid),
+            reserves = array_remove(reserves, ${promotedUser}::uuid)
+        WHERE id = ${event_id}::uuid
+      `;
+    }
+
+    revalidatePath(`/dashboard/events/${event_id}/see`);
+    return { success: true };
   } catch (error) {
     console.error('Error removing user from event:', error);
     return { success: false, message: 'Failed to remove user from event' };
   }
-  revalidatePath(`dashboard/events/${event_id}/see`);
 }
 
 export async function AdminRemoveUserFromEvent(event_id: string, user_id: string) {
   try {
+    // Step 1: Fetch current workers and reserves
+    const result = await sql<{
+      workers: string[],
+      reserves: string[]
+    }>`SELECT workers, reserves FROM events WHERE id = ${event_id}::uuid`;
+
+    const { workers, reserves } = result.rows[0];
+
+    const wasInWorkers = workers.includes(user_id);
+    const wasInReserves = reserves.includes(user_id);
+
+    // Step 2: Remove user from both arrays if present
     await sql`
       UPDATE events
-      SET workers = array_remove(workers, ${user_id}::uuid)
-      WHERE id = ${event_id}::uuid AND ${user_id} = ANY(workers)
+      SET workers = array_remove(workers, ${user_id}::uuid),
+          reserves = array_remove(reserves, ${user_id}::uuid)
+      WHERE id = ${event_id}::uuid
     `;
-    await sql`
-      UPDATE events
-      SET reserves = array_remove(reserves, ${user_id}::uuid)
-      WHERE id = ${event_id}::uuid AND ${user_id} = ANY(reserves)
-    `;
+
+    // Step 3: Promote first user from reserves if user was removed from workers and reserves still has users
+    if (wasInWorkers && !wasInReserves && reserves.length > 0) {
+      const promotedUser = reserves[0];
+      await sql`
+        UPDATE events
+        SET workers = array_append(workers, ${promotedUser}::uuid),
+            reserves = array_remove(reserves, ${promotedUser}::uuid)
+        WHERE id = ${event_id}::uuid
+      `;
+    }
+
+    revalidatePath(`/dashboard/admin/events/${event_id}/edit`);
+    return { success: true };
   } catch (error) {
     console.error('Error removing user from event:', error);
     return { success: false, message: 'Failed to remove user from event' };
   }
-  revalidatePath(`dashboard/admin/events/${event_id}/edit`);
 }
 
 export async function updateSetting(key: string, value: string) {
