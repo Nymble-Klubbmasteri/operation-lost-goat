@@ -21,11 +21,11 @@ export function Strecka({ id, role }: { id: string, role: string}) {
 
   // This will bind the user ID and amount to the strecka function
   const handleStrecka = async (formData: FormData) => {
+    setShowConfirmation(false);
 
     // Get the amount from the form data
     const streckAmount = formData.get('amount') as string;
     // Call your strecka function with the user ID and amount
-    setShowConfirmation(false);
     let sa = streckAmount;
     setAmount(1);
     return strecka(id, parseInt(sa));
