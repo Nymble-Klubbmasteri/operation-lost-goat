@@ -9,7 +9,8 @@ import {
   EnvelopeIcon,
   LockClosedIcon,
   HandThumbUpIcon,
-  HandThumbDownIcon
+  HandThumbDownIcon,
+  LifebuoyIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
@@ -190,6 +191,26 @@ export default function EditProfileForm({
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 outline-2"
               />
               <HandThumbDownIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-text-dark peer-focus:text-text-light dark:peer-focus:text-text-dark" />
+            </div>
+          </div>
+        </div>
+
+        {/* User Food Pref */}
+        <div className="mb-4">
+          <label htmlFor="food_pref" className="mb-2 block text-sm font-medium">
+            Speckost
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="food_pref"
+                name="food_pref"
+                type="text"
+                defaultValue={user.food_pref}
+                placeholder="Enter food preference"
+                className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              />
+              <LifebuoyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
             </div>
           </div>
         </div>

@@ -14,6 +14,7 @@ export type User = {
   admin: string;
   nickname: string;
   priority: number;
+  food_pref: string;
 };
 
 export type DisplayUser = {
@@ -192,6 +193,7 @@ export type UserForm = {
   nickname: string;
   title: string;
   priority: number;
+  food_pref: string;
 }
 
 export type EventForm = {

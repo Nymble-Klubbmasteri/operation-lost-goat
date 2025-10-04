@@ -56,6 +56,7 @@ export type UserState = {
     image_nice?: string[];
     image_chaotic?: string[];
     priority?: string[];
+    food_pref?: string[];
   };
   message?: string | null;
 }
@@ -107,6 +108,7 @@ const UserFormSchema = z.object({
   title: z.string(),
   nickname: z.string(),
   priority: z.coerce.number(),
+  food_pref: z.string(),
 });
 
 const EventFormSchema = z.object({
@@ -163,7 +165,7 @@ export async function createInvoice(prevState: InvoiceState, formData: FormData)
   redirect('/dashboard/invoices');
 }
 
-const CreateUser = UserFormSchema.omit({id: true, likes: true, dislikes: true, priority: true});
+const CreateUser = UserFormSchema.omit({id: true, likes: true, dislikes: true, priority: true, food_pref: true});
 export async function createUser(prevState: UserState, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
     name: formData.get('name'),
@@ -315,6 +317,7 @@ export async function updateUser(
     nickname: formData.get('nickname'),
     title: formData.get('title'),
     priority: formData.get('priority'),
+    food_pref: formData.get('food_pref'),
   });
 
 
@@ -328,13 +331,33 @@ export async function updateUser(
   }
 
 
-  var { name, email, balance, password, role, admin, nickname, title, priority } = validatedFields.data;
+  var { name, email, balance, password, role, admin, nickname, title, priority, food_pref } = validatedFields.data;
   email = email.toLowerCase();
   if (priority) {
 
   } else {
     priority = 10;
   }
+
+  // try {
+  //   let r = await sql`
+  //   ALTER TABLE users
+  //   ADD food_pref TEXT
+  //   `;
+  //   console.log("add users: ", r);
+
+  //   let r2 = await sql`
+  //     SELECT
+  //       *
+  //     FROM 
+  //       users
+  //     WHERE
+  //       name ILIKE "David Schalin"
+  //   `;
+  //   console.log("r2: ", r2.rows[0]);
+  // } catch (error) {
+  //   console.error("ERROR: ", error);
+  // }
 
   // Log balance updates:
   try {
@@ -357,10 +380,7 @@ export async function updateUser(
     // );
     // `;
     
-    // await sql`
-    // ALTER TABLE users
-    // ADD priority INT DEFAULT 10
-    // `;
+
     
     // Actual code:
 
@@ -401,7 +421,7 @@ export async function updateUser(
     try {
       await sql`
         UPDATE users
-        SET name = ${name}, email = ${email}, balance = ${balance}, password = ${hashedPassword}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}, priority = ${priority}
+        SET name = ${name}, email = ${email}, balance = ${balance}, password = ${hashedPassword}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}, priority = ${priority}, food_pref = ${food_pref}
         WHERE id = ${id} 
       `;
   
@@ -414,7 +434,7 @@ export async function updateUser(
     try {
       await sql`
         UPDATE users
-        SET name = ${name}, email = ${email}, balance = ${balance}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}, priority = ${priority}
+        SET name = ${name}, email = ${email}, balance = ${balance}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}, priority = ${priority}, food_pref = ${food_pref}
         WHERE id = ${id}
       `;
   
@@ -440,7 +460,8 @@ export async function updateProfile(
     password: formData.get('password'),
     likes: formData.get('likes'),
     dislikes: formData.get('dislikes'),
-    nickname: formData.get('nickname')
+    nickname: formData.get('nickname'),
+    food_pref: formData.get('food_pref'),
   });
 
   if (!validatedFields.success) {
@@ -451,7 +472,7 @@ export async function updateProfile(
     };
   }
 
-  var { name, email, password, likes, dislikes, nickname } = validatedFields.data;
+  var { name, email, password, likes, dislikes, nickname, food_pref } = validatedFields.data;
   email = email.toLowerCase();
   // console.log("likes:", likes);
   // console.log("dislikes:", dislikes);
@@ -500,7 +521,8 @@ export async function updateProfile(
         email = ${email},
         likes = ${likes},
         dislikes = ${dislikes},
-        nickname = ${nickname}
+        nickname = ${nickname},
+        food_pref = ${food_pref}
       WHERE id = ${id}
     `;
     if (hashedPassword ) {

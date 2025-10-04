@@ -40,7 +40,8 @@ export async function fetchUserById(id: string) {
         likes,
         dislikes,
         title,
-        priority
+        priority,
+        food_pref
       FROM users
       WHERE users.id = ${id};
     `;
