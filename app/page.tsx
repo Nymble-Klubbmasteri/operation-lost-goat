@@ -47,6 +47,10 @@ export default async function Page() {
             Vill du kontakta Nymble Klubbmästeri? Då kan du maila vårt klubbmästarpar på: 
             <a href="mailto:kbm@ths.kth.se" className="text-blue-600 hover:underline ml-1">kbm@ths.kth.se</a>
           </div>
+          <div className="rounded-lg bg-surface-light dark:bg-surface-dark p-4 text-sm text-text-light dark:text-text-dark">
+            Har du åsikter om hemsidan? Lägg till en issue på
+            <a href="https://github.com/Nymble-Klubbmasteri/operation-lost-goat" className="text-blue-600 hover:underline ml-1">GitHub</a>
+          </div>
         </div>
 
         
