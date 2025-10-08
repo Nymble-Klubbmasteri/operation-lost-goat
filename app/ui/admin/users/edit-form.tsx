@@ -168,7 +168,7 @@ export default function EditUserForm({
           </div>
         </div>
 
-        {/* User Name */}
+        {/* User Food Pref */}
         <div className="mb-4">
           <label htmlFor="food_pref" className="mb-2 block text-sm font-medium">
             Speckost
