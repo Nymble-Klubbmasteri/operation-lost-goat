@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { DisplayUser } from '@/app/lib/definitions';
 import Image from 'next/image';
-import placeholder_image from '@/public/users/evil-rabbit.png';
+import placeholder_image from '@/public/users/tjacknollan_2.jpg';
 
 export default function MemberGallery({ members }: { members: DisplayUser[] }) {
   // if (members.length === 0) {
@@ -40,21 +40,27 @@ export default function MemberGallery({ members }: { members: DisplayUser[] }) {
               title={isFlipped ? 'Show nice image' : 'Show chaotic image'}
             >
               {/* Nice image */}
-              <img
-                src={member.image_nice_url || '@/public/users/evil-rabbit.png'}
+              <Image
+                src={member.image_nice_url || placeholder_image}
                 alt={`${member.name}`}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
                   isFlipped ? 'opacity-0' : 'opacity-100'
                 }`}
+                priority={false}
               />
 
               {/* Chaotic image */}
-              <img
-                src={member.image_chaotic_url || '@/public/users/evil-rabbit.png'}
+              <Image
+                src={member.image_chaotic_url || placeholder_image}
                 alt={`${member.name} (alternate)`}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
                   isFlipped ? 'opacity-100' : 'opacity-0'
                 }`}
+                priority={false}
               />
             </button>
 
