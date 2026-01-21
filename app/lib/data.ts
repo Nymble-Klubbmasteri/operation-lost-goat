@@ -797,7 +797,7 @@ export async function fetchMembersByRole(role: string){
 export async function getTopListByYear() {
   noStore();
   try {
-    const current_year = new Date().toISOString().split('T')[0];
+    const currentYear = new Date().getFullYear();
 
     const result = await sql`
       SELECT 
@@ -810,7 +810,7 @@ export async function getTopListByYear() {
       LEFT JOIN 
         streck s ON u.id = s.user_id
       WHERE
-        u.role = 'Marskalk' OR u.role = 'WraQ' OR u.role = 'Qnekt' AND s.time > ${current_year}
+        (u.role = 'Marskalk' OR u.role = 'WraQ' OR u.role = 'Qnekt') AND EXTRACT(YEAR FROM s.time) = ${currentYear}
       GROUP BY 
         u.id, u.nickname
       HAVING 
