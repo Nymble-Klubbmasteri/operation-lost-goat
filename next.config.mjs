@@ -1,4 +1,4 @@
-/ ** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     // Tip 1: keep optimized image variants cached longer to reduce transformations/cache writes
