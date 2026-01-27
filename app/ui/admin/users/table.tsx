@@ -1,6 +1,6 @@
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import { fetchFilteredUsers } from '@/app/lib/data';
+import { fetchBank, fetchFilteredUsers } from '@/app/lib/data';
 import { UpdateUser, DeleteUser } from '@/app/ui/admin/users/buttons';
 import { auth } from '@/auth';
 import { lusitana } from '../../fonts';
@@ -18,6 +18,7 @@ export default async function UsersTable({
   order: 'DESC' | 'ASC';
 }) {
   const users = await fetchFilteredUsers(query, currentPage, sort, order);
+  const bank = await fetchBank();
 
   const session = await auth();
   if (!session?.user.id) {

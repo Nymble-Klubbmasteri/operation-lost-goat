@@ -256,7 +256,8 @@ export async function fetchFilteredUsers(
           users.image_nice_url,
           users.image_chaotic_url,
           users.balance,
-          users.role
+          users.role,
+          users.nickname
         FROM users
         WHERE
           users.name ILIKE ${`%${query}%`} OR
@@ -276,7 +277,8 @@ export async function fetchFilteredUsers(
           users.image_nice_url,
           users.image_chaotic_url,
           users.balance,
-          users.role
+          users.role,
+          users.nickname
         FROM users
         WHERE
           users.name ILIKE ${`%${query}%`} OR
@@ -296,7 +298,8 @@ export async function fetchFilteredUsers(
           users.image_nice_url,
           users.image_chaotic_url,
           users.balance,
-          users.role
+          users.role,
+          users.nickname
         FROM users
         WHERE
           users.name ILIKE ${`%${query}%`} OR
@@ -316,7 +319,8 @@ export async function fetchFilteredUsers(
           users.image_nice_url,
           users.image_chaotic_url,
           users.balance,
-          users.role
+          users.role,
+          users.nickname
         FROM users
         WHERE
           users.name ILIKE ${`%${query}%`} OR
@@ -336,7 +340,8 @@ export async function fetchFilteredUsers(
           users.image_nice_url,
           users.image_chaotic_url,
           users.balance,
-          users.role
+          users.role,
+          users.nickname
         FROM users
         WHERE
           users.name ILIKE ${`%${query}%`} OR
@@ -356,7 +361,8 @@ export async function fetchFilteredUsers(
           users.image_nice_url,
           users.image_chaotic_url,
           users.balance,
-          users.role
+          users.role,
+          users.nickname
         FROM users
         WHERE
           users.name ILIKE ${`%${query}%`} OR
@@ -376,7 +382,8 @@ export async function fetchFilteredUsers(
           users.image_nice_url,
           users.image_chaotic_url,
           users.balance,
-          users.role
+          users.role,
+          users.nickname
         FROM users
         WHERE
           users.name ILIKE ${`%${query}%`} OR
@@ -396,7 +403,8 @@ export async function fetchFilteredUsers(
           users.image_nice_url,
           users.image_chaotic_url,
           users.balance,
-          users.role
+          users.role,
+          users.nickname
         FROM users
         WHERE
           users.name ILIKE ${`%${query}%`} OR
@@ -951,4 +959,21 @@ export async function fetchUserEvents(userId: string) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user events.');
   }
+}
+
+export async function fetchBank() {
+  noStore();
+  try {
+    const result = await sql`
+      SELECT
+        COALESCE(SUM(u.balance), 0) as bank_amount
+      FROM
+        users u
+    `;
+
+    console.log("Bank:", result.rows[0]);
+    return result.rows[0]
+  } catch (error) {
+    
+  }  
 }
