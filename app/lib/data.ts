@@ -56,7 +56,7 @@ export async function fetchUserById(id: string) {
     console.error('Database error:', error);
     throw new Error('Failed to fetch user.');
   }
-  
+
 }
 
 export async function fetchEventById(id: string) {
@@ -174,7 +174,7 @@ export async function fetchEventsPages(query: string) {
   noStore();
   try {
     const count = await
-    sql`
+      sql`
       SELECT COUNT(*)
         FROM events
         WHERE
@@ -192,8 +192,8 @@ export async function fetchEventsPages(query: string) {
 export async function fetchUsersPages(query: string) {
   noStore();
   try {
-    const count = await 
-    sql`
+    const count = await
+      sql`
       SELECT COUNT(*)
         FROM users
         WHERE 
@@ -214,8 +214,8 @@ export async function fetchUsersPages(query: string) {
 export async function fetchStreckUsersPages(query: string) {
   noStore();
   try {
-    const count = await 
-    sql`
+    const count = await
+      sql`
       SELECT COUNT(*)
         FROM users
         WHERE 
@@ -721,7 +721,7 @@ export async function getTopList() {
 }
 
 export async function getNumStreckUser(id: string) {
-    noStore();
+  noStore();
   try {
     const result = await sql`
       SELECT 
@@ -769,7 +769,7 @@ export async function fetchUsersForDisplay() {
   }
 }
 
-export async function fetchMembersByRole(role: string){
+export async function fetchMembersByRole(role: string) {
   noStore();
   try {
     // This runs on the server side only
@@ -783,7 +783,7 @@ export async function fetchMembersByRole(role: string){
     `;
 
     // console.log("results fetch users by role:", result.rows, "---");
-    
+
     // Convert the result to DisplayUser array
     return result.rows.map(row => ({
       // name: row.name,
@@ -892,7 +892,7 @@ export async function getUpcomingPub() {
     // console.log("Latest event:", res.rows[0]);
     // console.log("twentyfourhoursago: ", twentyFourHoursAgo);
     return res.rows[0];
-    
+
   } catch (error) {
     console.error(error);
     // return {}
@@ -976,4 +976,61 @@ export async function fetchBank() {
   } catch (error) {
     
   }  
+}
+
+export async function fetchEventsBetweenDates(type: string, date_from: string, date_to: string) {
+  noStore();
+
+  try {
+    const events_query = await sql<{
+      id: string;
+      name: string;
+      date: string;
+      type: number;
+      workers: string[];
+      notes: string;
+      start_work_time: string;
+      end_work_time: string;
+    }>`
+      SELECT
+        id,
+        name,
+        date,
+        type,
+        workers,
+        notes,
+        start_work_time,
+        end_work_time
+      FROM events
+      WHERE type = 3 and date between ${date_from} AND ${date_to}
+    `;
+
+    const users_query = await sql<{
+      id: string;
+      name: string;
+    }>`
+      SELECT
+        id,
+        name
+      FROM users
+    `;
+
+    const events = events_query.rows;
+    const users = users_query.rows;
+    for (let i = 0; i < events.length; i++) {
+      for (let j = 0; j < events[i].workers.length; j++) {
+        const e = users.find(e => e.id === events[i].workers[j]);
+        if (e === undefined) {
+          events[i].workers[j] = "Unknown";
+        } else {
+          events[i].workers[j] = e.name;
+        }
+      }
+    }
+
+    return events;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch events between');
+  }
 }
