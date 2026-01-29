@@ -28,6 +28,7 @@ const links = [
   { name: 'Administrera Event', href: '/dashboard/admin/events', icon: InboxStackIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Administrera Sidan', href: '/dashboard/admin/administration', icon: WrenchIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Administrera Listan', href: '/dashboard/admin/listan', icon: CurrencyDollarIcon, adminProtect: true, marskalkProtect: false },
+  { name: 'Exportera Event', href: '/dashboard/admin/export', icon: CurrencyDollarIcon, adminProtect: true, marskalkProtect: false },
 
 
 ];
