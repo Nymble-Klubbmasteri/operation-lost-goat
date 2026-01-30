@@ -4,22 +4,22 @@ import { fetchUsers } from '@/app/lib/data';
 import { Metadata } from 'next';
 import { lusitana } from '@/app/ui/fonts';
 import { auth } from '@/auth';
- 
+
 export const metadata: Metadata = {
   title: 'Event Creation',
 };
 
 // literally 
- 
+
 export default async function Page() {
   const session = await auth();
-    if (!session?.user.role) {
-        return (
-          <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-            Du har ingen roll! :(
-          </h1>
-        );
-    }
+  if (!session?.user.role) {
+    return (
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Du har ingen roll! :(
+      </h1>
+    );
+  }
   if (session.user.admin !== 'Yes') {
     return (
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
@@ -28,7 +28,7 @@ export default async function Page() {
     );
   }
   const users = await fetchUsers();
- 
+
   return (
     <main>
       <Breadcrumbs

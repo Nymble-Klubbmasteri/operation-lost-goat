@@ -3,12 +3,11 @@ import { fetchBalanceByID, getNumStreckUser, getSwishNumber } from '@/app/lib/da
 import Link from 'next/link';
 // wiiii
 
-
-export default async function SaldoBox({ id, role }: { id: string, role: string}) {
+export default async function SaldoBox({ id, role }: { id: string, role: string }) {
   const balance = await fetchBalanceByID(id);
   const num_streck = await getNumStreckUser(id);
 
-  if (!balance ) {
+  if (!balance) {
     return (
       <div>
         Hittade inte ditt saldo...
@@ -27,14 +26,12 @@ export default async function SaldoBox({ id, role }: { id: string, role: string}
   if (role === "Killing" || role === "Inaktiv" || role === "Utesluten") {
     return (
       <div>
-        
       </div>
     )
   }
 
   let sn = await getSwishNumber();
 
-    // console.log("balance is...:", balance.balance);
   return (
     <div className="p-4 border rounded-lg shadow-md bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark w-64 text-center">
       <p className="text-lg font-semibold">Strecka av dig till: </p>
@@ -45,8 +42,6 @@ export default async function SaldoBox({ id, role }: { id: string, role: string}
       <p className="text-xl font-bold mt-2">{balance.balance !== null ? `${balance.balance} kr` : "Laddar..."}</p>
       <p className="text-lg font-semibold">Antal Streck:</p>
       <p className="text-xl font-bold mt-2">{num_streck.streck_count !== null ? `${num_streck.streck_count} st` : "Laddar..."}</p>
-
-
     </div>
   );
 }

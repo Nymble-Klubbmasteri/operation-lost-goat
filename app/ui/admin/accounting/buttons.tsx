@@ -19,7 +19,7 @@ export function AdjustBalanceButton({ userId, adminId }: { userId: string, admin
 
     try {
       const promise = updateBalance(userId, adminId, amount);
-      
+
       toast.promise(
         promise,
         {
@@ -77,8 +77,8 @@ export function AdjustBalanceButton({ userId, adminId }: { userId: string, admin
   );
 }
 
-export function DeleteStreckButton({ id , user_id}: { id: string, user_id: string }) {
-  const deleteStreckWithID = removeStreck.bind(null, id, user_id);  
+export function DeleteStreckButton({ id, user_id }: { id: string, user_id: string }) {
+  const deleteStreckWithID = removeStreck.bind(null, id, user_id);
   return (
     <form action={deleteStreckWithID}>
       <button className="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-2 hover:bg-gray-100 dark:hover:bg-gray-700">

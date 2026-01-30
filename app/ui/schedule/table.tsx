@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 import { use } from 'react';
 
-function EventsTableComponent({ events }: { events: any[] }) {
+export default function EventsTable({ events }: { events: any[] }) {
   const [showPastEvents, setShowPastEvents] = useState(false);
   const [filteredEvents, setFilteredEvents] = useState(events);
 
@@ -32,14 +32,12 @@ function EventsTableComponent({ events }: { events: any[] }) {
             <button
               id="togglePastEvents"
               onClick={() => setShowPastEvents(prev => !prev)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                showPastEvents ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'
-              }`}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showPastEvents ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'
+                }`}
             >
               <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  showPastEvents ? 'translate-x-6' : 'translate-x-1'
-                }`}
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${showPastEvents ? 'translate-x-6' : 'translate-x-1'
+                  }`}
               />
             </button>
           </div>
@@ -81,15 +79,14 @@ function EventsTableComponent({ events }: { events: any[] }) {
               {filteredEvents?.map((event) => (
                 <tr
                   key={event.id}
-                  className={`w-full border-b py-3 text-sm ${
-                    event.type === 3
+                  className={`w-full border-b py-3 text-sm ${event.type === 3
                       ? 'bg-green-100 dark:bg-green-900'
                       : event.type === 2
-                      ? 'bg-blue-100 dark:bg-blue-900'
-                      : event.type === 0
-                      ? 'bg-gray-100 dark:bg-gray-800'
-                      : 'bg-white dark:bg-gray-800'
-                  } [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg`}
+                        ? 'bg-blue-100 dark:bg-blue-900'
+                        : event.type === 0
+                          ? 'bg-gray-100 dark:bg-gray-800'
+                          : 'bg-white dark:bg-gray-800'
+                    } [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg`}
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
@@ -112,8 +109,4 @@ function EventsTableComponent({ events }: { events: any[] }) {
       </div>
     </div>
   );
-}
-
-export default function EventsTable({ events }: { events: any[] }) {
-  return <EventsTableComponent events={events} />;
 }

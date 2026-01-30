@@ -15,7 +15,6 @@ import sharp from 'sharp';
 import { getStreckPrice } from './data';
 import { Streck, User } from './definitions';
 
-
 const bucketName = process.env.GCS_BUCKET_NAME!;
 const storage = getGCSClient().bucket(bucketName);
 
@@ -25,24 +24,15 @@ async function uploadToGCS(file: File, filename: string): Promise<string> {
 
   const pngBuffer = await sharp(buffer).png().toBuffer();
 
-
   await fileRef.save(pngBuffer, {
     resumable: false,
     public: true,
-    metadata: { contentType: file.type }}
+    metadata: { contentType: file.type }
+  }
   );
 
   return `https://storage.googleapis.com/${bucketName}/${filename}`;
 }
-
-export type InvoiceState = {
-  errors?: {
-    customerId?: string[];
-    amount?: string[];
-    status?: string[];
-  };
-  message?: string | null;
-};
 
 export type UserState = {
   errors?: {
@@ -78,20 +68,6 @@ export type EventState = {
     open?: string[];
   }
 }
- 
-const InvoiceFormSchema = z.object({
-  id: z.string(),
-  customerId: z.string({
-    invalid_type_error: 'Please select a customer.',
-  }),
-  amount: z.coerce
-    .number()
-    .gt(0, { message: 'Please enter an amount greater than $0.' }),  
-    status: z.enum(['pending', 'paid'], {
-      invalid_type_error: 'Please select an invoice status.', 
-    }),
-  date: z.string(),
-});
 
 const UserFormSchema = z.object({
   id: z.string(),
@@ -99,7 +75,8 @@ const UserFormSchema = z.object({
   email: z.string(),
   balance: z.coerce.number({
     required_error: "balance is required",
-    invalid_type_error: "balance must be a number",}),
+    invalid_type_error: "balance must be a number",
+  }),
   password: z.string(),
   role: z.string(),
   admin: z.string(),
@@ -128,44 +105,8 @@ const EventFormSchema = z.object({
   open: z.coerce.number(),
   reserves: z.string().array()
 });
- 
-const CreateInvoice = InvoiceFormSchema.omit({ id: true, date: true });
-export async function createInvoice(prevState: InvoiceState, formData: FormData) {
-  const validatedFields = CreateInvoice.safeParse({
-    customerId: formData.get('customerId'),
-    amount: formData.get('amount'),
-    status: formData.get('status'),
-  });
 
-    // If form validation fails, return errors early. Otherwise, continue.
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Create Invoice.',
-    };
-  }
-
-  // Prepare data for insertion into the database
-  const { customerId, amount, status } = validatedFields.data;
-  const amountInCents = amount * 100;
-  const date = new Date().toISOString().split('T')[0];
-
-  try {
-      await sql`
-      INSERT INTO invoices (customer_id, amount, status, date)
-      VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
-      `;
-  } catch (error) {
-      return {
-          message: 'Database failed to create invoice.',
-      };
-  }
-
-  revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
-}
-
-const CreateUser = UserFormSchema.omit({id: true, likes: true, dislikes: true, priority: true, food_pref: true});
+const CreateUser = UserFormSchema.omit({ id: true, likes: true, dislikes: true, priority: true, food_pref: true });
 export async function createUser(prevState: UserState, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
     name: formData.get('name'),
@@ -179,7 +120,6 @@ export async function createUser(prevState: UserState, formData: FormData) {
 
   });
 
-  // console.log("hi! create_user 1");
   if (!validatedFields.success) {
     console.error("Errors:", validatedFields.error.flatten().fieldErrors);
     return {
@@ -187,13 +127,11 @@ export async function createUser(prevState: UserState, formData: FormData) {
       message: 'Missing Fields. Failed to Create Invoice',
     };
   }
-  // console.log("hi! create_user 2");
 
   // Prepare Data for insertion into the database
-  var {name, email, balance, password, role, admin, title, nickname} = validatedFields.data;
+  var { name, email, balance, password, role, admin, title, nickname } = validatedFields.data;
   email = email.toLocaleLowerCase();
   const hashedPassword = await bcrypt.hash(password, 10);
-  // console.log("hi! create_user 3");
 
   try {
     await sql`
@@ -206,13 +144,12 @@ export async function createUser(prevState: UserState, formData: FormData) {
       message: 'Database failed to create user',
     };
   }
-  // console.log("hi! create_user 4");
 
   revalidatePath('/dashboard/admin/users');
   redirect('/dashboard/admin/users');
 }
 
-const CreateEvent = EventFormSchema.omit({id: true, workers: true, open: true, reserves: true});
+const CreateEvent = EventFormSchema.omit({ id: true, workers: true, open: true, reserves: true });
 export async function createEvent(prevState: EventState, formData: FormData) {
   const validatedFields = CreateEvent.safeParse({
     name: formData.get('name'),
@@ -228,7 +165,6 @@ export async function createEvent(prevState: EventState, formData: FormData) {
     notes: formData.get('notes')
   });
 
-  // console.log("hi! create_event 1");
   if (!validatedFields.success) {
     console.error("Errors:", validatedFields.error.flatten().fieldErrors);
     return {
@@ -236,11 +172,9 @@ export async function createEvent(prevState: EventState, formData: FormData) {
       message: 'Missing Fields. Failed to Create Invoice',
     };
   }
-  // console.log("hi! create_event 2");
 
   // Prepare Data for insertion into the database
   const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes } = validatedFields.data;
-  // console.log("hi! create_event 3");
 
   console.log("Create Event, date:", date);
 
@@ -255,56 +189,17 @@ export async function createEvent(prevState: EventState, formData: FormData) {
       message: 'Database failed to create event',
     };
   }
-  // console.log("hi! create_event 4");
 
   revalidatePath('/dashboard/admin/events');
   redirect('/dashboard/admin/events');
 }
 
-  // Use Zod to update the expected types
-const UpdateInvoice = InvoiceFormSchema.omit({ id: true, date: true });
-export async function updateInvoice(
-  id: string,
-  prevState: InvoiceState,
-  formData: FormData,
-) {
-  const validatedFields = UpdateInvoice.safeParse({
-    customerId: formData.get('customerId'),
-    amount: formData.get('amount'),
-    status: formData.get('status'),
-  });
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing Fields. Failed to Update Invoice.',
-    };
-  }
- 
-  const { customerId, amount, status } = validatedFields.data;
-  const amountInCents = amount * 100;
- 
-  try {
-    await sql`
-      UPDATE invoices
-      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
-      WHERE id = ${id}
-    `;
-  } catch (error) {
-    return { message: 'Database Error: Failed to Update Invoice.' };
-  }
- 
-  revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
-}
-
-
-const UpdateUser = UserFormSchema.omit({id: true, likes: true, dislikes: true})
+const UpdateUser = UserFormSchema.omit({ id: true, likes: true, dislikes: true })
 export async function updateUser(
   id: string,
   admin_id: string,
   prevState: UserState,
-  formData: FormData,  
+  formData: FormData,
 ) {
 
   const validatedFields = UpdateUser.safeParse({
@@ -320,16 +215,14 @@ export async function updateUser(
     food_pref: formData.get('food_pref'),
   });
 
-
-  if (!validatedFields.success){
+  if (!validatedFields.success) {
     console.error("Errors:", validatedFields.error.flatten().fieldErrors);
-    console.error("Balance type: ",typeof formData.get('balance'))
+    console.error("Balance type: ", typeof formData.get('balance'))
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to update user.',
     };
   }
-
 
   var { name, email, balance, password, role, admin, nickname, title, priority, food_pref } = validatedFields.data;
   email = email.toLowerCase();
@@ -379,21 +272,15 @@ export async function updateUser(
     //   admin_id UUID NOT NULL
     // );
     // `;
-    
 
-    
     // Actual code:
-
-
     res = await sql<User>`
     SELECT *
     FROM users
     WHERE id = ${id}
     `;
     if ((res.rows[0].balance as unknown as number) != balance) {
-      // console.log("log log, res.balance:", res.rows[0].balance as unknown as number, "field balance:", balance);
       const diff = balance - (res.rows[0].balance as unknown as number);
-      // console.log("diff: ", diff);
 
       await sql`
       INSERT INTO logs(
@@ -410,49 +297,45 @@ export async function updateUser(
       )
       `;
     }
-
   } catch (error) {
     console.error("Error fetching user balance for accounting purposes:", error);
   }
 
   if (password.length >= 6) {
     const hashedPassword = await bcrypt.hash(password, 10);
-    // console.log("update: role:", role, "admin:", admin);
     try {
       await sql`
         UPDATE users
         SET name = ${name}, email = ${email}, balance = ${balance}, password = ${hashedPassword}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}, priority = ${priority}, food_pref = ${food_pref}
         WHERE id = ${id} 
       `;
-  
+
     } catch (error) {
       console.error("Update user error 1: ", error);
-      return {message: 'Database Error: Failed to Update User'};
+      return { message: 'Database Error: Failed to Update User' };
     }
   } else {
-    // console.log("update: role:", role, "admin:", admin);
     try {
       await sql`
         UPDATE users
         SET name = ${name}, email = ${email}, balance = ${balance}, role = ${role}, admin = ${admin}, nickname = ${nickname}, title = ${title}, priority = ${priority}, food_pref = ${food_pref}
         WHERE id = ${id}
       `;
-  
     } catch (error) {
       console.error("Update user error 2: ", error);
-      return {message: 'Database Error: Failed to Update User'};
+      return { message: 'Database Error: Failed to Update User' };
     }
-  } 
+  }
 
   revalidatePath('/dashboard/admin/users');
   redirect('/dashboard/admin/users');
 }
 
-const UpdateProfile = UserFormSchema.omit({id: true, balance: true, role: true, admin: true, title: true, priority: true})
+const UpdateProfile = UserFormSchema.omit({ id: true, balance: true, role: true, admin: true, title: true, priority: true })
 export async function updateProfile(
   id: string,
   prevState: UserState,
-  formData: FormData,  
+  formData: FormData,
 ) {
   const validatedFields = UpdateProfile.safeParse({
     name: formData.get('name'),
@@ -474,9 +357,6 @@ export async function updateProfile(
 
   var { name, email, password, likes, dislikes, nickname, food_pref } = validatedFields.data;
   email = email.toLowerCase();
-  // console.log("likes:", likes);
-  // console.log("dislikes:", dislikes);
-
 
   // ⬇️ Handle file uploads
   const niceFile = formData.get('image_nice') as File | null;
@@ -525,7 +405,7 @@ export async function updateProfile(
         food_pref = ${food_pref}
       WHERE id = ${id}
     `;
-    if (hashedPassword ) {
+    if (hashedPassword) {
       res2 = await sql`
         UPDATE users
         SET
@@ -533,7 +413,7 @@ export async function updateProfile(
         WHERE id = ${id}
       `;
     }
-    if (niceUrl ) {
+    if (niceUrl) {
       res3 = await sql`
         UPDATE users
         SET
@@ -541,7 +421,7 @@ export async function updateProfile(
         WHERE id = ${id}
       `;
     }
-    if (chaoticUrl ) {
+    if (chaoticUrl) {
       res4 = await sql`
         UPDATE users
         SET
@@ -549,19 +429,7 @@ export async function updateProfile(
         WHERE id = ${id}
       `;
     }
-
-    // console.log("result from updating user basics: ", res1);
-    // if (res2) {
-    //   console.log("result from updating user password: ", res2);
-    // }
-    // if (res3) {
-    //   console.log("result from updating user nice url: ", res3);
-    // }
-    // if (res4) {
-    //   console.log("result from updating user chaotic url: ", res4);
-    // }
   } catch (error) {
-    // console.log("AAAAAAAAH");
     console.log("error: ", error);
     console.error("Error:", error);
     return { message: 'Database Error: Failed to Update User' };
@@ -570,11 +438,11 @@ export async function updateProfile(
   return { message: 'Profilen uppdaterades!' };
 }
 
-const UpdateEvent = EventFormSchema.omit({id: true, workers: true, reserves: true})
+const UpdateEvent = EventFormSchema.omit({ id: true, workers: true, reserves: true })
 export async function updateEvent(
   id: string,
   prevState: EventState,
-  formData: FormData,  
+  formData: FormData,
 ) {
 
   const validatedFields = UpdateEvent.safeParse({
@@ -593,7 +461,7 @@ export async function updateEvent(
   });
 
 
-  if (!validatedFields.success){
+  if (!validatedFields.success) {
     console.error("Errors:", validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
@@ -636,23 +504,11 @@ export async function updateEvent(
 
   } catch (error) {
     console.error('Updating event failed:', error);
-    return {message: 'Database Error: Failed to Update Event'};
+    return { message: 'Database Error: Failed to Update Event' };
   }
 
   revalidatePath('/dashboard/admin/events');
   redirect('/dashboard/admin/events');
-}
-
-export async function deleteInvoice(id: string) {
-    try {
-        await sql`DELETE FROM invoices WHERE id = ${id}`;
-        revalidatePath('/dashboard/invoices');      
-    } catch (error) {
-        return {
-            message: 'Database failed to delete invoice.',
-        };
-    }
-
 }
 
 export async function deleteUser(id: string) {
@@ -712,13 +568,13 @@ export async function strecka(id: string, num_streck: number) {
       const balance = result.rows[0]?.balance ?? 0;
 
       // Determine the deduction amount
-      let deduction = num_streck*spv;
-      if (balance < 0){
-        deduction += num_streck*5;
+      let deduction = num_streck * spv;
+      if (balance < 0) {
+        deduction += num_streck * 5;
       }
-      else if(balance - deduction < -1*spv){
-        const new_num = (((balance-(balance%spv))/spv)+1)
-        deduction += 5*(num_streck-new_num);
+      else if (balance - deduction < -1 * spv) {
+        const new_num = (((balance - (balance % spv)) / spv) + 1)
+        deduction += 5 * (num_streck - new_num);
       }
 
       // Update the balance
@@ -742,7 +598,6 @@ export async function strecka(id: string, num_streck: number) {
 }
 
 export async function AddUserToEvent(event_id: string, user_id: string) {
-  // console.log("add user to event 1");
   var max_workers = -1;
   var num_workers = -1;
   try {
@@ -785,25 +640,10 @@ export async function AddUserToEvent(event_id: string, user_id: string) {
         WHERE id = ${event_id}::uuid;
       `;
     }
-
-
-    // console.log("added");
-    // const event = await sql`
-    //   SELECT
-    //     events.id,
-    //     events.name,
-    //     events.workers
-    //   FROM events
-    //   WHERE events.id = ${event_id}::uuid;
-    // `;
-    // console.log("added user to event", event.rows[0]);
-
   } catch (error) {
-    // console.log(error);
     console.error("Error adding user to event:", error);
     return { success: false, message: "Failed to add user to event." };
   }
-  // console.log("add user to event 2");
   revalidatePath(`dashboard/events/${event_id}/see`);
 }
 
@@ -893,7 +733,7 @@ export async function updateSetting(key: string, value: string) {
     SET value = ${value}
     WHERE key = ${key}
   `;
-  revalidatePath('/dashboard/admin/administration'); 
+  revalidatePath('/dashboard/admin/administration');
   redirect('/dashboard/admin/administration');
 }
 
@@ -933,7 +773,6 @@ export async function resetStrecklistaPermanent() {
   } catch (error) {
     console.error("error when reseting strecklista:", error);
   }
-  
 }
 
 export async function updateBalance(user_id: string, admin_id: string, diff: string) {

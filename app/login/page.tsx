@@ -1,11 +1,11 @@
 import NKMLogo from '@/app/ui/acme-logo';
 import LoginForm from '@/app/ui/login-form';
 import { Metadata } from 'next';
- 
+
 export const metadata: Metadata = {
   title: 'Login',
 };
- 
+
 export default function LoginPage() {
   return (
     <main className="flex items-center justify-center md:h-screen bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">

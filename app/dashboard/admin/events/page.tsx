@@ -8,11 +8,11 @@ import { Suspense } from 'react';
 import { fetchEventsPages } from '@/app/lib/data';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
- 
+
 export const metadata: Metadata = {
   title: 'Administrera Event',
 };
- 
+
 export default async function Page({
   searchParams,
 }: {
@@ -27,18 +27,18 @@ export default async function Page({
   const totalPages = await fetchEventsPages(query);
   const session = await auth();
   if (!session?.user.role) {
-      return (
-        <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-          Du har ingen roll! :(
-        </h1>
-      );
+    return (
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Du har ingen roll! :(
+      </h1>
+    );
   }
   if (session.user.admin !== 'Yes') {
-  return (
-    <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-      Du är inte admin!
-    </h1>
-  );
+    return (
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Du är inte admin!
+      </h1>
+    );
   }
 
   return (
@@ -50,7 +50,7 @@ export default async function Page({
         <Search placeholder="Search events..." />
         <CreateEvent />
       </div>
-       <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">

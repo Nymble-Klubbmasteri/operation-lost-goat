@@ -74,14 +74,14 @@ export default async function UsersTable({
                     <div className="flex items-center gap-3">
                       <p>{user.name}</p>
                     </div>
-                  </td>                
+                  </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {(user.balance)}
                   </td>
-                 
+
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <SeeUser id={user.id} admin_id={session.user.id!}/>
+                      <SeeUser id={user.id} admin_id={session.user.id!} />
                     </div>
                   </td>
                 </tr>

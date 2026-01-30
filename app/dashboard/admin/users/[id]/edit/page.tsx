@@ -5,59 +5,56 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 import { lusitana } from '@/app/ui/fonts';
- 
+
 export const metadata: Metadata = {
   title: 'User',
 };
 
-
- 
 export default async function Page({ params }: { params: { id: string } }) {
-    const id = params.id;
-    const user = await Promise.all([
-        fetchUserById(id)
-    ]);
-    // console.log("edit user page.tsx, user:", user[0]);
-    const session = await auth();
-    if (!session?.user.role) {
-        return (
-        <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-            Du har ingen roll! :(
-        </h1>
-        );
-    }
-    if (session.user.admin !== 'Yes') {
+  const id = params.id;
+  const user = await Promise.all([
+    fetchUserById(id)
+  ]);
+  const session = await auth();
+  if (!session?.user.role) {
     return (
-    <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Du har ingen roll! :(
+      </h1>
+    );
+  }
+  if (session.user.admin !== 'Yes') {
+    return (
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         Du är inte admin!
-    </h1>
+      </h1>
     );
-    }
+  }
 
-    if (!session.user.id){
-        return (
-            <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-                Du har inget id!
-            </h1>
-        );
-    }
-
-    if (!user) {
-    notFound();
-    }
+  if (!session.user.id) {
     return (
-        <main>
-        <Breadcrumbs
-            breadcrumbs={[
-            { label: 'Users', href: '/dashboard/admin/users' },
-            {
-                label: 'Edit User',
-                href: `/dashboard/admin/users/${id}/edit`,
-                active: true,
-            },
-            ]}
-        />
-        <Form user={user[0]} admin_id={session.user.id}/>
-        </main>
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Du har inget id!
+      </h1>
     );
+  }
+
+  if (!user) {
+    notFound();
+  }
+  return (
+    <main>
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: 'Users', href: '/dashboard/admin/users' },
+          {
+            label: 'Edit User',
+            href: `/dashboard/admin/users/${id}/edit`,
+            active: true,
+          },
+        ]}
+      />
+      <Form user={user[0]} admin_id={session.user.id} />
+    </main>
+  );
 }

@@ -45,9 +45,8 @@ export default function MemberGallery({ members }: { members: DisplayUser[] }) {
                 alt={`${member.name}`}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
-                  isFlipped ? 'opacity-0' : 'opacity-100'
-                }`}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${isFlipped ? 'opacity-0' : 'opacity-100'
+                  }`}
                 priority={false}
               />
 
@@ -57,9 +56,8 @@ export default function MemberGallery({ members }: { members: DisplayUser[] }) {
                 alt={`${member.name} (alternate)`}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
-                  isFlipped ? 'opacity-100' : 'opacity-0'
-                }`}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${isFlipped ? 'opacity-100' : 'opacity-0'
+                  }`}
                 priority={false}
               />
             </button>
