@@ -44,7 +44,7 @@ export default async function Page() {
             </Link>
           </div>
           <div className="mt-6 rounded-lg bg-surface-light dark:bg-surface-dark p-4 text-sm text-text-light dark:text-text-dark">
-            Vill du kontakta Nymble Klubbmästeri? Då kan du maila vårt klubbmästarpar på: 
+            Vill du kontakta Nymble Klubbmästeri? Då kan du maila vårt klubbmästarpar på:
             <a href="mailto:kbm@ths.kth.se" className="text-blue-600 hover:underline ml-1">kbm@ths.kth.se</a>
           </div>
           <div className="rounded-lg bg-surface-light dark:bg-surface-dark p-4 text-sm text-text-light dark:text-text-dark">
@@ -52,8 +52,6 @@ export default async function Page() {
             <a href="https://github.com/Nymble-Klubbmasteri/operation-lost-goat" className="text-blue-600 hover:underline ml-1">GitHub</a>
           </div>
         </div>
-
-        
 
         <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
           <Image

@@ -4,35 +4,32 @@ import { fetchUserById } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
- 
+
 export const metadata: Metadata = {
   title: 'Profile',
 };
 
-
- 
 export default async function Page() {
-    const session = await auth();
-    if (!session?.user.id) {
-        console.log("profile page could not find user");
-        notFound();
-    }
+  const session = await auth();
+  if (!session?.user.id) {
+    notFound();
+  }
 
-    const user = await fetchUserById(session.user.id);
+  const user = await fetchUserById(session.user.id);
 
-    return (
-        <main>
-        <Breadcrumbs
-            breadcrumbs={[
-            { label: 'Profile', href: `/dashboard/profile` },
-            {
-                label: 'Edit Profile',
-                href: `/dashboard/profile`,
-                active: true,
-            },
-            ]}
-        />
-        <Form user={user} />
-        </main>
-    );
+  return (
+    <main>
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: 'Profile', href: `/dashboard/profile` },
+          {
+            label: 'Edit Profile',
+            href: `/dashboard/profile`,
+            active: true,
+          },
+        ]}
+      />
+      <Form user={user} />
+    </main>
+  );
 }

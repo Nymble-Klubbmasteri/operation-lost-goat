@@ -29,15 +29,10 @@ const links = [
   { name: 'Administrera Sidan', href: '/dashboard/admin/administration', icon: WrenchIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Administrera Listan', href: '/dashboard/admin/listan', icon: CurrencyDollarIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Exportera Event', href: '/dashboard/admin/export', icon: CurrencyDollarIcon, adminProtect: true, marskalkProtect: false },
-
-
 ];
 
-export default function NavLinks({role, admin}: {role: string, admin: string}) {
+export default function NavLinks({ role, admin }: { role: string, admin: string }) {
   const pathname = usePathname();
-  // console.log("role: ", role);
-  // console.log("admin:", admin);
-  // const user = fetchUserById(id);
   return (
     <>
       {links.map((link) => {

@@ -11,7 +11,6 @@ export default async function EventsTable({
   currentPage: number;
 }) {
   const events = await fetchFilteredEventsAdmin(query, currentPage);
-  // console.log("events: ", events);
 
   return (
     <div className="mt-6 flow-root">
@@ -65,7 +64,7 @@ export default async function EventsTable({
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {formatDateToLocal(event.date)}
-                  </td>                  
+                  </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <UpdateEvent id={event.id} />

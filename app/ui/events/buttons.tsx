@@ -1,8 +1,8 @@
-import { PencilIcon, PlusIcon, QueueListIcon, TrashIcon, UserMinusIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+import { QueueListIcon, UserMinusIcon, UserPlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import {  AddUserToEvent, RemoveUserFromEvent } from '@/app/lib/actions';
+import { AddUserToEvent, RemoveUserFromEvent } from '@/app/lib/actions';
 
-export function SignUp({event_id, user_id, className}: {event_id: string, user_id: string | undefined, className?: string}) {
+export function SignUp({ event_id, user_id, className }: { event_id: string, user_id: string | undefined, className?: string }) {
   if (!user_id) {
     return (
       <div>
@@ -18,7 +18,7 @@ export function SignUp({event_id, user_id, className}: {event_id: string, user_i
         <UserPlusIcon className="w-6 h-6 mr-2" />
         <span>Skriv Upp Dig</span>
       </button>
-    </form>    
+    </form>
   );
 }
 

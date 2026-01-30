@@ -5,11 +5,11 @@ import EditForm from '@/app/ui/admin/export/edit-form';
 export default async function Page() {
   const session = await auth();
   if (!session?.user.role) {
-      return (
-        <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-          Du har ingen roll! :(
-        </h1>
-      );
+    return (
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Du har ingen roll! :(
+      </h1>
+    );
   }
   if (session.user.admin !== 'Yes') {
     return (
@@ -21,7 +21,7 @@ export default async function Page() {
 
   return (
     <div className="flex gap-4">
-      <EditForm/>
+      <EditForm />
     </div>
   );
 }

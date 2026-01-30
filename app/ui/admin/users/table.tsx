@@ -22,11 +22,11 @@ export default async function UsersTable({
 
   const session = await auth();
   if (!session?.user.id) {
-      return (
+    return (
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-          Du har inget id!
+        Du har inget id!
       </h1>
-      );
+    );
   }
 
   return (
@@ -139,7 +139,7 @@ export default async function UsersTable({
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {user.email}
-                  </td>                  
+                  </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {(user.balance)}
                   </td>
@@ -150,7 +150,7 @@ export default async function UsersTable({
                   {/* <td className="whitespace-nowrap px-3 py-3">
                     <InvoiceStatus status={user.status} />
                   </td>  */}
-                 
+
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <UpdateUser id={user.id} />

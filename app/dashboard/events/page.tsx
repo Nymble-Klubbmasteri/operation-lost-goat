@@ -7,11 +7,11 @@ import { Suspense } from 'react';
 import { fetchEventsPages, fetchFilteredEvents } from '@/app/lib/data';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
- 
+
 export const metadata: Metadata = {
   title: 'Event',
 };
- 
+
 export default async function Page({
   searchParams,
 }: {
@@ -22,7 +22,6 @@ export default async function Page({
     order?: 'DESC' | 'ASC';
   };
 }) {
-
   const session = await auth();
   const query = searchParams?.query || '';
   const sort = searchParams?.sort || 'date';
@@ -33,7 +32,6 @@ export default async function Page({
 
   const events = await fetchFilteredEvents(query, currentPage, sort, order);
 
-
   return (
     <div className="w-full bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">
       <div className="flex w-full items-center justify-between">
@@ -42,7 +40,7 @@ export default async function Page({
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Sök event..." />
       </div>
-       <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table events={events} session={session} sort={sort} order={order} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">

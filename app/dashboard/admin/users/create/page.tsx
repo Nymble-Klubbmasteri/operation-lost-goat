@@ -3,21 +3,21 @@ import { lusitana } from '@/app/ui/fonts';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { auth } from '@/auth';
 import { Metadata } from 'next';
- 
+
 export const metadata: Metadata = {
   title: 'User Creation',
 };
 
 // literally 
- 
-export default async function Page() { 
+
+export default async function Page() {
   const session = await auth();
   if (!session?.user.role) {
-      return (
-        <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-          Du har ingen roll! :(
-        </h1>
-      );
+    return (
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Du har ingen roll! :(
+      </h1>
+    );
   }
   if (session.user.admin !== 'Yes') {
     return (
@@ -39,7 +39,7 @@ export default async function Page() {
           },
         ]}
       />
-      <Form/>
+      <Form />
     </main>
   );
 }

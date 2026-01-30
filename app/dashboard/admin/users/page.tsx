@@ -9,11 +9,10 @@ import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { CreateUser } from '@/app/ui/admin/users/buttons';
 import { auth } from '@/auth';
 
- 
 export const metadata: Metadata = {
   title: 'Administrera Användare',
 };
- 
+
 export default async function Page({
   searchParams,
 }: {
@@ -32,13 +31,13 @@ export default async function Page({
   const session = await auth();
 
 
-    if (!session?.user.role) {
-        return (
-          <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-            Du har ingen roll! :(
-          </h1>
-        );
-    }
+  if (!session?.user.role) {
+    return (
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Du har ingen roll! :(
+      </h1>
+    );
+  }
   if (session.user.admin !== 'Yes') {
     return (
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
@@ -56,7 +55,7 @@ export default async function Page({
         <Search placeholder="Search användare..." />
         <CreateUser />
       </div>
-       <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} sort={sort} order={order} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">

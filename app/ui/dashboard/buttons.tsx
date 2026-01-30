@@ -7,10 +7,10 @@ import { useState } from 'react';
 import { auth } from '@/auth';
 import { useSession } from 'next-auth/react';
 
-export function Strecka({ id, role }: { id: string, role: string}) {
+export function Strecka({ id, role }: { id: string, role: string }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [amount, setAmount] = useState(1); // Default amount 
-  const {data: session} = useSession();
+  const { data: session } = useSession();
   const userId = id ?? session?.user?.id;
   const userRole = role ?? session?.user?.role;
 
@@ -57,7 +57,7 @@ export function Strecka({ id, role }: { id: string, role: string}) {
 
   return (
     <>
-      <button 
+      <button
         onClick={handleButtonClick}
         className='flex h-16 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
       >
@@ -76,14 +76,14 @@ export function Strecka({ id, role }: { id: string, role: string}) {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-surface-light dark:bg-surface-dark p-6 rounded-lg shadow-lg max-w-sm w-full">
             <h3 className="text-lg font-bold mb-4">Bekräfta streckning</h3>
-            
+
             <form action={handleStrecka}>
               <div className="mb-4">
                 <label htmlFor="amount" className="block text-sm font-medium text-text-light dark:text-text-dark mb-1">
                   Antal streck:
                 </label>
                 <div className="flex items-center">
-                  <button 
+                  <button
                     type="button"
                     onClick={() => setAmount(prev => Math.max(0, prev - 1))}
                     className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-l-md"
@@ -96,11 +96,11 @@ export function Strecka({ id, role }: { id: string, role: string}) {
                     type="number"
                     max="1000"
                     placeholder='0'
-                    value = {amount}
+                    value={amount}
                     onChange={handleAmountChange}
                     className="w-16 text-center border-t border-b border-gray-300 dark:border-gray-600 py-1"
                   />
-                  <button 
+                  <button
                     type="button"
                     onClick={() => setAmount(prev => Math.min(1000, prev + 1))}
                     className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-r-md"
@@ -109,18 +109,18 @@ export function Strecka({ id, role }: { id: string, role: string}) {
                   </button>
                 </div>
               </div>
-              
+
               <p className="mb-6">Är du säker på att du vill strecka {amount} gång(er)?</p>
-              
+
               <div className="flex justify-end space-x-3">
-                <button 
+                <button
                   type="button"
                   onClick={handleCancel}
                   className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-text-light dark:text-text-dark hover:bg-gray-100 dark:hover:bg-gray-600"
                 >
                   Avbryt
                 </button>
-                <button 
+                <button
                   type="submit"
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500"
                 >
