@@ -7,8 +7,6 @@ import { formatDateToLocal } from '@/app/lib/utils';
 export default function EditForm() {
   const today = new Date(Date.now());
 
-  console.log(today.toDateString(), today.toDateString());
-
   const [date_from, setDateFrom] = useState(today.toDateString());
   const [date_to, setDateTo] = useState(today.toDateString());
   const [status, setStatus] = useState<'väntar' | 'exporterar' | 'exporterat'>('väntar');
