@@ -13,9 +13,6 @@ export default async function KillingarPage() {
       <h1 className="text-3xl font-bold text-center mb-4">NKM Medlemmar</h1>
 
       <MemberNav />
-
-      <h2 className="text-2xl font-semibold text-center mb-6">Killingar</h2>
-
       <Suspense fallback={<div className="flex justify-center items-center h-64">
         <div className="text-xl font-semibold">Loading members...</div>
       </div>}>

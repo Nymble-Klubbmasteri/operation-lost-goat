@@ -3,9 +3,6 @@
 import { updateSetting } from '@/app/lib/actions';
 import { useState } from 'react';
 import { formatDateToLocal } from '@/app/lib/utils';
-import {
-  CalendarIcon,
-} from '@heroicons/react/24/outline';
 
 export default function EditForm() {
   const today = new Date(Date.now());
@@ -35,13 +32,14 @@ export default function EditForm() {
 
   return (
     <form onSubmit={handleSubmit} className="p-4 border rounded-lg shadow-md bg-white dark:bg-gray-800 dark:border-gray-600 w-64 text-gray-900 dark:text-gray-100">
-      <label className="block mb-2 text-sm font-semibold capitalize">Exportera</label>
+      <label className="block mb-2 text-sm font-semibold capitalize">Från:</label>
       <input
         type="date"
         value={formatDateToLocal(date_from)}
         onChange={e => setDateFrom(e.target.value)}
         className="w-full border rounded p-2 mb-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 placeholder:text-gray-500 dark:placeholder:text-gray-400"
       />
+      <label className="block mb-2 text-sm font-semibold capitalize">Till:</label>
       <input
         type="date"
         value={formatDateToLocal(date_to)}
