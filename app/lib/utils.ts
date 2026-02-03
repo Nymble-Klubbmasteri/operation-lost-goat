@@ -12,6 +12,16 @@ export const formatDateToLocal = (
   return formatter.format(date);
 };
 
+export const eventTypeToString = (type: number) => {
+  switch(type) {
+    case 0: return "Inte arbetspass";
+    case 1: return "Fredagspub";
+    case 2: return "Storevent";
+    case 3: return "Betalevent";
+    default: return "Undefined";
+  }
+}
+
 export const generatePagination = (currentPage: number, totalPages: number) => {
   // If the total number of pages is 7 or less,
   // display all pages without any ellipsis.
