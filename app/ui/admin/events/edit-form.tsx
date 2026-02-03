@@ -184,10 +184,10 @@ export default function EditEventForm({
         </div>
       )}
 
-      {/* Workers */}
+      {/* Reserves */}
       {event.reserves.length > 0 && (
         <div className="mb-4">
-          <label className="mb-2 block text-sm font-medium">Uppskrivna</label>
+          <label className="mb-2 block text-sm font-medium">Reserver</label>
           <ul className="space-y-2">
             {event.reserves.map((workerId) => {
               const user = users.find((u) => u.id === workerId);
