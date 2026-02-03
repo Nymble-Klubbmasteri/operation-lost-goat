@@ -98,7 +98,7 @@ export function Strecka({ id, role }: { id: string, role: string }) {
                     placeholder='0'
                     value={amount}
                     onChange={handleAmountChange}
-                    className="w-16 text-center border-t border-b border-gray-300 dark:border-gray-600 py-1"
+                    className="w-16 text-black text-center border-t border-b border-gray-300 dark:border-gray-600 py-1"
                   />
                   <button
                     type="button"
