@@ -15,6 +15,7 @@ import {
 import { Button } from '@/app/ui/button';
 import { createEvent } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
+import { eventTypeToString } from '@/app/lib/utils';
 
 export default function Form({ users }: { users: UserField[] }) {
   const initialState = { message: null, errors: {} };
@@ -144,20 +145,27 @@ export default function Form({ users }: { users: UserField[] }) {
 
         {/* Event type */}
         <div className="mb-4">
-          <label htmlFor="sought_workers" className="mb-2 block text-sm font-medium">
-            Typ av Event: 0: Inte Arbetspass, 1: Fredagspub, 2: Storevent, 3: Betalevent
+          <label htmlFor="type" className="mb-2 block text-sm font-medium">
+            Typ av Event
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
-              <input
+              <select
                 id="type"
                 name="type"
-                type="number"
-                step="1"
-                placeholder="Enter new events type"
-                className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
-                aria-describedby='workers-error'
-              />
+                defaultValue={"default"}
+                className="peer block w-full cursor-pointer rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                aria-describedby="type-error"
+              >
+                <option value="default" disabled>
+                  Välj typ av event
+                </option>
+                {[0, 1, 2, 3].map((type) => (
+                  <option key={type} value={type}>
+                    {eventTypeToString(type)}
+                  </option>
+                ))}
+              </select>
               <AdjustmentsVerticalIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400" />
             </div>
           </div>
