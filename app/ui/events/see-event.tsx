@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { EventForm, UserField, DisplayWorkers } from '@/app/lib/definitions';
 import { useFormState } from 'react-dom';
 import Link from 'next/link';
-import { UsersIcon, CalendarIcon, ClockIcon, DocumentTextIcon, AdjustmentsVerticalIcon } from '@heroicons/react/24/outline';
+import { UsersIcon, CalendarIcon, ClockIcon, DocumentTextIcon, AdjustmentsVerticalIcon, HomeIcon } from '@heroicons/react/24/outline';
 import { AddUserToEvent, RemoveUserFromEvent } from '@/app/lib/actions';
 import { fetchEventById, fetchUserById, fetchUserNamesByIDs } from '@/app/lib/data';
 import { Remove, SignUp } from './buttons';
@@ -26,8 +26,14 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
         <p>{formatDateToLocal(event.date)}</p>
       </div>
 
-      {/* Event Time */}
+      {/* Lokaler */}
       <div className="mt-2 flex items-center">
+        <HomeIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 mr-2" />
+        <p>Lokaler: {event.locations}</p>
+      </div>
+
+      {/* Event Time */}
+      <div className="mt-4 flex items-center">
         <ClockIcon className="h-5 w-5 text-gray-500 dark:text-gray-400 mr-2" />
         <p>Jobbtider: {event.start_work_time} - {event.end_work_time}</p>
       </div>
