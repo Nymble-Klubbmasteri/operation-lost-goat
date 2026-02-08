@@ -1,4 +1,4 @@
-import Form from '@/app/ui/admin/users/create-form';
+import Form from '@/app/ui/admin/users/form';
 import { lusitana } from '@/app/ui/fonts';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { auth } from '@/auth';
@@ -39,7 +39,7 @@ export default async function Page() {
           },
         ]}
       />
-      <Form />
+      <Form user={null} admin_id="" />
     </main>
   );
 }

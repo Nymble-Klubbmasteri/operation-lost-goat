@@ -1,4 +1,4 @@
-import Form from '@/app/ui/admin/users/edit-form';
+import Form from '@/app/ui/admin/users/form';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchUserById } from '@/app/lib/data';
 import { notFound } from 'next/navigation';

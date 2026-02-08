@@ -1,30 +1,27 @@
 'use client';
 
-import { UserField, UserForm } from '@/app/lib/definitions';
+import { UserForm } from '@/app/lib/definitions';
 import {
-  CheckIcon,
-  ClockIcon,
   CurrencyDollarIcon,
   UserCircleIcon,
   EnvelopeIcon,
   LockClosedIcon,
   ChevronUpDownIcon,
-  LifebuoyIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-import { updateUser } from '@/app/lib/actions';
+import { createUser, updateUser } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 
-export default function EditUserForm({
+export default function Form({
   user,
   admin_id
 }: {
-  user: UserForm;
+  user: UserForm | null;
   admin_id: string;
 }) {
   const initialState = { message: null, errors: {} };
-  const updateUserWithId = updateUser.bind(null, user.id, admin_id);
+  const updateUserWithId = user ? updateUser.bind(null, user.id, admin_id) : createUser;
   const [state, dispatch] = useFormState(updateUserWithId, initialState);
 
   return <form action={dispatch}>
@@ -40,9 +37,10 @@ export default function EditUserForm({
               id="name"
               name="name"
               type="text"
-              defaultValue={user.name}
+              defaultValue={user ? user.name : ""}
               placeholder="Ange namn..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              required
             />
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
           </div>
@@ -60,9 +58,10 @@ export default function EditUserForm({
               id="nickname"
               name="nickname"
               type="text"
-              defaultValue={user.nickname}
+              defaultValue={user ? user.nickname : ""}
               placeholder="Ange smeknamn..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              required
             />
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
           </div>
@@ -80,7 +79,7 @@ export default function EditUserForm({
               id="title"
               name="title"
               type="text"
-              defaultValue={user.title}
+              defaultValue={user ? user.title : ""}
               placeholder="Ange titel... e.g. Klubbmästare"
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             />
@@ -100,9 +99,10 @@ export default function EditUserForm({
               id="email"
               name="email"
               type="text"
-              defaultValue={user.email}
+              defaultValue={user ? user.email : ""}
               placeholder="Ange email..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              required
             />
             <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
           </div>
@@ -120,11 +120,12 @@ export default function EditUserForm({
               id="password"
               name="password"
               type="password"
-              defaultValue={user.password}
+              defaultValue={user ? user.password : ""}
               placeholder="Ange lösenord..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               aria-describedby='password-error'
               minLength={6}
+              required
             />
             <LockClosedIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
           </div>
@@ -150,31 +151,12 @@ export default function EditUserForm({
               id="balance"
               name="balance"
               type="number"
-              defaultValue={user.balance}
+              defaultValue={user ? user.balance : 0}
               placeholder="Ange saldo..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              required
             />
             <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
-          </div>
-        </div>
-      </div>
-
-      {/* User Food Pref */}
-      <div className="mb-4">
-        <label htmlFor="food_pref" className="mb-2 block text-sm font-medium">
-          Speckost
-        </label>
-        <div className="relative mt-2 rounded-md">
-          <div className="relative">
-            <input
-              id="food_pref"
-              name="food_pref"
-              type="text"
-              defaultValue={user.food_pref}
-              placeholder="Ange matpreferens... e.g. vegan"
-              className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
-            />
-            <LifebuoyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
           </div>
         </div>
       </div>
@@ -190,9 +172,10 @@ export default function EditUserForm({
               id="priority"
               name="priority"
               type="number"
-              defaultValue={user.priority}
+              defaultValue={user ? user.priority : 10}
               placeholder="Ange prioritet..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              required
             />
             <ChevronUpDownIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
           </div>
@@ -209,9 +192,11 @@ export default function EditUserForm({
             <select
               id="role"
               name="role"
-              defaultValue={user.role} // Ensure it pre-selects the user's role
+              {...(user ? {defaultValue: user.role} : {})}
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-3 pr-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              required
             >
+              {user == null && <option value="" disabled selected> Välj en roll </option>} 
               {["Killing", "Marskalk", "Qnekt", "WraQ", "Inaktiv", "Utesluten"].map((role) => (
                 <option key={role} value={role}>{role}</option>
               ))}
@@ -238,8 +223,9 @@ export default function EditUserForm({
             <select
               id="admin"
               name="admin"
-              defaultValue={user.admin} // Since it's stored as a string, we don't need to convert it
+              defaultValue={user ? user.admin : "No"}
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-3 pr-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              required
             >
               <option value="Yes">Admin</option>
               <option value="No">Inte Admin</option>
@@ -268,7 +254,8 @@ export default function EditUserForm({
       >
         Avbryt
       </Link>
-      <Button type="submit">Spara Ändringar</Button>
+      {user != null && <Button type="submit">Spara Ändringar</Button>}
+      {user == null && <Button type="submit">Skapa Användare</Button>}
     </div>
   </form>
 }

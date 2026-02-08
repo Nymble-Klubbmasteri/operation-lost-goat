@@ -17,7 +17,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-import { updateEvent } from '@/app/lib/actions';
+import { createOrUpdateEvent } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { AdminRemoveUserFromEvent } from '@/app/lib/actions';
 import { formatDateToLocal, eventTypeToString } from '@/app/lib/utils';
@@ -30,7 +30,7 @@ export default function EditEventForm({
   users: UserField[];
 }) {
   const initialState = { message: null, errors: {} };
-  const updateEventWithId = updateEvent.bind(null, event.id);
+  const updateEventWithId = createOrUpdateEvent.bind(null, event.id);
   const [state, dispatch] = useFormState(updateEventWithId, initialState);
 
   return <form action={dispatch}>
@@ -50,6 +50,7 @@ export default function EditEventForm({
               defaultValue={event.name}
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               aria-describedby='events-error'
+              required
             />
             <NewspaperIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
           </div>
@@ -140,6 +141,7 @@ export default function EditEventForm({
               placeholder="Ange antal arbetare..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               aria-describedby='workers-error'
+              required
             />
             <UsersIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
           </div>
@@ -212,6 +214,7 @@ export default function EditEventForm({
               defaultValue={event.locations}
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               aria-describedby='locations-error'
+              required
             />
             <HomeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
           </div>
@@ -230,8 +233,9 @@ export default function EditEventForm({
             className="peer block w-full cursor-pointer rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             defaultValue={event.responsible}
             aria-describedby="responsible-error"
+            required
           >
-            <option value="" disabled>
+            <option value="" disabled selected>
               Välj en användare
             </option>
             {users.map((user) => (
@@ -307,6 +311,7 @@ export default function EditEventForm({
               type="date"
               defaultValue={formatDateToLocal(event.date)}
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              required
             />
             <CalendarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
           </div>
