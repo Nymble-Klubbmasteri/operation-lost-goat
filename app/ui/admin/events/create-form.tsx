@@ -38,6 +38,7 @@ export default function Form({ users }: { users: UserField[] }) {
                 placeholder="Enter new events name"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='events-error'
+                required
               />
               <NewspaperIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400" />
             </div>
@@ -58,6 +59,7 @@ export default function Form({ users }: { users: UserField[] }) {
                 placeholder="Enter new events starting work time"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='work-time-error'
+                required
               />
               <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400" />
             </div>
@@ -78,6 +80,7 @@ export default function Form({ users }: { users: UserField[] }) {
                 placeholder="Enter new events starting event time"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='event-time-error'
+                required
               />
               <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400" />
             </div>
@@ -97,6 +100,7 @@ export default function Form({ users }: { users: UserField[] }) {
                 placeholder="Enter new events ending work time"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='work-time-error'
+                required
               />
               <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400" />
             </div>
@@ -116,6 +120,7 @@ export default function Form({ users }: { users: UserField[] }) {
                 placeholder="Enter new events ending event time"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='event-time-error'
+                required
               />
               <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400" />
             </div>
@@ -137,6 +142,7 @@ export default function Form({ users }: { users: UserField[] }) {
                 placeholder="Enter new events amount of workers"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='workers-error'
+                required
               />
               <UsersIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400" />
             </div>
@@ -153,11 +159,11 @@ export default function Form({ users }: { users: UserField[] }) {
               <select
                 id="type"
                 name="type"
-                defaultValue={"default"}
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby="type-error"
+                required
               >
-                <option value="default" disabled>
+              <option value="" disabled selected>
                   Välj typ av event
                 </option>
                 {[0, 1, 2, 3].map((type) => (
@@ -171,7 +177,7 @@ export default function Form({ users }: { users: UserField[] }) {
           </div>
         </div>
 
-        {/* Event Locations Time */}
+        {/* Event Locations */}
         <div className="mb-4">
           <label htmlFor="locations" className="mb-2 block text-sm font-medium">
             Platser
@@ -185,6 +191,7 @@ export default function Form({ users }: { users: UserField[] }) {
                 placeholder="Enter new events locations"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='locations-error'
+                required
               />
               <HomeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400" />
             </div>
@@ -201,10 +208,10 @@ export default function Form({ users }: { users: UserField[] }) {
               id="responsible"
               name="responsible"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
-              defaultValue="01d86095-0612-4612-8f58-0512d96b84f6"
               aria-describedby="responsible-error"
+              required
             >
-              <option value="" disabled>
+              <option value="" disabled selected>
                 Välj en användare
               </option>
               {users.map((user) => (
@@ -228,8 +235,9 @@ export default function Form({ users }: { users: UserField[] }) {
                 id="date"
                 name="date"
                 type="date"
-                defaultValue={new Date().toISOString().split('T')[0]}
+                // defaultValue={new Date().toISOString().split('T')[0]}
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                required
               />
               <CalendarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
             </div>
