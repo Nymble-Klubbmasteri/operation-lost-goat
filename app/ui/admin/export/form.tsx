@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { formatDateToLocal, eventTypeToString } from '@/app/lib/utils';
 import { AdjustmentsVerticalIcon } from '@heroicons/react/24/outline';
 
-export default function EditForm() {
+export default function Form() {
   const today = new Date(Date.now());
 
   const [type, setType] = useState("");

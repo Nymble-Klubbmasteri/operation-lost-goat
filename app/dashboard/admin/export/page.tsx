@@ -1,6 +1,6 @@
 import { lusitana } from '@/app/ui/fonts';
 import { auth } from '@/auth';
-import EditForm from '@/app/ui/admin/export/edit-form';
+import Form from '@/app/ui/admin/export/form';
 
 export default async function Page() {
   const session = await auth();
@@ -25,7 +25,7 @@ export default async function Page() {
         <h1 className={`${lusitana.className} text-2xl`}>Exportera</h1>
       </div>
       <div className="mt-4 flex gap-4">
-        <EditForm />
+        <Form />
       </div>
     </div>
   );
