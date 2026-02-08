@@ -1,4 +1,4 @@
-import Form from '@/app/ui/admin/events/edit-form';
+import Form from '@/app/ui/admin/events/form';
 import Breadcrumbs from '@/app/ui/admin/events/breadcrumbs';
 import { fetchEventById, fetchUsers } from '@/app/lib/data';
 import { notFound } from 'next/navigation';

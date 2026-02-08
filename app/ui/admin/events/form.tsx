@@ -2,12 +2,8 @@
 
 import { EventForm, UserField } from '@/app/lib/definitions';
 import {
-  CheckIcon,
   ClockIcon,
-  CurrencyDollarIcon,
   UserCircleIcon,
-  EnvelopeIcon,
-  LockClosedIcon,
   CalendarIcon,
   DocumentTextIcon,
   NewspaperIcon,
@@ -17,21 +13,21 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-import { createOrUpdateEvent } from '@/app/lib/actions';
+import { createEvent, updateEvent } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { AdminRemoveUserFromEvent } from '@/app/lib/actions';
 import { formatDateToLocal, eventTypeToString } from '@/app/lib/utils';
 
-export default function EditEventForm({
+export default function Form({
   event,
-  users
+  users,
 }: {
-  event: EventForm;
+  event: EventForm | null;
   users: UserField[];
 }) {
   const initialState = { message: null, errors: {} };
-  const updateEventWithId = createOrUpdateEvent.bind(null, event.id);
-  const [state, dispatch] = useFormState(updateEventWithId, initialState);
+  const createOrUpdateEvent = event ? updateEvent.bind(null, event.id) : createEvent;
+  const [_, dispatch] = useFormState(createOrUpdateEvent, initialState);
 
   return <form action={dispatch}>
     <div className="rounded-md bg-surface-light dark:bg-surface-dark p-4 md:p-6">
@@ -47,7 +43,7 @@ export default function EditEventForm({
               name="name"
               type="text"
               placeholder="Ange eventnamn..."
-              defaultValue={event.name}
+              defaultValue={event ? event.name : ""}
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               aria-describedby='events-error'
               required
@@ -68,7 +64,7 @@ export default function EditEventForm({
               id="start_work_time"
               name="start_work_time"
               type="time"
-              defaultValue={event.start_work_time}
+              defaultValue={event ? event.start_work_time : ""}
               className="rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pr-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               aria-describedby='work-time-error'
               required
@@ -81,7 +77,7 @@ export default function EditEventForm({
               id="end_work_time"
               name="end_work_time"
               type="time"
-              defaultValue={event.end_work_time}
+              defaultValue={event ? event.end_work_time : ""}
               className="w-35 rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pr-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               aria-describedby='work-time-error'
               required
@@ -102,7 +98,7 @@ export default function EditEventForm({
               id="start_event_time"
               name="start_event_time"
               type="time"
-              defaultValue={event.start_event_time}
+              defaultValue={event ? event.start_event_time : ""}
               className="rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pr-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               aria-describedby='event-time-error'
               required
@@ -115,7 +111,7 @@ export default function EditEventForm({
               id="end_event_time"
               name="end_event_time"
               type="time"
-              defaultValue={event.start_event_time}
+              defaultValue={event ? event.end_event_time : ""}
               className="w-35 rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pr-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               aria-describedby='event-time-error'
               required
@@ -137,7 +133,7 @@ export default function EditEventForm({
               name="sought_workers"
               type="number"
               step="1"
-              defaultValue={event.sought_workers}
+              defaultValue={event ? event.sought_workers : ""}
               placeholder="Ange antal arbetare..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               aria-describedby='workers-error'
@@ -149,7 +145,7 @@ export default function EditEventForm({
       </div>
 
       {/* Workers */}
-      {event.workers.length > 0 && (
+      {event && event.workers.length > 0 && (
         <div className="mb-4">
           <label className="mb-2 block text-sm font-medium">Uppskrivna</label>
           <ul className="space-y-2">
@@ -174,7 +170,7 @@ export default function EditEventForm({
       )}
 
       {/* Reserves */}
-      {event.reserves.length > 0 && (
+      {event && event.reserves.length > 0 && (
         <div className="mb-4">
           <label className="mb-2 block text-sm font-medium">Reserver</label>
           <ul className="space-y-2">
@@ -198,7 +194,6 @@ export default function EditEventForm({
         </div>
       )}
 
-
       {/* Event Locations */}
       <div className="mb-4">
         <label htmlFor="locations" className="mb-2 block text-sm font-medium">
@@ -211,7 +206,7 @@ export default function EditEventForm({
               name="locations"
               type="text"
               placeholder="Ange lokaler..."
-              defaultValue={event.locations}
+              defaultValue={event ? event.locations : ""}
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               aria-describedby='locations-error'
               required
@@ -231,7 +226,7 @@ export default function EditEventForm({
             id="responsible"
             name="responsible"
             className="peer block w-full cursor-pointer rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
-            defaultValue={event.responsible}
+            defaultValue={event ? event.responsible : ""}
             aria-describedby="responsible-error"
             required
           >
@@ -259,8 +254,9 @@ export default function EditEventForm({
               id="type"
               name="type"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
-              defaultValue={event.type}
+              {...(event ? { defaultValue: event.type } : {})}
               aria-describedby="type-error"
+              required
             >
               <option value="" disabled>
                 Välj typ av event
@@ -277,7 +273,7 @@ export default function EditEventForm({
       </div>
 
       {/* Open for all members toggle (only for Betalevent) */}
-      {event.type === 3 && (
+      {event && event.type === 3 && (
         <div className="mb-4">
           <label htmlFor="open" className="mb-2 block text-sm font-medium">
             Öppna för alla medlemmar
@@ -309,7 +305,7 @@ export default function EditEventForm({
               id="date"
               name="date"
               type="date"
-              defaultValue={formatDateToLocal(event.date)}
+              {...(event ? { defaultValue: formatDateToLocal(event.date) } : {})}
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               required
             />
@@ -328,7 +324,7 @@ export default function EditEventForm({
           <textarea
             id="notes"
             name="notes"
-            defaultValue={event.notes}
+            defaultValue={event ? event.notes : ""}
             placeholder="Ange eventdetaljer..."
             rows={4}
             className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 pr-3 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
@@ -344,7 +340,8 @@ export default function EditEventForm({
       >
         Avbryt
       </Link>
-      <Button type="submit">Spara ändringar</Button>
+      {event == null && <Button type="submit">Skapa Event</Button>}
+      {event != null && <Button type="submit">Spara ändringar</Button>}
     </div>
   </form>
 }

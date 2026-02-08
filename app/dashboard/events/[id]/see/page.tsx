@@ -1,4 +1,3 @@
-import Form from '@/app/ui/admin/events/edit-form';
 import { fetchEventById, fetchUserById } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';

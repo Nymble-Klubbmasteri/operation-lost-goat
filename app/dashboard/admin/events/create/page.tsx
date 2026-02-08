@@ -1,4 +1,4 @@
-import Form from '@/app/ui/admin/events/create-form';
+import Form from '@/app/ui/admin/events/form';
 import Breadcrumbs from '@/app/ui/admin/events/breadcrumbs';
 import { fetchUsers } from '@/app/lib/data';
 import { Metadata } from 'next';
@@ -41,7 +41,7 @@ export default async function Page() {
           },
         ]}
       />
-      <Form users={users} />
+      <Form event={null} users={users} />
     </main>
   );
 }
