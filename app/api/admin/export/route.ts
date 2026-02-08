@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
   }
   const searchParams = request.nextUrl.searchParams;
   const events = await fetchEventsBetweenDates(
-    "3",
+    parseInt(searchParams.get('type') as string),
     searchParams.get('date_from') as string,
     searchParams.get('date_to') as string
   );

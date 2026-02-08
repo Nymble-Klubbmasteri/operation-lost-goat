@@ -931,7 +931,7 @@ export async function fetchBank() {
   }
 }
 
-export async function fetchEventsBetweenDates(type: string, date_from: string, date_to: string) {
+export async function fetchEventsBetweenDates(type: number, date_from: string, date_to: string) {
   noStore();
 
   try {
@@ -955,7 +955,7 @@ export async function fetchEventsBetweenDates(type: string, date_from: string, d
         start_work_time,
         end_work_time
       FROM events
-      WHERE type = 3 and date between ${date_from} AND ${date_to}
+      WHERE type = ${type} and date between ${date_from} AND ${date_to}
     `;
 
     const users_query = await sql<{

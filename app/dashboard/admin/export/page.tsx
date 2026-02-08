@@ -22,7 +22,7 @@ export default async function Page() {
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Exportera Event</h1>
+        <h1 className={`${lusitana.className} text-2xl`}>Exportera</h1>
       </div>
       <div className="mt-4 flex gap-4">
         <EditForm />
