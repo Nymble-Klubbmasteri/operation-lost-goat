@@ -54,7 +54,7 @@ export default function Form({ users }: { users: UserField[] }) {
               <input
                 id="start_work_time"
                 name="start_work_time"
-                type="text"
+                type="time"
                 placeholder="Enter new events starting work time"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='work-time-error'
@@ -74,7 +74,7 @@ export default function Form({ users }: { users: UserField[] }) {
               <input
                 id="start_event_time"
                 name="start_event_time"
-                type="text"
+                type="time"
                 placeholder="Enter new events starting event time"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='event-time-error'
@@ -93,7 +93,7 @@ export default function Form({ users }: { users: UserField[] }) {
               <input
                 id="end_work_time"
                 name="end_work_time"
-                type="text"
+                type="time"
                 placeholder="Enter new events ending work time"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='work-time-error'
@@ -112,7 +112,7 @@ export default function Form({ users }: { users: UserField[] }) {
               <input
                 id="end_event_time"
                 name="end_event_time"
-                type="text"
+                type="time"
                 placeholder="Enter new events ending event time"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='event-time-error'
