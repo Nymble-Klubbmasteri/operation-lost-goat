@@ -30,7 +30,7 @@ export default function Form() {
                 id="name"
                 name="name"
                 type="text"
-                placeholder="Enter new users name"
+                placeholder="Ange namn..."
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='username-error'
                 required
@@ -51,7 +51,7 @@ export default function Form() {
                 id="nickname"
                 name="nickname"
                 type="text"
-                placeholder="Enter new users nickname"
+                placeholder="Ange smeknamn..."
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='username-error'
               />
@@ -71,7 +71,7 @@ export default function Form() {
                 id="title"
                 name="title"
                 type="text"
-                placeholder="Enter new users title"
+                placeholder="Ange titel... e.g. Klubbmästare"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='username-error'
               />
@@ -91,7 +91,7 @@ export default function Form() {
                 id="password"
                 name="password"
                 type="password"
-                placeholder="Enter new users password"
+                placeholder="Ange lösenord..."
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='password-error'
                 required
@@ -112,7 +112,7 @@ export default function Form() {
                 id="email"
                 name="email"
                 type="text"
-                placeholder="Enter new users email"
+                placeholder="Ange email..."
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='email-error'
                 required
@@ -134,7 +134,7 @@ export default function Form() {
                 name="balance"
                 type="number"
                 step="1"
-                placeholder="Enter new users balance"
+                placeholder="Ange saldo..."
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='invoice-error'
                 required
@@ -187,7 +187,7 @@ export default function Form() {
                 name="admin"
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-3 pr-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               >
-                <option value="No">Inte Admin</option>
+                <option value="No">Inte admin</option>
                 <option value="Yes">Admin</option>
               </select>
               <svg

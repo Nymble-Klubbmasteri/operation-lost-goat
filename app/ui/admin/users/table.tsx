@@ -70,7 +70,7 @@ export default async function UsersTable({
                     href={`?sort=name&order=${sort === 'name' && order === 'ASC' ? 'DESC' : 'ASC'}`}
                     className="flex items-center gap-1"
                   >
-                    User
+                    Användare
                     {sort === 'name' &&
                       (order === 'ASC' ? (
                         <ChevronUpIcon className="h-4 w-4" />
@@ -98,7 +98,7 @@ export default async function UsersTable({
                     href={`?sort=balance&order=${sort === 'balance' && order === 'ASC' ? 'DESC' : 'ASC'}`}
                     className="flex items-center gap-1"
                   >
-                    Balance
+                    Saldo
                     {sort === 'balance' &&
                       (order === 'ASC' ? (
                         <ChevronUpIcon className="h-4 w-4" />
@@ -112,7 +112,7 @@ export default async function UsersTable({
                     href={`?sort=role&order=${sort === 'role' && order === 'ASC' ? 'DESC' : 'ASC'}`}
                     className="flex items-center gap-1"
                   >
-                    Role
+                    Roll
                     {sort === 'role' &&
                       (order === 'ASC' ? (
                         <ChevronUpIcon className="h-4 w-4" />

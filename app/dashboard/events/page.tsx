@@ -1,8 +1,8 @@
-import Pagination from '@/app/ui/events/pagination';
+import Pagination from '@/app/ui/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/events/table';
 import { lusitana } from '@/app/ui/fonts';
-import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
+import { EventsTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchEventsPages, fetchFilteredEvents } from '@/app/lib/data';
 import { Metadata } from 'next';
@@ -33,14 +33,14 @@ export default async function Page({
   const events = await fetchFilteredEvents(query, currentPage, sort, order);
 
   return (
-    <div className="w-full bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">
+    <div className="w-full">
       <div className="flex w-full items-center justify-between">
         <h1 className={`${lusitana.className} text-2xl`}>Event</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Sök event..." />
+        <Search placeholder="Sök bland event..." />
       </div>
-      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+      <Suspense key={query + currentPage} fallback={<EventsTableSkeleton />}>
         <Table events={events} session={session} sort={sort} order={order} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">

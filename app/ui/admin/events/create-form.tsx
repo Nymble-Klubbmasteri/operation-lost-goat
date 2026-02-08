@@ -35,7 +35,7 @@ export default function Form({ users }: { users: UserField[] }) {
                 id="name"
                 name="name"
                 type="text"
-                placeholder="Enter new events name"
+                placeholder="Ange eventnamn..."
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='events-error'
                 required
@@ -45,19 +45,30 @@ export default function Form({ users }: { users: UserField[] }) {
           </div>
         </div>
 
-        {/* Event Start Work Time */}
+        {/* Work Time */}
         <div className="mb-4">
-          <label htmlFor="start_work_time" className="mb-2 block text-sm font-medium">
-            När börjar man jobba?
+          <label htmlFor="work_time" className="mb-2 block text-sm font-medium">
+            Arbetstider:
           </label>
-          <div className="relative mt-2 rounded-md">
+          <div className="flex flex-cols">
             <div className="relative">
               <input
                 id="start_work_time"
                 name="start_work_time"
                 type="time"
-                placeholder="Enter new events starting work time"
-                className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                className="p-2 rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pr-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                aria-describedby='work-time-error'
+                required
+              />
+              <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400" />
+            </div>
+            <p className="flex items-center justify-center px-2 font-bold">-</p>
+            <div className="relative">
+              <input
+                id="end_work_time"
+                name="end_work_time"
+                type="time"
+                className="w-35 rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pr-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='work-time-error'
                 required
               />
@@ -66,59 +77,30 @@ export default function Form({ users }: { users: UserField[] }) {
           </div>
         </div>
 
-        {/* Event Start Event Time */}
+        {/* Event Time */}
         <div className="mb-4">
-          <label htmlFor="start_event_time" className="mb-2 block text-sm font-medium">
-            När börjar eventet?
+          <label htmlFor="event_time" className="mb-2 block text-sm font-medium">
+            Eventtider:
           </label>
-          <div className="relative mt-2 rounded-md">
+          <div className="flex flex-cols">
             <div className="relative">
               <input
                 id="start_event_time"
                 name="start_event_time"
                 type="time"
-                placeholder="Enter new events starting event time"
-                className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                className="rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pr-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='event-time-error'
                 required
               />
               <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400" />
             </div>
-          </div>
-        </div>
-        {/* Event End Work Time */}
-        <div className="mb-4">
-          <label htmlFor="end_work_time" className="mb-2 block text-sm font-medium">
-            När slutar man jobba?
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="end_work_time"
-                name="end_work_time"
-                type="time"
-                placeholder="Enter new events ending work time"
-                className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
-                aria-describedby='work-time-error'
-                required
-              />
-              <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400" />
-            </div>
-          </div>
-        </div>
-        {/* Event End Event Time */}
-        <div className="mb-4">
-          <label htmlFor="end_event_time" className="mb-2 block text-sm font-medium">
-            När slutar eventet?
-          </label>
-          <div className="relative mt-2 rounded-md">
+            <p className="flex items-center justify-center px-2 font-bold">-</p>
             <div className="relative">
               <input
                 id="end_event_time"
                 name="end_event_time"
                 type="time"
-                placeholder="Enter new events ending event time"
-                className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                className="rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pr-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='event-time-error'
                 required
               />
@@ -139,7 +121,7 @@ export default function Form({ users }: { users: UserField[] }) {
                 name="sought_workers"
                 type="number"
                 step="1"
-                placeholder="Enter new events amount of workers"
+                placeholder="Ange antal arbetare..."
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='workers-error'
                 required
@@ -163,7 +145,7 @@ export default function Form({ users }: { users: UserField[] }) {
                 aria-describedby="type-error"
                 required
               >
-              <option value="" disabled selected>
+                <option value="" disabled selected>
                   Välj typ av event
                 </option>
                 {[0, 1, 2, 3].map((type) => (
@@ -180,7 +162,7 @@ export default function Form({ users }: { users: UserField[] }) {
         {/* Event Locations */}
         <div className="mb-4">
           <label htmlFor="locations" className="mb-2 block text-sm font-medium">
-            Platser
+            Lokaler
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
@@ -188,7 +170,7 @@ export default function Form({ users }: { users: UserField[] }) {
                 id="locations"
                 name="locations"
                 type="text"
-                placeholder="Enter new events locations"
+                placeholder="Ange lokaler..."
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 aria-describedby='locations-error'
                 required
@@ -235,7 +217,6 @@ export default function Form({ users }: { users: UserField[] }) {
                 id="date"
                 name="date"
                 type="date"
-                // defaultValue={new Date().toISOString().split('T')[0]}
                 className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                 required
               />
@@ -255,7 +236,7 @@ export default function Form({ users }: { users: UserField[] }) {
               id="notes"
               name="notes"
               defaultValue={""}
-              placeholder="Enter details about the event..."
+              placeholder="Ange eventdetaljer..."
               rows={4}
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 pr-3 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             />

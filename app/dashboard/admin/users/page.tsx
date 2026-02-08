@@ -1,11 +1,11 @@
-import Pagination from '@/app/ui/admin/users/pagination';
+import Pagination from '@/app/ui/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/admin/users/table';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { fetchUsersPages } from '@/app/lib/data';
-import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
+import { UsersTableSkeleton } from '@/app/ui/skeletons';
 import { CreateUser } from '@/app/ui/admin/users/buttons';
 import { auth } from '@/auth';
 
@@ -52,10 +52,10 @@ export default async function Page({
         <h1 className={`${lusitana.className} text-2xl`}>Användare</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search användare..." />
+        <Search placeholder="Sök bland användare..." />
         <CreateUser />
       </div>
-      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+      <Suspense key={query + currentPage} fallback={<UsersTableSkeleton />}>
         <Table query={query} currentPage={currentPage} sort={sort} order={order} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">

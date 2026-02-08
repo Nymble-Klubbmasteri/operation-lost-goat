@@ -1,12 +1,11 @@
-import Pagination from '@/app/ui/admin/users/pagination';
+import Pagination from '@/app/ui/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/admin/accounting/table';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { fetchStreckUsersPages } from '@/app/lib/data';
-import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
-import { CreateUser } from '@/app/ui/admin/users/buttons';
+import { BalanceTableSkeleton } from '@/app/ui/skeletons';
 import { auth } from '@/auth';
 
 export const metadata: Metadata = {
@@ -49,7 +48,7 @@ export default async function Page({
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Sök användare..." />
       </div>
-      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+      <Suspense key={query + currentPage} fallback={<BalanceTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">

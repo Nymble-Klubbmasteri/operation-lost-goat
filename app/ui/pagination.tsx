@@ -11,7 +11,6 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
 
-
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set('page', pageNumber.toString());
@@ -74,7 +73,7 @@ function PaginationNumber({
   isActive: boolean;
 }) {
   const className = clsx(
-    'flex h-10 w-10 items-center justify-center text-sm border bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100',
+    'flex h-10 w-10 items-center justify-center text-sm border bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600',
     {
       'rounded-l-md': position === 'first' || position === 'single',
       'rounded-r-md': position === 'last' || position === 'single',
@@ -103,7 +102,7 @@ function PaginationArrow({
   isDisabled?: boolean;
 }) {
   const className = clsx(
-    'flex h-10 w-10 items-center justify-center rounded-md border bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100',
+    'flex h-10 w-10 items-center justify-center rounded-md border bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600',
     {
       'pointer-events-none text-gray-300 dark:text-gray-500': isDisabled,
       'hover:bg-gray-100 dark:hover:bg-gray-700': !isDisabled,

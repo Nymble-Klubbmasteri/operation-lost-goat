@@ -41,7 +41,7 @@ export default function EditUserForm({
               name="name"
               type="text"
               defaultValue={user.name}
-              placeholder="Enter new users name"
+              placeholder="Ange namn..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             />
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
@@ -61,7 +61,7 @@ export default function EditUserForm({
               name="nickname"
               type="text"
               defaultValue={user.nickname}
-              placeholder="Enter users nickname"
+              placeholder="Ange smeknamn..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             />
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
@@ -81,7 +81,7 @@ export default function EditUserForm({
               name="title"
               type="text"
               defaultValue={user.title}
-              placeholder="Enter users title"
+              placeholder="Ange titel... e.g. Klubbmästare"
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             />
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
@@ -101,7 +101,7 @@ export default function EditUserForm({
               name="email"
               type="text"
               defaultValue={user.email}
-              placeholder="Enter users email"
+              placeholder="Ange email..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             />
             <EnvelopeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
@@ -121,7 +121,7 @@ export default function EditUserForm({
               name="password"
               type="password"
               defaultValue={user.password}
-              placeholder="Enter new users password"
+              placeholder="Ange lösenord..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               aria-describedby='password-error'
               minLength={6}
@@ -151,7 +151,7 @@ export default function EditUserForm({
               name="balance"
               type="number"
               defaultValue={user.balance}
-              placeholder="Enter SEK amount"
+              placeholder="Ange saldo..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             />
             <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
@@ -171,7 +171,7 @@ export default function EditUserForm({
               name="food_pref"
               type="text"
               defaultValue={user.food_pref}
-              placeholder="Enter food preference"
+              placeholder="Ange matpreferens... e.g. vegan"
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             />
             <LifebuoyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
@@ -191,7 +191,7 @@ export default function EditUserForm({
               name="priority"
               type="number"
               defaultValue={user.priority}
-              placeholder="Enter user priority"
+              placeholder="Ange prioritet..."
               className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
             />
             <ChevronUpDownIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
