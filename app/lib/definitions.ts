@@ -53,7 +53,6 @@ export type Event = {
   date: Date;
   notes: string;
   workers: string[];
-  open: number;
   reserves: string[];
 };
 
@@ -87,7 +86,6 @@ export type EventsTable = {
   name: string;
   date: string;
   type: number;
-  open: number;
 }
 
 export type UserField = {
@@ -132,7 +130,6 @@ export type EventForm = {
   date: string,
   notes: string;
   workers: string[];
-  open: number;
   reserves: string[];
 };
 

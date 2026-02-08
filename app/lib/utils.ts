@@ -18,6 +18,7 @@ export const eventTypeToString = (type: number) => {
     case 1: return "Fredagspub";
     case 2: return "Storevent";
     case 3: return "Betalevent";
+    case 4: return "Betalevent (öppet)";
     default: return "Undefined";
   }
 }

@@ -261,7 +261,7 @@ export default function Form({
               <option value="" disabled>
                 Välj typ av event
               </option>
-              {[0, 1, 2, 3].map((type) => (
+              {[0, 1, 2, 3, 4].map((type) => (
                 <option key={type} value={type}>
                   {eventTypeToString(type)}
                 </option>
@@ -271,28 +271,6 @@ export default function Form({
           </div>
         </div>
       </div>
-
-      {/* Open for all members toggle (only for Betalevent) */}
-      {event && event.type === 3 && (
-        <div className="mb-4">
-          <label htmlFor="open" className="mb-2 block text-sm font-medium">
-            Öppna för alla medlemmar
-          </label>
-          <div className="flex items-center">
-            <input
-              id="open"
-              name="open"
-              type="checkbox"
-              value={event.open || 1}
-              defaultChecked={event.open === 1}
-              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-            />
-            <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">Ja</span>
-          </div>
-          {/* Hidden input to ensure '0' is sent if checkbox is unchecked */}
-          <input type="hidden" name="open" value="0" />
-        </div>
-      )}
 
       {/* Event Date */}
       <div className="mb-4">

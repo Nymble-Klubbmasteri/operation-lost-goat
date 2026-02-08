@@ -65,7 +65,6 @@ export type EventState = {
     sought_workers?: string[];
     date?: string[],
     notes?: string[];
-    open?: string[];
   }
 }
 
@@ -102,7 +101,6 @@ const EventFormSchema = z.object({
   date: z.string(),
   notes: z.string(),
   workers: z.string().array(),
-  open: z.coerce.number(),
   reserves: z.string().array()
 });
 
@@ -149,7 +147,7 @@ export async function createUser(prevState: UserState, formData: FormData) {
   redirect('/dashboard/admin/users');
 }
 
-const CreateEvent = EventFormSchema.omit({ id: true, workers: true, open: true, reserves: true });
+const CreateEvent = EventFormSchema.omit({ id: true, workers: true, reserves: true });
 export async function createEvent(prevState: EventState, formData: FormData) {
   const validatedFields = CreateEvent.safeParse({
     name: formData.get('name'),
@@ -456,8 +454,7 @@ export async function updateEvent(
     type: formData.get('type'),
     sought_workers: formData.get('sought_workers'),
     responsible: formData.get('responsible'),
-    notes: formData.get('notes'),
-    open: formData.get('open')
+    notes: formData.get('notes')
   });
 
 
@@ -470,19 +467,7 @@ export async function updateEvent(
   }
 
 
-  const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes, open } = validatedFields.data;
-  // run once
-  // try {
-  //   await sql`
-  //   ALTER TABLE events
-  //   ADD open INT
-  //   `;
-  // } catch (error) {
-  //   console.log("error altering table: ", error);
-  // }
-
-  // console.log("Edit event, date: ", date);
-
+  const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes } = validatedFields.data;
   try {
     await sql`
       UPDATE events
@@ -497,8 +482,7 @@ export async function updateEvent(
         type = ${type},
         sought_workers = ${sought_workers},
         date = ${date},
-        notes = ${notes},
-        open = ${open}
+        notes = ${notes}
       WHERE id = ${id} 
     `;
 

@@ -77,7 +77,6 @@ export async function fetchEventById(id: string) {
         events.sought_workers,
         events.notes,
         events.workers,
-        events.open,
         events.reserves
       FROM events
       WHERE events.id = ${id};
@@ -434,8 +433,7 @@ export async function fetchFilteredEvents(
           events.id,
           events.name,
           events.date,
-          events.type,
-          events.open
+          events.type
         FROM events
         WHERE
           events.name ILIKE ${`%${query}%`}
@@ -449,8 +447,7 @@ export async function fetchFilteredEvents(
           events.id,
           events.name,
           events.date,
-          events.type,
-          events.open
+          events.type
         FROM events
         WHERE
           events.name ILIKE ${`%${query}%`}
@@ -464,8 +461,7 @@ export async function fetchFilteredEvents(
           events.id,
           events.name,
           events.date,
-          events.type,
-          events.open
+          events.type
         FROM events
         WHERE
           events.name ILIKE ${`%${query}%`}
@@ -480,8 +476,7 @@ export async function fetchFilteredEvents(
           events.id,
           events.name,
           events.date,
-          events.type,
-          events.open
+          events.type
         FROM events
         WHERE
           events.name ILIKE ${`%${query}%`}
@@ -517,8 +512,7 @@ export async function fetchFilteredEventsAdmin(
           events.id,
           events.name,
           events.date,
-          events.type,
-          events.open
+          events.type
         FROM events
         WHERE
           events.name ILIKE ${`%${query}%`}
@@ -531,8 +525,7 @@ export async function fetchFilteredEventsAdmin(
           events.id,
           events.name,
           events.date,
-          events.type,
-          events.open
+          events.type
         FROM events
         WHERE
           events.name ILIKE ${`%${query}%`}
