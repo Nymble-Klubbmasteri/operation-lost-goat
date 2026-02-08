@@ -41,7 +41,6 @@ export default async function Page({
   }
 
   const totalPages = await fetchEventsPages(query);
-  console.log(totalPages)
 
   return (
     <div className="w-full">
