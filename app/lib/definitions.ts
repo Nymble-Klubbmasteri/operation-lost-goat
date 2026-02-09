@@ -131,6 +131,7 @@ export type EventForm = {
   notes: string;
   workers: string[];
   reserves: string[];
+  payment: number;
 };
 
 export type Setting = {

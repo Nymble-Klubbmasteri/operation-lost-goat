@@ -9,7 +9,8 @@ import {
   NewspaperIcon,
   UsersIcon,
   AdjustmentsVerticalIcon,
-  HomeIcon
+  HomeIcon,
+  CurrencyDollarIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
@@ -17,6 +18,7 @@ import { createEvent, updateEvent } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { AdminRemoveUserFromEvent } from '@/app/lib/actions';
 import { formatDateToLocal, eventTypeToString } from '@/app/lib/utils';
+import { useState } from 'react';
 
 export default function Form({
   event,
@@ -28,6 +30,7 @@ export default function Form({
   const initialState = { message: null, errors: {} };
   const createOrUpdateEvent = event ? updateEvent.bind(null, event.id) : createEvent;
   const [_, dispatch] = useFormState(createOrUpdateEvent, initialState);
+  const [type, setType] = useState(event ? event.type : "");
 
   return <form action={dispatch}>
     <div className="rounded-md bg-surface-light dark:bg-surface-dark p-4 md:p-6">
@@ -255,10 +258,11 @@ export default function Form({
               name="type"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               {...(event ? { defaultValue: event.type } : {})}
+              onChange={e => setType(e.target.value)}
               aria-describedby="type-error"
               required
             >
-              <option value="" disabled>
+              <option value="" disabled selected>
                 Välj typ av event
               </option>
               {[0, 1, 2, 3, 4].map((type) => (
@@ -271,6 +275,31 @@ export default function Form({
           </div>
         </div>
       </div>
+
+      {/* Payement */}
+      {type == 3 &&
+      <div className="mb-4">
+        <label htmlFor="payment" className="mb-2 block text-sm font-medium">
+          Lön (kr/t)
+        </label>
+        <div className="relative mt-2 rounded-md">
+          <div className="relative">
+            <input
+              id="payment"
+              name="payment"
+              type="number"
+              step="1"
+              defaultValue={event ? event.payment : ""}
+              placeholder="Ange lön i kr/t..."
+              className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              aria-describedby='payment-error'
+              required
+            />
+            <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
+          </div>
+        </div>
+      </div>}
+      {type != 3 && <input hidden id="payment" name="payment" type="number" step="1" value={0}/>}
 
       {/* Event Date */}
       <div className="mb-4">

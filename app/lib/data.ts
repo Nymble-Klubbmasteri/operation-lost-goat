@@ -77,7 +77,8 @@ export async function fetchEventById(id: string) {
         events.sought_workers,
         events.notes,
         events.workers,
-        events.reserves
+        events.reserves,
+        events.payment
       FROM events
       WHERE events.id = ${id};
     `;

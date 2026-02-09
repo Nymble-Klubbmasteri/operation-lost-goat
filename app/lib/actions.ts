@@ -101,7 +101,8 @@ const EventFormSchema = z.object({
   date: z.string(),
   notes: z.string(),
   workers: z.string().array(),
-  reserves: z.string().array()
+  reserves: z.string().array(),
+  payment: z.coerce.number()
 });
 
 const CreateUser = UserFormSchema.omit({ id: true, likes: true, dislikes: true, priority: true, food_pref: true });
@@ -160,7 +161,8 @@ export async function createEvent(prevState: EventState, formData: FormData) {
     responsible: formData.get('responsible'),
     type: formData.get('type'),
     sought_workers: formData.get('sought_workers'),
-    notes: formData.get('notes')
+    notes: formData.get('notes'),
+    payment: formData.get('payment')
   });
 
   if (!validatedFields.success) {
@@ -172,14 +174,13 @@ export async function createEvent(prevState: EventState, formData: FormData) {
   }
 
   // Prepare Data for insertion into the database
-  const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes } = validatedFields.data;
-
+  const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes, payment } = validatedFields.data;
   console.log("Create Event, date:", date);
 
   try {
     await sql`
-      INSERT INTO events (name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, type, sought_workers, notes, responsible)
-      VALUES (${name}, ${date}, ${start_work_time}, ${start_event_time}, ${end_work_time}, ${end_event_time}, ${locations}, ${type}, ${sought_workers}, ${notes}, ${responsible})
+      INSERT INTO events (name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, type, sought_workers, notes, responsible, payment)
+      VALUES (${name}, ${date}, ${start_work_time}, ${start_event_time}, ${end_work_time}, ${end_event_time}, ${locations}, ${type}, ${sought_workers}, ${notes}, ${responsible}, ${payment})
     `;
   } catch (error) {
     console.error(error);
@@ -454,7 +455,8 @@ export async function updateEvent(
     type: formData.get('type'),
     sought_workers: formData.get('sought_workers'),
     responsible: formData.get('responsible'),
-    notes: formData.get('notes')
+    notes: formData.get('notes'),
+    payment: formData.get('payment')
   });
 
 
@@ -467,7 +469,7 @@ export async function updateEvent(
   }
 
 
-  const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes } = validatedFields.data;
+  const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes, payment } = validatedFields.data;
   try {
     await sql`
       UPDATE events
@@ -482,7 +484,8 @@ export async function updateEvent(
         type = ${type},
         sought_workers = ${sought_workers},
         date = ${date},
-        notes = ${notes}
+        notes = ${notes},
+        payment = ${payment}
       WHERE id = ${id} 
     `;
 
