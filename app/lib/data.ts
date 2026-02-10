@@ -8,7 +8,8 @@ import {
   EventForm,
   DisplayUser,
   Setting,
-  DisplayWorkers
+  DisplayWorkers,
+  TimeReport
 } from '@/app/lib/definitions';
 import { unstable_noStore as noStore } from 'next/cache';
 
@@ -539,6 +540,27 @@ export async function fetchBalanceByID(id: string) {
     `;
 
     return balance.rows[0];
+  } catch (error) {
+    console.error('Database error:', error);
+    throw new Error('Failed to fetch balance');
+  }
+}
+
+export async function fetchTimeReport(event_id: string, user_id: string) {
+  noStore();
+  try {
+  const report = await sql<TimeReport>`
+      SELECT
+        event_id,
+        user_id,
+        start_time,
+        end_time
+      FROM time_reports
+      WHERE
+        (event_id = ${event_id}) AND (user_id = ${user_id});
+    `;
+
+    return report.rows.length != 0 ? report.rows[0] : null;
   } catch (error) {
     console.error('Database error:', error);
     throw new Error('Failed to fetch balance');

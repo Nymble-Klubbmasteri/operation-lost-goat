@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { formatDateToLocal } from '@/app/lib/utils';
-import { GoToEvent } from '../events/buttons';
+import { eventIsReportable, formatDateToLocal } from '@/app/lib/utils';
+import { GoToEvent, ReportOnEvent } from '../events/buttons';
 
-export default function EventsTable({ events }: { events: any[] }) {
+export default function Table({ events, user_id }: { events: any[], user_id: string; }) {
   const [showPastEvents, setShowPastEvents] = useState(false);
   const [filteredEvents, setFilteredEvents] = useState(events);
 
@@ -50,6 +50,7 @@ export default function EventsTable({ events }: { events: any[] }) {
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div className="flex justify-end gap-2">
+                    {eventIsReportable(event) && <ReportOnEvent event_id={event.id} user_id={user_id} />}
                     <GoToEvent id={event.id} />
                   </div>
                 </div>
@@ -93,6 +94,7 @@ export default function EventsTable({ events }: { events: any[] }) {
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
+                      {eventIsReportable(event) && <ReportOnEvent event_id={event.id} user_id={user_id} />}
                       <GoToEvent id={event.id} />
                     </div>
                   </td>

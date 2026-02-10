@@ -144,3 +144,10 @@ export type UpdateBalanceForm = {
   diff: string;
   admin_id: string;
 }
+
+export type TimeReport = {
+  event_id: string;
+  user_id: string;
+  start_time: string;
+  end_time: string;
+}

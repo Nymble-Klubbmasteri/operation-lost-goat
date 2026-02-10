@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { UsersIcon, CalendarIcon, ClockIcon, HomeIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import { fetchEventById, fetchUserNamesByIDs } from '@/app/lib/data';
-import { Remove, SignUp } from './buttons';
-import { formatDateToLocal, eventTypeToString } from '@/app/lib/utils';
+import { Remove, ReportOnEventText, SignUp } from './buttons';
+import { formatDateToLocal, eventTypeToString, eventTypeIsPaid, eventIsReportable } from '@/app/lib/utils';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 
 export default async function SeeEvent({ event_id, user_id }: { event_id: string; user_id: string }) {
@@ -109,6 +109,8 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
                   event.reserves.length != 0)) &&
               <Remove event_id={event_id} user_id={user_id} className="w-40 h-12 text-lg" />
             }
+
+            {eventIsReportable(event) && event.workers.includes(user_id) && <ReportOnEventText event_id={event_id} user_id={user_id} />}
           </div>
         </div>
 

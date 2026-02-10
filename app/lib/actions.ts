@@ -102,6 +102,11 @@ const EventFormSchema = z.object({
   payment: z.coerce.number()
 });
 
+const TimeReportSchema = z.object({
+  start_time: z.string(),
+  end_time: z.string(),
+});
+
 const CreateUser = UserFormSchema.omit({ id: true, likes: true, dislikes: true, priority: true, food_pref: true });
 export async function createUser(prevState: UserState, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
@@ -188,6 +193,45 @@ export async function createEvent(prevState: EventState, formData: FormData) {
 
   revalidatePath('/dashboard/admin/events');
   redirect('/dashboard/admin/events');
+}
+
+export async function createOrUpdateTimeReport(create: boolean, event_id: string, user_id: string, _: any, formData: FormData) {
+  const validatedFields = TimeReportSchema.safeParse({
+    start_time: formData.get('start_time'),
+    end_time: formData.get('end_time'),
+  });
+
+  if (!validatedFields.success) {
+    console.error("Errors:", validatedFields.error.flatten().fieldErrors);
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to update time report',
+    };
+  }
+
+  const { start_time, end_time } = validatedFields.data;
+  try {
+    if (create) {
+      await sql`
+        INSERT INTO time_reports (event_id, user_id, start_time, end_time)
+        VALUES (${event_id}, ${user_id}, ${start_time}, ${end_time})
+      `;
+    } else {
+      await sql`
+        UPDATE time_reports
+        SET 
+          start_time = ${start_time},
+          end_time = ${end_time}
+        WHERE (event_id = ${event_id}) AND (user_id = ${user_id})
+      `;
+    }
+  } catch (error) {
+    console.error(error);
+    return { message: 'Database failed to update time report' };
+  }
+
+  revalidatePath(`/dashboard/events/${event_id}/report/${user_id}`);
+  redirect(`/dashboard/events/${event_id}/report/${user_id}`);
 }
 
 const UpdateUser = UserFormSchema.omit({ id: true, likes: true, dislikes: true })
@@ -492,6 +536,7 @@ export async function updateEvent(
 
 export async function deleteUser(id: string) {
   try {
+    await sql`DELETE FROM time_reports WHERE user_id = ${id}`;
     await sql`DELETE FROM users WHERE id = ${id}`;
     revalidatePath('/dasboard/admin/users');
   } catch (error) {
@@ -503,6 +548,7 @@ export async function deleteUser(id: string) {
 
 export async function deleteEvent(id: string) {
   try {
+    await sql`DELETE FROM time_reports WHERE event_id = ${id}`;
     await sql`DELETE FROM events WHERE id = ${id}`;
     revalidatePath('/dasboard/admin/events');
   } catch (error) {

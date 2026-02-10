@@ -1,3 +1,5 @@
+import { EventForm } from "./definitions";
+
 export const formatDateToLocal = (
   dateStr: string,
   locale: string = 'en-SE',
@@ -13,7 +15,7 @@ export const formatDateToLocal = (
 };
 
 export const eventTypeToString = (type: number) => {
-  switch(type) {
+  switch (type) {
     case 0: return "Inte arbetspass";
     case 1: return "Fredagspub";
     case 2: return "Storevent";
@@ -21,6 +23,21 @@ export const eventTypeToString = (type: number) => {
     case 4: return "Betalevent (öppet)";
     default: return "Undefined";
   }
+}
+
+export const eventTypeIsPaid = (type: number): boolean => {
+  switch (type) {
+    case 0: return false;
+    case 1: return false;
+    case 2: return false;
+    case 3: return true;
+    case 4: return true;
+    default: return false;
+  }
+}
+
+export const eventIsReportable = (event: EventForm): boolean => {
+  return eventTypeIsPaid(event.type) && (new Date(event.date) <= new Date());
 }
 
 export const generatePagination = (currentPage: number, totalPages: number) => {

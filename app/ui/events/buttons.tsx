@@ -48,3 +48,26 @@ export function GoToEvent({ id }: { id: string }) {
     </Link>
   );
 }
+
+export function ReportOnEvent({ event_id, user_id }: { event_id: string; user_id: string; }) {
+  return (
+    <Link
+      href={`/dashboard/events/${event_id}/report/${user_id}`}
+      className="flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 text-sm font-medium leading-tight text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
+    >
+      <BookOpenIcon className="w-6 h-6" />
+    </Link>
+  );
+}
+
+export function ReportOnEventText({ event_id, user_id }: { event_id: string; user_id: string; }) {
+  return (
+    <Link
+      href={`/dashboard/events/${event_id}/report/${user_id}`}
+      className="flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 text-sm font-medium leading-tight text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
+    >
+      <BookOpenIcon className="w-6 h-6 mr-2" />
+        <span>Rapportera</span>
+    </Link>
+  );
+}
