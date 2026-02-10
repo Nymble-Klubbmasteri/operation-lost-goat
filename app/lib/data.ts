@@ -9,7 +9,8 @@ import {
   DisplayUser,
   Setting,
   DisplayWorkers,
-  TimeReport
+  TimeReport,
+  Item
 } from '@/app/lib/definitions';
 import { unstable_noStore as noStore } from 'next/cache';
 
@@ -175,6 +176,25 @@ export async function fetchStreckUsersPages(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch number of users.');
+  }
+}
+
+export async function fetchItemsPages(query: string) {
+  noStore();
+  try {
+    const count = await
+      sql`
+      SELECT COUNT(*)
+      FROM items
+      WHERE
+        items.name ILIKE ${`%${query}%`}
+    `;
+
+    const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error;', error);
+    throw new Error('Failed to fetch number of items.');
   }
 }
 
@@ -529,6 +549,54 @@ export async function fetchFilteredEventsAdmin(
   }
 }
 
+export async function fetchFilteredItems(
+  query: string,
+  currentPage: number,
+  sort: 'name' | 'price' = 'name',
+) {
+  noStore();
+  const orderByColumn = sort === 'name' ? 'name' : 'price';
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    let queryResult;
+    if (orderByColumn === 'name') {
+      queryResult = await sql<Item>`
+        SELECT
+          items.id,
+          items.name,
+          items.price,
+          items.price_l2,
+          items.type
+        FROM items
+        WHERE
+          items.name ILIKE ${`%${query}%`}
+        ORDER BY items.name DESC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+    } else {
+      queryResult = await sql<Item>`
+        SELECT
+          items.id,
+          items.name,
+          items.price,
+          items.price_l2,
+          items.type
+        FROM items
+        WHERE
+          items.name ILIKE ${`%${query}%`}
+        ORDER BY items.price DESC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+      `;
+    }
+
+    return queryResult.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch items.');
+  }
+}
+
 export async function fetchBalanceByID(id: string) {
   noStore();
   try {
@@ -549,7 +617,7 @@ export async function fetchBalanceByID(id: string) {
 export async function fetchTimeReport(event_id: string, user_id: string) {
   noStore();
   try {
-  const report = await sql<TimeReport>`
+    const report = await sql<TimeReport>`
       SELECT
         event_id,
         user_id,

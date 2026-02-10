@@ -10,6 +10,7 @@ import {
   CurrencyDollarIcon,
   CalendarIcon,
   ArrowDownOnSquareIcon,
+  ClipboardIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -23,8 +24,10 @@ const links = [
   { name: 'Profil', href: '/dashboard/profile', icon: UserIcon, adminProtect: false, marskalkProtect: false },
   { name: 'Event', href: '/dashboard/events', icon: NewspaperIcon, adminProtect: false, marskalkProtect: false },
   { name: 'Mitt Schema', href: '/dashboard/schedule', icon: CalendarIcon, adminProtect: false, marskalkProtect: false },
+  { name: 'Sortiment', href: '/dashboard/items', icon: ClipboardIcon, adminProtect: false, marskalkProtect: false },
   { name: 'Administrera Användare', href: '/dashboard/admin/users', icon: UserGroupIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Administrera Event', href: '/dashboard/admin/events', icon: InboxStackIcon, adminProtect: true, marskalkProtect: false },
+  { name: 'Administrera Sortiment', href: '/dashboard/admin/items', icon: ClipboardIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Administrera Sidan', href: '/dashboard/admin/administration', icon: WrenchIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Administrera Listan', href: '/dashboard/admin/listan', icon: CurrencyDollarIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Exportera', href: '/dashboard/admin/export', icon: ArrowDownOnSquareIcon, adminProtect: true, marskalkProtect: false },

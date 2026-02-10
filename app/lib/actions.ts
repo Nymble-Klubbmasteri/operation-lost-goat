@@ -107,6 +107,13 @@ const TimeReportSchema = z.object({
   end_time: z.string(),
 });
 
+const ItemFormSchema = z.object({
+  name: z.string(),
+  price: z.coerce.number(),
+  price_l2: z.coerce.number(),
+  type: z.coerce.number()
+});
+
 const CreateUser = UserFormSchema.omit({ id: true, likes: true, dislikes: true, priority: true, food_pref: true });
 export async function createUser(prevState: UserState, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
@@ -232,6 +239,51 @@ export async function createOrUpdateTimeReport(create: boolean, event_id: string
 
   revalidatePath(`/dashboard/events/${event_id}/report/${user_id}`);
   redirect(`/dashboard/events/${event_id}/report/${user_id}`);
+}
+
+export async function createOrUpdateItem(id: number | null, _: any, formData: FormData) {
+  const validatedFields = ItemFormSchema.safeParse({
+    name: formData.get('name'),
+    price: formData.get('price'),
+    price_l2: formData.get('price_l2'),
+    type: formData.get('type')
+  });
+
+  if (!validatedFields.success) {
+    console.error("Errors:", validatedFields.error.flatten().fieldErrors);
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to update Item',
+    };
+  }
+
+  const { name, price, price_l2, type } = validatedFields.data;
+  try {
+    if (id) {
+      await sql`
+        UPDATE items
+        SET
+          name = ${name},
+          price = ${price},
+          price_l2 = ${price_l2},
+          type = ${type}
+        WHERE id = ${id}
+      `;
+    } else {
+      await sql`
+        INSERT INTO items (name, price, price_l2, type)
+        VALUES (${name}, ${price}, ${price_l2}, ${type})
+      `;
+    }
+  } catch (error) {
+    console.error(error);
+    return {
+      message: 'Database failed to update item',
+    };
+  }
+
+  revalidatePath('/dashboard/admin/items');
+  redirect('/dashboard/admin/items');
 }
 
 const UpdateUser = UserFormSchema.omit({ id: true, likes: true, dislikes: true })
@@ -554,6 +606,17 @@ export async function deleteEvent(id: string) {
   } catch (error) {
     return {
       message: 'Database failed to delete event',
+    };
+  }
+}
+
+export async function deleteItem(id: number) {
+  try {
+    await sql`DELETE FROM items WHERE id = ${id}`;
+    revalidatePath('/dasboard/admin/items');
+  } catch (error) {
+    return {
+      message: 'Database failed to delete item',
     };
   }
 }

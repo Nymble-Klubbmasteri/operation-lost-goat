@@ -151,3 +151,11 @@ export type TimeReport = {
   start_time: string;
   end_time: string;
 }
+
+export type Item = {
+  id: number;
+  name: string;
+  price: number;
+  price_l2: number;
+  type: number;
+}

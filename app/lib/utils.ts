@@ -25,6 +25,18 @@ export const eventTypeToString = (type: number) => {
   }
 }
 
+export const itemTypeToString = (type: number) => {
+  switch (type) {
+    case 0: return "Kalla drycker";
+    case 1: return "Öl";
+    case 2: return "Vin";
+    case 3: return "Cider";
+    case 4: return "Sprit";
+    case 5: return "Inventarie";
+    default: return "Undefined";
+  }
+}
+
 export const eventTypeIsPaid = (type: number): boolean => {
   switch (type) {
     case 0: return false;
