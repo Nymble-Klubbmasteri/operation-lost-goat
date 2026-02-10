@@ -2,6 +2,7 @@ import Table from '@/app/ui/schedule/table';
 import { Metadata } from 'next';
 import { fetchUserEvents } from '@/app/lib/data';
 import { auth } from '@/auth';
+import Breadcrumbs from '@/app/ui/breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Mitt Schema',
@@ -20,6 +21,13 @@ export default async function Page() {
 
   const events = await fetchUserEvents(session.user.id);
   return (
-    <Table events={events} />
+    <main>
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: 'Schema', href: '/dashboard/schedule', active: true },
+        ]}
+      />
+      <Table events={events} user_id={session.user.id} />
+    </main>
   );
 }

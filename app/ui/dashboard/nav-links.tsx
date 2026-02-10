@@ -2,7 +2,6 @@
 import {
   UserGroupIcon,
   TicketIcon,
-  DocumentDuplicateIcon,
   NewspaperIcon,
   InboxStackIcon,
   UserIcon,
@@ -15,7 +14,6 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { fetchUserById } from '@/app/lib/data';
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -29,7 +27,7 @@ const links = [
   { name: 'Administrera Event', href: '/dashboard/admin/events', icon: InboxStackIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Administrera Sidan', href: '/dashboard/admin/administration', icon: WrenchIcon, adminProtect: true, marskalkProtect: false },
   { name: 'Administrera Listan', href: '/dashboard/admin/listan', icon: CurrencyDollarIcon, adminProtect: true, marskalkProtect: false },
-  { name: 'Exportera Event', href: '/dashboard/admin/export', icon: ArrowDownOnSquareIcon, adminProtect: true, marskalkProtect: false },
+  { name: 'Exportera', href: '/dashboard/admin/export', icon: ArrowDownOnSquareIcon, adminProtect: true, marskalkProtect: false },
 ];
 
 export default function NavLinks({ role, admin }: { role: string, admin: string }) {

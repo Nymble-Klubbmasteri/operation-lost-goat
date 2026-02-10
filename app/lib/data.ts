@@ -40,9 +40,7 @@ export async function fetchUserById(id: string) {
     const user = data.rows.map((user) => ({
       ...user
     }));
-    // console.log("fetched user: ", user[0]);
     return user[0];
-
   } catch (error) {
     console.error('Database error:', error);
     throw new Error('Failed to fetch user.');
@@ -51,15 +49,6 @@ export async function fetchUserById(id: string) {
 
 export async function fetchEventById(id: string) {
   noStore();
-  // try {
-  //   let res = await sql`
-  //   ALTER TABLE events
-  //   ADD reserves UUID[] DEFAULT array[]::UUID[];
-  //   `;
-  //   console.log(res);
-  // } catch (error) {
-  //   console.error(error);
-  // }
 
   try {
     const data = await sql<EventForm>`
@@ -157,7 +146,6 @@ export async function fetchUsersPages(query: string) {
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
-
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch number of users.');
@@ -502,8 +490,6 @@ export async function fetchFilteredEventsAdmin(
   noStore();
   const orderByColumn = sort === 'name' ? 'name' : 'date';
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-
 
   try {
     let queryResult;
@@ -537,7 +523,6 @@ export async function fetchFilteredEventsAdmin(
 
     return queryResult.rows;
   } catch (error) {
-    // console.log('Error:', error);
     console.error('Database Error:', error);
     throw new Error('Failed to fetch events.');
   }
@@ -555,7 +540,6 @@ export async function fetchBalanceByID(id: string) {
 
     return balance.rows[0];
   } catch (error) {
-    // console.log('Database Balance error:', error);
     console.error('Database error:', error);
     throw new Error('Failed to fetch balance');
   }
@@ -575,7 +559,6 @@ export async function fetchUserNamesByIDs(ids: string[]) {
         return (name.rows[0]); // optional chaining in case no result
       })
     );
-    console.log("res: ", results);
     return results.filter(Boolean); // removes undefined if any id didn't exist
   } catch (error) {
     console.error('Failed to fetch user names Error:', error);
@@ -611,7 +594,6 @@ export async function fetchUserLogs(id: string) {
       LEFT JOIN users AS admins ON logs.admin_id = admins.id
       WHERE logs.user_id = ${id}
     `;
-    // console.log("logs:", result.rows);
     return result.rows;
   } catch (error) {
     console.error("Database All User's Logs Fetching Error:", error);
@@ -657,9 +639,7 @@ export async function getTopList() {
         streck_count DESC
       LIMIT 10
     `;
-    //        COALESCE(SUM(s.amount), 0) as total_amount
 
-    // console.log(result.rows);
     return result.rows;
   } catch (error) {
     console.error('Failed to fetch Top List, error: ', error);
@@ -687,9 +667,7 @@ export async function getNumStreckUser(id: string) {
       HAVING 
         COALESCE(SUM(s.num_streck), 0) > 0
     `;
-    //        COALESCE(SUM(s.amount), 0) as total_amount
 
-    // console.log(result.rows);
     return result.rows[0];
   } catch (error) {
     console.error('Failed to fetch Num streck of user, error: ', error);
@@ -728,8 +706,6 @@ export async function fetchMembersByRole(role: string) {
       ORDER BY
         priority ASC
     `;
-
-    // console.log("results fetch users by role:", result.rows, "---");
 
     // Convert the result to DisplayUser array
     return result.rows.map(row => ({
@@ -774,10 +750,7 @@ export async function getTopListByYear() {
         streck_count DESC
       LIMIT 10
     `;
-    //        COALESCE(SUM(s.amount), 0) as total_amount
 
-
-    // console.log(result.rows);
     return result.rows;
   } catch (error) {
     console.error('Failed to fetch Top List by year, error: ', error);
@@ -822,7 +795,6 @@ export async function getUpcomingPub() {
   try {
     const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-
     const res = await sql<EventsTable>`
       SELECT 
         *
@@ -836,8 +808,6 @@ export async function getUpcomingPub() {
       LIMIT 1
     `;
 
-    // console.log("Latest event:", res.rows[0]);
-    // console.log("twentyfourhoursago: ", twentyFourHoursAgo);
     return res.rows[0];
 
   } catch (error) {
@@ -918,7 +888,6 @@ export async function fetchBank() {
         users u
     `;
 
-    console.log("Bank:", result.rows[0]);
     return result.rows[0]
   } catch (error) {
 

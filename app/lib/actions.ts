@@ -6,10 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-import bcrypt, { hash } from "bcrypt";
-import fs from 'fs/promises';
-import path from 'path';
-import { randomUUID } from 'crypto';
+import bcrypt from "bcrypt";
 import { getGCSClient } from './gcs';
 import sharp from 'sharp';
 import { getStreckPrice } from './data';
@@ -390,10 +387,7 @@ export async function updateProfile(
 
   try {
     // const res = await sql`${sql_string}`;
-    var res2;
-    var res3;
-    var res4;
-    const res1 = await sql`
+    await sql`
       UPDATE users
       SET
         name = ${name},
@@ -405,7 +399,7 @@ export async function updateProfile(
       WHERE id = ${id}
     `;
     if (hashedPassword) {
-      res2 = await sql`
+      await sql`
         UPDATE users
         SET
           password = ${hashedPassword}
@@ -413,7 +407,7 @@ export async function updateProfile(
       `;
     }
     if (niceUrl) {
-      res3 = await sql`
+      await sql`
         UPDATE users
         SET
           image_nice_url = ${niceUrl}
@@ -421,7 +415,7 @@ export async function updateProfile(
       `;
     }
     if (chaoticUrl) {
-      res4 = await sql`
+      await sql`
         UPDATE users
         SET
           image_chaotic_url = ${chaoticUrl}
@@ -429,7 +423,6 @@ export async function updateProfile(
       `;
     }
   } catch (error) {
-    console.log("error: ", error);
     console.error("Error:", error);
     return { message: 'Database Error: Failed to Update User' };
   }
@@ -467,7 +460,6 @@ export async function updateEvent(
       message: 'Missing Fields. Failed to update event.',
     };
   }
-
 
   const { name, date, start_work_time, start_event_time, end_work_time, end_event_time, locations, responsible, type, sought_workers, notes, payment } = validatedFields.data;
   try {
@@ -773,10 +765,8 @@ export async function updateBalance(user_id: string, admin_id: string, diff: str
         id = ${user_id}
     `;
     let old_balance = Number((res.rows[0].balance));
-    // console.log("old balance:", old_balance);
     let difff = Number(diff);
     let new_balance = old_balance + difff;
-    // console.log("new balance:", new_balance);
     await sql`
       UPDATE
         users

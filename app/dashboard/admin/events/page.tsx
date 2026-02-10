@@ -8,6 +8,7 @@ import { Suspense } from 'react';
 import { fetchEventsPages } from '@/app/lib/data';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
+import Breadcrumbs from '@/app/ui/breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Administrera Event',
@@ -43,10 +44,12 @@ export default async function Page({
   const totalPages = await fetchEventsPages(query);
 
   return (
-    <div className="w-full">
-      <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Event</h1>
-      </div>
+    <main>
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: 'Administrera Event', href: '/dashboard/admin/events', active: true },
+        ]}
+      />
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Sök bland event..." />
         <CreateEvent />
@@ -57,6 +60,6 @@ export default async function Page({
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>
-    </div>
+  </main>
   );
 }

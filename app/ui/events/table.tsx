@@ -1,6 +1,4 @@
-import { fetchFilteredEvents } from '@/app/lib/data';
 import { formatDateToLocal } from '@/app/lib/utils';
-import { auth } from '@/auth';
 import { GoToEvent } from './buttons';
 import Link from 'next/link';
 import { EventsTable } from '@/app/lib/definitions';
@@ -94,12 +92,12 @@ export default function EventsTablePage({
                 <tr
                   key={event.id}
                   className={`w-full border-b py-3 text-sm ${event.type === 3
-                      ? 'bg-green-100 dark:bg-green-900'
-                      : event.type === 2
-                        ? 'bg-blue-100 dark:bg-blue-900'
-                        : event.type === 0
-                          ? 'bg-gray-100 dark:bg-gray-800'
-                          : 'bg-white dark:bg-gray-800'
+                    ? 'bg-green-100 dark:bg-green-900'
+                    : event.type === 2
+                      ? 'bg-blue-100 dark:bg-blue-900'
+                      : event.type === 0
+                        ? 'bg-gray-100 dark:bg-gray-800'
+                        : 'bg-white dark:bg-gray-800'
                     } [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg`}
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">

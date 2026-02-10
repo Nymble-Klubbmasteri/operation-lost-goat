@@ -1,6 +1,7 @@
 import { lusitana } from '@/app/ui/fonts';
 import { auth } from '@/auth';
 import Form from '@/app/ui/admin/export/form';
+import Breadcrumbs from '@/app/ui/breadcrumbs';
 
 export default async function Page() {
   const session = await auth();
@@ -20,13 +21,15 @@ export default async function Page() {
   }
 
   return (
-    <div className="w-full">
-      <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Exportera</h1>
-      </div>
+    <main>
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: 'Exportera', href: '/dashboard/export', active: true },
+        ]}
+      />
       <div className="mt-4 flex gap-4">
         <Form />
       </div>
-    </div>
+    </main>
   );
 }

@@ -7,6 +7,7 @@ import { Metadata } from 'next';
 import { fetchStreckUsersPages } from '@/app/lib/data';
 import { BalanceTableSkeleton } from '@/app/ui/skeletons';
 import { auth } from '@/auth';
+import Breadcrumbs from '@/app/ui/breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Administrera Listan',
@@ -41,10 +42,12 @@ export default async function Page({
   }
 
   return (
-    <div className="w-full">
-      <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Användare</h1>
-      </div>
+    <main>
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: 'Listan', href: '/dashboard/listan', active: true },
+        ]}
+      />
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Sök användare..." />
       </div>
@@ -54,6 +57,6 @@ export default async function Page({
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>
-    </div>
+    </main>
   );
 }

@@ -1,5 +1,5 @@
 import Form from '@/app/ui/admin/events/form';
-import Breadcrumbs from '@/app/ui/admin/events/breadcrumbs';
+import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchEventById, fetchUsers } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
@@ -7,7 +7,7 @@ import { auth } from '@/auth';
 import { lusitana } from '@/app/ui/fonts';
 
 export const metadata: Metadata = {
-  title: 'Event',
+  title: 'Administrera Event',
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -40,7 +40,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Event', href: '/dashboard/admin/events' },
+          { label: 'Administrera Event', href: '/dashboard/admin/events' },
           {
             label: 'Redigera',
             href: `/dashboard/admin/events/${id}/edit`,

@@ -1,6 +1,5 @@
 import { fetchStreckFilteredUsers } from '@/app/lib/data';
-import { UpdateUser, DeleteUser } from '@/app/ui/admin/users/buttons';
-import { ArrowDownIcon, PencilIcon } from '@heroicons/react/24/outline';
+import { ClipboardIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { AdjustBalanceButton } from './buttons';
 import { auth } from '@/auth';
@@ -102,7 +101,7 @@ export function SeeUser({ id, admin_id }: { id: string, admin_id: string }) {
         href={`/dashboard/admin/listan/${id}`}
         className="rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 p-2 hover:bg-gray-100 dark:hover:bg-gray-700"
       >
-        <ArrowDownIcon className="w-5" />
+        <ClipboardIcon className="w-5" />
       </Link>
       <AdjustBalanceButton userId={id} adminId={admin_id} />
     </div>

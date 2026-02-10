@@ -5,6 +5,7 @@ import { auth } from '@/auth';
 import { lusitana } from '@/app/ui/fonts';
 import { removeStreck } from '@/app/lib/actions';
 import { DeleteStreckButton } from '@/app/ui/admin/accounting/buttons';
+import Breadcrumbs from '@/app/ui/breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'User Balance Logs',
@@ -64,6 +65,12 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <main className="p-4 bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark">
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: 'Listan', href: '/dashboard/listan' },
+          { label: user.name, href: `/dashboard/listan/${user.id}`, active: true },
+        ]}
+      />
       <h2 className="text-xl font-semibold mt-4 mb-2">Saldohistorik</h2>
       <table className="min-w-full text-left border">
         <thead className="bg-surface-light dark:bg-surface-dark">

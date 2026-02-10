@@ -1,5 +1,5 @@
 import Form from '@/app/ui/profile/edit-form';
-import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
+import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchUserById } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
@@ -21,12 +21,7 @@ export default async function Page() {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Profile', href: `/dashboard/profile` },
-          {
-            label: 'Edit Profile',
-            href: `/dashboard/profile`,
-            active: true,
-          },
+          { label: 'Profil', href: `/dashboard/profile`, active: true },
         ]}
       />
       <Form user={user} />

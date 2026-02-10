@@ -1,5 +1,5 @@
 import Form from '@/app/ui/admin/events/form';
-import Breadcrumbs from '@/app/ui/admin/events/breadcrumbs';
+import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchUsers } from '@/app/lib/data';
 import { Metadata } from 'next';
 import { lusitana } from '@/app/ui/fonts';
@@ -8,8 +8,6 @@ import { auth } from '@/auth';
 export const metadata: Metadata = {
   title: 'Event Creation',
 };
-
-// literally 
 
 export default async function Page() {
   const session = await auth();

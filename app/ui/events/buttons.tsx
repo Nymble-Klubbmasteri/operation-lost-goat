@@ -1,4 +1,4 @@
-import { QueueListIcon, UserMinusIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+import { QueueListIcon, UserMinusIcon, UserPlusIcon, BookOpenIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { AddUserToEvent, RemoveUserFromEvent } from '@/app/lib/actions';
 
