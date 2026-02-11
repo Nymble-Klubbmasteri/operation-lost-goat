@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { UsersIcon, CalendarIcon, ClockIcon, HomeIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import { fetchEventById, fetchUserNamesByIDs } from '@/app/lib/data';
 import { Remove, ReportOnEventText, SignUp } from './buttons';
-import { formatDateToLocal, eventTypeToString, eventTypeIsPaid, eventIsReportable } from '@/app/lib/utils';
+import { formatDateToLocal, eventTypeToString, eventIsReportable, eventWorkStartDateTime } from '@/app/lib/utils';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 
 export default async function SeeEvent({ event_id, user_id }: { event_id: string; user_id: string }) {
@@ -10,6 +10,8 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
   const workers = await fetchUserNamesByIDs(event.workers);
   const reserves = await fetchUserNamesByIDs(event.reserves);
 
+  const current_date_time = new Date();
+  const event_work_start_date_time = eventWorkStartDateTime(event);
   return (
     <main>
       <Breadcrumbs
@@ -98,14 +100,14 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
         {/* Sign Up / Remove Button */}
         <div className="mt-2">
           <div className="flex justify-end gap-4 [&>*]:px-6 [&>*]:py-3 [&>*]:text-lg [&>*]:rounded-lg">
-            {new Date(event.date) > new Date() && !event.workers.includes(user_id) && !event.reserves.includes(user_id) && (
+            {event_work_start_date_time > current_date_time && !event.workers.includes(user_id) && !event.reserves.includes(user_id) && (
               <SignUp event_id={event_id} user_id={user_id} className="w-40 h-12 text-lg" />
             )}
 
             {/* Reserves can always remove themselves, workers can if the event is more than three days away or there are reserves */}
             {event.reserves.includes(user_id) ||
               (event.workers.includes(user_id) &&
-                ((new Date(event.date).getTime() - new Date().getTime() > 3 * 24 * 60 * 60 * 1000) ||
+                ((event_work_start_date_time.getTime() - current_date_time.getTime() > 3 * 24 * 60 * 60 * 1000) ||
                   event.reserves.length != 0)) &&
               <Remove event_id={event_id} user_id={user_id} className="w-40 h-12 text-lg" />
             }

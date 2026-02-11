@@ -48,8 +48,16 @@ export const eventTypeIsPaid = (type: number): boolean => {
   }
 }
 
+export const eventWorkStartDateTime = (event: EventForm) : Date => {
+  var date = new Date(event.date);
+  date.setHours(parseInt(event.start_work_time.slice(0, 2)))
+  date.setMinutes(parseInt(event.start_work_time.slice(3, 5)))
+  return date;
+}
+
 export const eventIsReportable = (event: EventForm): boolean => {
-  return eventTypeIsPaid(event.type) && (new Date(event.date) <= new Date());
+  const start_work_date_time = eventWorkStartDateTime(event);
+  return eventTypeIsPaid(event.type) && (start_work_date_time <= new Date());
 }
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
