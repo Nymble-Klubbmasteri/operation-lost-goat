@@ -1,22 +1,17 @@
-import Form from '@/app/ui/admin/events/form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import { fetchEventById, fetchUsers } from '@/app/lib/data';
+import { fetchEventById, fetchPicklist, fetchItems } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 import { lusitana } from '@/app/ui/fonts';
+import { CreateForm } from '@/app/ui/admin/picklist/form';
+import FormTable from '@/app/ui/admin/picklist/form-table';
 
 export const metadata: Metadata = {
-  title: 'Administrera Event',
+  title: 'Administrera Plocklista',
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const id = params.id;
-  const [event, users] = await Promise.all([
-    fetchEventById(id),
-    fetchUsers(),
-  ]);
-
   const session = await auth();
   if (!session?.user.role) {
     return (
@@ -33,6 +28,13 @@ export default async function Page({ params }: { params: { id: string } }) {
     );
   }
 
+  const id = params.id;
+  const [event, picklist, items] = await Promise.all([
+    fetchEventById(id),
+    fetchPicklist(id),
+    fetchItems()
+  ]);
+
   if (!event) {
     notFound();
   }
@@ -41,14 +43,18 @@ export default async function Page({ params }: { params: { id: string } }) {
       <Breadcrumbs
         breadcrumbs={[
           { label: 'Administrera Event', href: '/dashboard/admin/events' },
+          { label: event.name, href: `/dashboard/admin/events/${id}/edit` },
           {
-            label: event.name,
-            href: `/dashboard/admin/events/${id}/edit`,
+            label: 'Plocklista',
+            href: `/dashboard/admin/events/${id}/picklist`,
             active: true,
           },
         ]}
       />
-      <Form event={event} users={users} />
+      <div className="rounded-md bg-surface-light dark:bg-surface-dark p-4 md:p-6">
+        <CreateForm event_id={id} items={items} picklist={picklist} />
+        <FormTable event_id={id} picklist={picklist} />
+      </div>
     </main>
   );
 }

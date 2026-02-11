@@ -159,3 +159,10 @@ export type Item = {
   price_l2: number;
   type: number;
 }
+
+export type PicklistItem = {
+  // event_id: string;
+  item_id: number;
+  name: string;
+  count: number;
+}

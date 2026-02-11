@@ -114,6 +114,11 @@ const ItemFormSchema = z.object({
   type: z.coerce.number()
 });
 
+const PicklistItemFormSchema = z.object({
+  item_id: z.coerce.number(),
+  count: z.coerce.number()
+});
+
 const CreateUser = UserFormSchema.omit({ id: true, likes: true, dislikes: true, priority: true, food_pref: true });
 export async function createUser(prevState: UserState, formData: FormData) {
   const validatedFields = CreateUser.safeParse({
@@ -284,6 +289,67 @@ export async function createOrUpdateItem(id: number | null, _: any, formData: Fo
 
   revalidatePath('/dashboard/admin/items');
   redirect('/dashboard/admin/items');
+}
+
+export async function createPicklistItem(event_id: string, _: any, formData: FormData) {
+  const validatedFields = PicklistItemFormSchema.safeParse({
+    item_id: formData.get('item_id'),
+    count: formData.get('count'),
+  });
+
+  if (!validatedFields.success) {
+    console.error("Errors:", validatedFields.error.flatten().fieldErrors);
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to create picklist item',
+    };
+  }
+
+  const { item_id, count } = validatedFields.data;
+
+  try {
+    await sql`
+      INSERT INTO picklist_items (event_id, item_id, count)
+      VALUES (${event_id}, ${item_id}, ${count})
+    `;
+  } catch (error) {
+    console.error(error);
+    return { message: 'Database failed to create picklist item' };
+  }
+
+  revalidatePath(`/dashboard/admin/events/${event_id}/picklist`);
+  redirect(`/dashboard/admin/events/${event_id}/picklist`);
+}
+
+export async function updatePicklistItem(event_id: string, item_id: number, _: any, formData: FormData) {
+  const validatedFields = PicklistItemFormSchema.omit({ item_id: true }).safeParse({
+    count: formData.get('count'),
+  });
+
+  if (!validatedFields.success) {
+    console.error("Errors:", validatedFields.error.flatten().fieldErrors);
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to update picklist item',
+    };
+  }
+
+  const { count } = validatedFields.data;
+
+  try {
+    await sql`
+      UPDATE picklist_items
+      SET
+        count = ${count}
+      WHERE (event_id = ${event_id}) AND (item_id = ${item_id})
+    `;
+  } catch (error) {
+    console.error(error);
+    return { message: 'Database failed to update picklist item' };
+  }
+
+  revalidatePath(`/dashboard/admin/events/${event_id}/picklist`);
+  redirect(`/dashboard/admin/events/${event_id}/picklist`);
 }
 
 const UpdateUser = UserFormSchema.omit({ id: true, likes: true, dislikes: true })
@@ -600,6 +666,7 @@ export async function deleteUser(id: string) {
 
 export async function deleteEvent(id: string) {
   try {
+    await sql`DELETE FROM picklist_items WHERE event_id = ${id}`;
     await sql`DELETE FROM time_reports WHERE event_id = ${id}`;
     await sql`DELETE FROM events WHERE id = ${id}`;
     revalidatePath('/dasboard/admin/events');
@@ -617,6 +684,17 @@ export async function deleteItem(id: number) {
   } catch (error) {
     return {
       message: 'Database failed to delete item',
+    };
+  }
+}
+
+export async function deletePicklistItem(event_id: string, item_id: number) {
+  try {
+    await sql`DELETE FROM picklist_items WHERE event_id = ${event_id} AND item_id = ${item_id}`;
+    revalidatePath(`/dasboard/admin/events/${event_id}/picklist`);
+  } catch (error) {
+    return {
+      message: 'Database failed to delete picklist item',
     };
   }
 }

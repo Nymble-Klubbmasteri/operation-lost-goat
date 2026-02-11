@@ -10,7 +10,8 @@ import {
   Setting,
   DisplayWorkers,
   TimeReport,
-  Item
+  Item,
+  PicklistItem
 } from '@/app/lib/definitions';
 import { unstable_noStore as noStore } from 'next/cache';
 
@@ -101,6 +102,28 @@ export async function fetchUsers() {
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all users.');
+  }
+}
+
+export async function fetchItems() {
+  noStore();
+  try {
+    const query = await sql<{
+      id: number;
+      type: number;
+      name: string;
+    }>`
+      SELECT
+        id,
+        type,
+        name
+      FROM items
+      ORDER BY name DESC;
+    `;
+    return query.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch items.');
   }
 }
 
@@ -1040,5 +1063,27 @@ export async function fetchEventsBetweenDates(type: number, date_from: string, d
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch events between');
+  }
+}
+
+export async function fetchPicklist(event_id: string) {
+  noStore();
+  try {
+    const picklist = await sql<PicklistItem>`
+      SELECT
+        picklist_items.item_id,
+        items.name,
+        picklist_items.count
+      FROM
+        picklist_items INNER JOIN items
+        ON picklist_items.item_id = items.id
+      WHERE
+        picklist_items.event_id = ${event_id};
+    `;
+
+    return picklist.rows === undefined ? [] : picklist.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch picklist');
   }
 }

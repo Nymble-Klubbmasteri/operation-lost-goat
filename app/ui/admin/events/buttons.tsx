@@ -1,5 +1,5 @@
 'use client';
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { ClipboardIcon, PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteEvent } from '@/app/lib/actions';
 
@@ -48,5 +48,16 @@ export function DeleteEvent({ id }: { id: string }) {
         <TrashIcon className="w-5" />
       </button>
     </form>
+  );
+}
+
+export function ChangePicklist({ id }: { id: string }) {
+  return (
+    <Link
+      href={`/dashboard/admin/events/${id}/picklist`}
+      className="rounded-md border p-2 hover:bg-gray-100  border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 dark:hover:bg-gray-700"
+    >
+      <ClipboardIcon className="w-5" />
+    </Link>
   );
 }

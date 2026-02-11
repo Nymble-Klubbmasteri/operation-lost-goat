@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { fetchFilteredEvents, fetchFilteredEventsAdmin } from '@/app/lib/data';
-import { UpdateEvent, DeleteEvent } from '@/app/ui/admin/events/buttons';
+import { UpdateEvent, DeleteEvent, ChangePicklist } from '@/app/ui/admin/events/buttons';
 import { formatDateToLocal } from '@/app/lib/utils';
 
 export default async function EventsTable({
@@ -30,6 +30,7 @@ export default async function EventsTable({
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div className="flex justify-end gap-2">
+                    <ChangePicklist id={event.id} />
                     <UpdateEvent id={event.id} />
                     <DeleteEvent id={event.id} />
                   </div>
@@ -67,6 +68,7 @@ export default async function EventsTable({
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
+                      <ChangePicklist id={event.id} />
                       <UpdateEvent id={event.id} />
                       <DeleteEvent id={event.id} />
                     </div>

@@ -1,14 +1,16 @@
 import Link from 'next/link';
 import { UsersIcon, CalendarIcon, ClockIcon, HomeIcon, CurrencyDollarIcon } from '@heroicons/react/24/outline';
-import { fetchEventById, fetchUserNamesByIDs } from '@/app/lib/data';
+import { fetchEventById, fetchPicklist, fetchUserNamesByIDs } from '@/app/lib/data';
 import { Remove, ReportOnEventText, SignUp } from './buttons';
 import { formatDateToLocal, eventTypeToString, eventIsReportable, eventWorkStartDateTime } from '@/app/lib/utils';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
+import Table from '../picklist/table';
 
 export default async function SeeEvent({ event_id, user_id }: { event_id: string; user_id: string }) {
   const event = await fetchEventById(event_id);
   const workers = await fetchUserNamesByIDs(event.workers);
   const reserves = await fetchUserNamesByIDs(event.reserves);
+  const picklist = await fetchPicklist(event_id);
 
   const current_date_time = new Date();
   const event_work_start_date_time = eventWorkStartDateTime(event);
@@ -123,6 +125,12 @@ export default async function SeeEvent({ event_id, user_id }: { event_id: string
           </Link>
         </div>
       </div>
+      {picklist.length != 0 &&
+        <div className="mt-2 rounded-md bg-surface-light dark:bg-surface-dark p-6 text-text-light dark:text-text-dark">
+          <h1 className="text-xl font-bold">Plocklista</h1>
+          <Table items={picklist} />
+        </div>
+      }
     </main>
   );
 }
