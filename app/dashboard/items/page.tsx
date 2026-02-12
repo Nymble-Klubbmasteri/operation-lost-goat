@@ -1,8 +1,7 @@
 import Pagination from '@/app/ui/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/items/table';
-import { lusitana } from '@/app/ui/fonts';
-import { EventsTableSkeleton } from '@/app/ui/skeletons';
+import { ItemsTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchItemsPages } from '@/app/lib/data';
 import { Metadata } from 'next';
@@ -44,7 +43,7 @@ export default async function Page({
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Sök bland sortiment..." />
       </div>
-      <Suspense key={query + currentPage} fallback={<EventsTableSkeleton />}>
+      <Suspense key={query + currentPage} fallback={<ItemsTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
       <div className="mt-5 flex w-full justify-center">
