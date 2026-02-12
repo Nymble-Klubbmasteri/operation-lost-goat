@@ -950,12 +950,14 @@ export async function fetchUserEvents(userId: string) {
       name: string;
       date: string;
       type: number;
+      start_work_time: string;
     }>`
       SELECT
         id,
         name,
         date,
-        type
+        type,
+        start_work_time
       FROM events
       WHERE ${userId} = ANY(workers)
       ORDER BY date DESC
