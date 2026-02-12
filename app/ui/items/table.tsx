@@ -25,6 +25,7 @@ export default async function Table({
                     <p>{item.name}</p>
                   </div>
                   <p className="text-sm text-gray-500 dark:text-gray-400">{item.price}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{item.price_l2}</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">{itemTypeToString(item.type)}</p>
                 </div>
               </div>
