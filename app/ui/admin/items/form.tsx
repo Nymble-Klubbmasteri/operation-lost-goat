@@ -95,25 +95,63 @@ export function UpdateRowFormInput({ item }: { item: Item }) {
   >
     <td className="whitespace-nowrap py-5 px-3 pl-6">
       <div className="relative">
-        <input onChange={(_) => setChanged(true)} form={item.id.toString()} defaultValue={item.name} className="peer block w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400" type="text" id="name" name="name" placeholder="Ange namn..." />
+        <input
+          onChange={(_) => setChanged(true)}
+          form={item.id.toString()}
+          defaultValue={item.name}
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Ange namn..."
+          className="peer block w-auto border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+        />
         <ClipboardIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
       </div>
     </td>
     <td className="whitespace-nowrap py-5 px-3">
       <div className="relative">
-        <input onChange={(_) => setChanged(true)} form={item.id.toString()} defaultValue={item.price} className="peer block w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400" type="number" step="1" min="1" id="price" name="price" placeholder="Ange pris..." />
+        <input
+          onChange={(_) => setChanged(true)}
+          form={item.id.toString()}
+          defaultValue={item.price}
+          type="number"
+          step="1"
+          min="1"
+          id="price"
+          name="price"
+          placeholder="Ange pris..."
+          className="peer block w-auto border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+        />
         <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
       </div>
     </td>
     <td className="whitespace-nowrap py-5 px-3">
       <div className="relative">
-        <input onChange={(_) => setChanged(true)} form={item.id.toString()} defaultValue={item.price_l2} className="peer block w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400" type="number" step="1" min="1" id="price_l2" name="price_l2" placeholder="Ange L2 pris..." />
+        <input
+          onChange={(_) => setChanged(true)}
+          form={item.id.toString()}
+          defaultValue={item.price_l2}
+          type="number"
+          step="1"
+          min="1"
+          id="price_l2"
+          name="price_l2"
+          placeholder="Ange L2 pris..."
+          className="peer block w-auto border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+        />
         <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
       </div>
     </td>
     <td className="whitespace-nowrap py-5 px-3">
       <div className="relative">
-        <select onChange={(_) => setChanged(true)} form={item.id.toString()} defaultValue={item.type} className="peer block w-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2.5 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400" id="type" name="type">
+        <select
+          onChange={(_) => setChanged(true)}
+          form={item.id.toString()}
+          defaultValue={item.type}
+          id="type"
+          name="type"
+          className="peer block w-auto border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2.5 pl-10 text-sm text-gray-900 dark:text-gray-100 outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+        >
           <option value="" disabled>
             Välj typ av sortiment
           </option>
@@ -126,7 +164,7 @@ export function UpdateRowFormInput({ item }: { item: Item }) {
         <AdjustmentsHorizontalIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
       </div>
     </td>
-    <td className="whitespace-nowrap py-3">
+    <td className="whitespace-nowrap py-3 pr-3">
       <div className="flex justify-end gap-3">
         <button
           form={item.id.toString()}
@@ -136,10 +174,6 @@ export function UpdateRowFormInput({ item }: { item: Item }) {
         >
           <CheckIcon className="w-5" />
         </button>
-      </div>
-    </td>
-    <td className="whitespace-nowrap py-3 pr-3">
-      <div className="flex justify-end gap-3">
         <DeleteItem id={item.id} />
       </div>
     </td>
