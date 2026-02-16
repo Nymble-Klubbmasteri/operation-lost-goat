@@ -7,6 +7,7 @@ import {
   EnvelopeIcon,
   LockClosedIcon,
   ChevronUpDownIcon,
+  TagIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
@@ -209,6 +210,27 @@ export default function Form({
             >
               <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
+          </div>
+        </div>
+      </div>
+
+      {/* User Food Preference */}
+      <div className="mb-4">
+        <label htmlFor="food_pref" className="mb-2 block text-sm font-medium">
+          Food Preference
+        </label>
+        <div className="relative mt-2 rounded-md">
+          <div className="relative">
+            <input
+              id="food_pref"
+              name="food_pref"
+              type="text"
+              defaultValue={user ? user.food_pref : ""}
+              placeholder="Ange speckost..."
+              className="peer block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 py-2 pl-10 text-sm outline-2 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+              required
+            />
+            <TagIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-400 peer-focus:text-gray-900 dark:peer-focus:text-gray-100" />
           </div>
         </div>
       </div>
