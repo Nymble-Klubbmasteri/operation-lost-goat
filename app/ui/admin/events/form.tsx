@@ -17,7 +17,7 @@ import { Button } from '@/app/ui/button';
 import { createEvent, updateEvent } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { AdminRemoveUserFromEvent } from '@/app/lib/actions';
-import { formatDateToLocal, eventTypeToString, eventTypeIsPaid } from '@/app/lib/utils';
+import { formatDateToLocal, eventTypeToString, eventTypeIsPaid, event_types } from '@/app/lib/utils';
 import { useState } from 'react';
 
 export default function Form({
@@ -265,7 +265,7 @@ export default function Form({
               <option value="" disabled selected>
                 Välj typ av event
               </option>
-              {[0, 1, 2, 3, 4].map((type) => (
+              {event_types.map((type) => (
                 <option key={type} value={type}>
                   {eventTypeToString(type)}
                 </option>

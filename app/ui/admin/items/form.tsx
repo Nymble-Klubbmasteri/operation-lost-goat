@@ -9,12 +9,10 @@ import {
 } from '@heroicons/react/24/outline';
 import { createOrUpdateItem } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
-import { itemTypeToString } from '@/app/lib/utils';
+import { itemTypeToString, item_types } from '@/app/lib/utils';
 import { Item } from '@/app/lib/definitions';
 import { DeleteItem } from '@/app/ui/admin/items/buttons';
 import { useState } from 'react';
-
-const item_types = [0, 1, 2, 3, 4, 5];
 
 export function CreateForm() {
   const initialState = { message: "", errors: {} };

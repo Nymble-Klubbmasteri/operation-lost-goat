@@ -14,6 +14,8 @@ export const formatDateToLocal = (
   return formatter.format(date);
 };
 
+export const event_types = [0, 1, 2, 3, 4];
+
 export const eventTypeToString = (type: number) => {
   switch (type) {
     case 0: return "Inte arbetspass";
@@ -21,18 +23,6 @@ export const eventTypeToString = (type: number) => {
     case 2: return "Storevent";
     case 3: return "Betalevent";
     case 4: return "Betalevent (öppet)";
-    default: return "Undefined";
-  }
-}
-
-export const itemTypeToString = (type: number) => {
-  switch (type) {
-    case 0: return "Kalla drycker";
-    case 1: return "Öl";
-    case 2: return "Vin";
-    case 3: return "Cider";
-    case 4: return "Sprit";
-    case 5: return "Inventarie";
     default: return "Undefined";
   }
 }
@@ -48,7 +38,21 @@ export const eventTypeIsPaid = (type: number): boolean => {
   }
 }
 
-export const eventWorkStartDateTime = (event: EventForm) : Date => {
+export const item_types = [0, 1, 2, 3, 4, 5];
+
+export const itemTypeToString = (type: number) => {
+  switch (type) {
+    case 0: return "Kalla drycker";
+    case 1: return "Öl";
+    case 2: return "Vin";
+    case 3: return "Cider";
+    case 4: return "Sprit";
+    case 5: return "Inventarie";
+    default: return "Undefined";
+  }
+}
+
+export const eventWorkStartDateTime = (event: EventForm): Date => {
   var date = new Date(event.date);
   date.setHours(parseInt(event.start_work_time.slice(0, 2)))
   date.setMinutes(parseInt(event.start_work_time.slice(3, 5)))

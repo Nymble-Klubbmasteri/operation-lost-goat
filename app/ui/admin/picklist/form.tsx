@@ -9,11 +9,9 @@ import {
 import { createPicklistItem, updatePicklistItem } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { PicklistItem } from '@/app/lib/definitions';
-import { itemTypeToString } from '@/app/lib/utils';
+import { itemTypeToString, item_types } from '@/app/lib/utils';
 import { useState } from 'react';
 import { DeleteItem } from './buttons';
-
-const item_types = [0, 1, 2, 3, 4, 5];
 
 export function CreateForm({
   event_id,
