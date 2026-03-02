@@ -17,7 +17,7 @@ import { Button } from '@/app/ui/button';
 import { createEvent, updateEvent } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { AdminRemoveUserFromEvent } from '@/app/lib/actions';
-import { formatDateToLocal, eventTypeToString } from '@/app/lib/utils';
+import { formatDateToLocal, eventTypeToString, eventTypeIsPaid } from '@/app/lib/utils';
 import { useState } from 'react';
 
 export default function Form({
@@ -30,7 +30,7 @@ export default function Form({
   const initialState = { message: null, errors: {} };
   const createOrUpdateEvent = event ? updateEvent.bind(null, event.id) : createEvent;
   const [_, dispatch] = useFormState(createOrUpdateEvent, initialState);
-  const [type, setType] = useState(event ? event.type : "");
+  const [type, setType] = useState(event ? event.type : null);
 
   return <form action={dispatch}>
     <div className="rounded-md bg-surface-light dark:bg-surface-dark p-4 md:p-6">
@@ -258,7 +258,7 @@ export default function Form({
               name="type"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               {...(event ? { defaultValue: event.type } : {})}
-              onChange={e => setType(e.target.value)}
+              onChange={e => setType(parseInt(e.target.value))}
               aria-describedby="type-error"
               required
             >
@@ -277,7 +277,7 @@ export default function Form({
       </div>
 
       {/* Payement */}
-      {type == 3 &&
+      {type != null && eventTypeIsPaid(type) &&
       <div className="mb-4">
         <label htmlFor="payment" className="mb-2 block text-sm font-medium">
           Lön (kr/t)
@@ -299,7 +299,7 @@ export default function Form({
           </div>
         </div>
       </div>}
-      {type != 3 && <input hidden id="payment" name="payment" type="number" step="1" value={0}/>}
+      {(type == null || !eventTypeIsPaid(type)) && <input hidden id="payment" name="payment" type="number" step="1" value={0}/>}
 
       {/* Event Date */}
       <div className="mb-4">
