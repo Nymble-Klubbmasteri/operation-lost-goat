@@ -1,6 +1,6 @@
 import { auth } from '@/auth';
 import { NextRequest } from 'next/server';
-import { fetchEventsBetweenDates } from '@/app/lib/data';
+import { fetchPaidEventsForExport } from '@/app/lib/data';
 
 export async function GET(request: NextRequest) {
   const session = await auth();
@@ -15,8 +15,7 @@ export async function GET(request: NextRequest) {
     });
   }
   const searchParams = request.nextUrl.searchParams;
-  const events = await fetchEventsBetweenDates(
-    parseInt(searchParams.get('type') as string),
+  const events = await fetchPaidEventsForExport(
     searchParams.get('date_from') as string,
     searchParams.get('date_to') as string
   );

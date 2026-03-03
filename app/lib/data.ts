@@ -1009,7 +1009,7 @@ export async function fetchBank() {
   }
 }
 
-export async function fetchEventsBetweenDates(type: number, date_from: string, date_to: string) {
+export async function fetchPaidEventsForExport(date_from: string, date_to: string) {
   noStore();
 
   try {
@@ -1022,6 +1022,7 @@ export async function fetchEventsBetweenDates(type: number, date_from: string, d
       notes: string;
       start_work_time: string;
       end_work_time: string;
+      payment: number;
     }>`
       SELECT
         id,
@@ -1031,9 +1032,11 @@ export async function fetchEventsBetweenDates(type: number, date_from: string, d
         workers,
         notes,
         start_work_time,
-        end_work_time
+        end_work_time,
+        payment
       FROM events
-      WHERE type = ${type} and date between ${date_from} AND ${date_to}
+      WHERE type IN (3, 4) and date between ${date_from} AND ${date_to}
+      ORDER BY date ASC
     `;
 
     const users_query = await sql<{
@@ -1046,20 +1049,64 @@ export async function fetchEventsBetweenDates(type: number, date_from: string, d
       FROM users
     `;
 
+    type Report = {
+      start: string;
+      end: string;
+    };
+    type Worker = {
+      name: string;
+      time_report: Report | null;
+    };
+    type Output = {
+      id: string;
+      name: string;
+      date: string;
+      type: number;
+      workers: (Worker | null)[];
+      start_work_time: string;
+      end_work_time: string;
+      payment: number;
+    };
+
+    var outputs: Output[] = [];
+
     const events = events_query.rows;
     const users = users_query.rows;
     for (let i = 0; i < events.length; i++) {
+      const event = events[i];
+      var output: Output = {
+        id: event.id,
+        name: event.name,
+        date: event.date,
+        type: event.type,
+        workers: [],
+        start_work_time: event.start_work_time,
+        end_work_time: event.end_work_time,
+        payment: event.payment,
+      };
       for (let j = 0; j < events[i].workers.length; j++) {
-        const e = users.find(e => e.id === events[i].workers[j]);
-        if (e === undefined) {
-          events[i].workers[j] = "Unknown";
+        const u = users.find(u => u.id === events[i].workers[j]);
+        if (u === undefined) {
+          output.workers.push(null);
         } else {
-          events[i].workers[j] = e.name;
+          const time_report = await sql<Report>`
+            SELECT
+              start_time,
+              end_time
+            FROM time_reports
+            WHERE
+              (event_id = ${event.id}) AND (user_id = ${u.id});
+          `;
+          output.workers.push({
+            name: u.name,
+            time_report: time_report.rowCount === 0 ? null : time_report.rows[0],
+          });
         }
       }
+      outputs.push(output);
     }
 
-    return events;
+    return outputs;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch events between');
