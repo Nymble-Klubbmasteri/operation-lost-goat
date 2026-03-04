@@ -24,7 +24,7 @@ export function CreateForm({
   items: { id: number; type: number; name: string; }[];
   picklist: PicklistItem[];
 }) {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: "", errors: {} };
   const [_, dispatch] = useFormState(createPicklistItem.bind(null, event_id), initialState);
   const [item_type, changeItemType] = useState<number | null>(null)
 
@@ -86,7 +86,7 @@ export function CreateForm({
 }
 
 export function UpdateRowForm({ event_id, item_id }: { event_id: string; item_id: number }) {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: "", errors: {} };
 
   const updateItemWithId = updatePicklistItem.bind(null, event_id, item_id);
   const [_, dispatch] = useFormState(updateItemWithId, initialState);

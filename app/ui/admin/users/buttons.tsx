@@ -1,6 +1,8 @@
+'use client';
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteUser } from '@/app/lib/actions';
+import { useFormState } from 'react-dom';
 
 export function CreateUser() {
   return (
@@ -27,8 +29,9 @@ export function UpdateUser({ id }: { id: string }) {
 
 export function DeleteUser({ id }: { id: string }) {
   const deleteUserWithID = deleteUser.bind(null, id);
+  const [_, dispatch] = useFormState(deleteUserWithID, null);
   return (
-    <form action={deleteUserWithID}>
+    <form action={dispatch}>
       <button className="flex items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
         <span className="sr-only">Ta bort användare</span>
         <TrashIcon className="w-5" />

@@ -17,17 +17,18 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
+  searchParams?: Promise<{
     query?: string;
     page?: string;
     sort?: 'name' | 'role' | 'balance' | 'email';
     order?: 'DESC' | 'ASC';
-  };
+  }>;
 }) {
-  const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
-  const sort = searchParams?.sort || 'name';
-  const order = searchParams?.order === 'DESC' ? 'DESC' : 'ASC'; // Default to ASC  
+  const sp = await searchParams;
+  const query = sp?.query || '';
+  const currentPage = Number(sp?.page) || 1;
+  const sort = sp?.sort || 'name';
+  const order = sp?.order === 'DESC' ? 'DESC' : 'ASC'; // Default to ASC  
   const totalPages = await fetchUsersPages(query);
   const session = await auth();
 

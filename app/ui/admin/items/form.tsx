@@ -17,7 +17,7 @@ import { useState } from 'react';
 const item_types = [0, 1, 2, 3, 4, 5];
 
 export function CreateForm() {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: "", errors: {} };
   const [_, dispatch] = useFormState(createOrUpdateItem.bind(null, null), initialState);
 
   return <form action={dispatch} className="flex flex-row gap-2 justify-between items-center">
@@ -80,7 +80,7 @@ export function CreateForm() {
 }
 
 export function UpdateRowForm({ id }: { id: number }) {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: "", errors: {} };
 
   const updateItemWithId = createOrUpdateItem.bind(null, id);
   const [_, dispatch] = useFormState(updateItemWithId, initialState);

@@ -2,6 +2,7 @@
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deletePicklistItem } from '@/app/lib/actions';
+import { useFormState } from 'react-dom';
 
 
 export function DeleteItem({ event_id, item_id }: { event_id: string; item_id: number }) {
@@ -14,8 +15,10 @@ export function DeleteItem({ event_id, item_id }: { event_id: string; item_id: n
     }
   };
 
+  const [_, dispatch] = useFormState(deleteItemWithID, null);
+
   return (
-    <form action={deleteItemWithID}>
+    <form action={dispatch}>
       <button
         type="submit"
         onClick={handleDeleteClick}

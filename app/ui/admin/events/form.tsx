@@ -27,7 +27,7 @@ export default function Form({
   event: EventForm | null;
   users: UserField[];
 }) {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: "", errors: {} };
   const createOrUpdateEvent = event ? updateEvent.bind(null, event.id) : createEvent;
   const [_, dispatch] = useFormState(createOrUpdateEvent, initialState);
   const [type, setType] = useState(event ? event.type : null);

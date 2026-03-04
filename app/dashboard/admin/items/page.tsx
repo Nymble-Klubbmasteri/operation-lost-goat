@@ -17,13 +17,14 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
+  searchParams?: Promise<{
     query?: string;
     page?: string;
-  };
+  }>;
 }) {
-  const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
+  const sp = await searchParams;
+  const query = sp?.query || '';
+  const currentPage = Number(sp?.page) || 1;
 
   const session = await auth();
   if (!session?.user.role) {

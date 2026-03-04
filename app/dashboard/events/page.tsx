@@ -15,18 +15,19 @@ export const metadata: Metadata = {
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
+  searchParams?: Promise<{
     query?: string;
     page?: string;
     sort?: 'name' | 'date';
     order?: 'DESC' | 'ASC';
-  };
+  }>;
 }) {
   const session = await auth();
-  const query = searchParams?.query || '';
-  const sort = searchParams?.sort || 'date';
-  const order = searchParams?.order === 'DESC' ? 'DESC' : 'ASC'; // Default to ASC  
-  const currentPage = Number(searchParams?.page) || 1;
+  const sp = await searchParams;
+  const query = sp?.query || '';
+  const sort = sp?.sort || 'date';
+  const order = sp?.order === 'DESC' ? 'DESC' : 'ASC'; // Default to ASC  
+  const currentPage = Number(sp?.page) || 1;
 
   const totalPages = await fetchEventsPages(query);
 

@@ -2,6 +2,7 @@
 import { ClipboardIcon, PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { deleteEvent } from '@/app/lib/actions';
+import { useFormState } from 'react-dom';
 
 
 export function CreateEvent() {
@@ -37,8 +38,10 @@ export function DeleteEvent({ id }: { id: string }) {
     }
   };
 
+  const [_, dispatch] = useFormState(deleteEventWithID, null);
+
   return (
-    <form action={deleteEventWithID}>
+    <form action={dispatch}>
       <button
         type="submit"
         onClick={handleDeleteClick}

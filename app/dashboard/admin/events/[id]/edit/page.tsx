@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   title: 'Administrera Event',
 };
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const id = params.id;
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const [event, users] = await Promise.all([
     fetchEventById(id),
     fetchUsers(),

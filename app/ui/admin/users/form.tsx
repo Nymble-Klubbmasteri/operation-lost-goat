@@ -21,7 +21,7 @@ export default function Form({
   user: UserForm | null;
   admin_id: string;
 }) {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: "", errors: {} };
   const updateUserWithId = user ? updateUser.bind(null, user.id, admin_id) : createUser;
   const [state, dispatch] = useFormState(updateUserWithId, initialState);
 

@@ -707,12 +707,8 @@ export async function authenticate(
     await signIn('credentials', formData);
   } catch (error) {
     if (error instanceof AuthError) {
-      switch (error.cause) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
-        default:
-          return 'Something went wrong.';
-      }
+      // TODO: handle cause
+      return 'Invalid credentials.';
     }
     throw error;
   }
@@ -757,9 +753,7 @@ export async function strecka(id: string, num_streck: number) {
     }
   } catch (error) {
     console.error("Strecka, error:", error);
-    return {
-      message: 'Database failed to strecka',
-    };
+    throw new Error("Failed to update balance");
   }
 }
 
@@ -780,7 +774,7 @@ export async function AddUserToEvent(event_id: string, user_id: string) {
     num_workers = res.rows[0].workers.length;
   } catch (error) {
     console.error("Error adding user to event, error fetching event:", error);
-    return { success: false, message: "Failed to add user to event., error fetching event" };
+    throw new Error("Failed adding user to event")
   }
   try {
     if (num_workers >= max_workers) {
@@ -808,7 +802,7 @@ export async function AddUserToEvent(event_id: string, user_id: string) {
     }
   } catch (error) {
     console.error("Error adding user to event:", error);
-    return { success: false, message: "Failed to add user to event." };
+    throw new Error("Failed adding user to event")
   }
   revalidatePath(`dashboard/events/${event_id}/see`);
 }
@@ -846,10 +840,9 @@ export async function RemoveUserFromEvent(event_id: string, user_id: string) {
     }
 
     revalidatePath(`/dashboard/events/${event_id}/see`);
-    return { success: true };
   } catch (error) {
     console.error('Error removing user from event:', error);
-    return { success: false, message: 'Failed to remove user from event' };
+    throw new Error("Failed removing user from event");
   }
 }
 

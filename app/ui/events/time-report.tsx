@@ -6,7 +6,7 @@ import { useFormState } from 'react-dom';
 
 export default function Form({ event_id, user_id, time_report }: { event_id: string; user_id: string; time_report: TimeReport | null }) {
   const createOrUpdateTimeReportWithIds = createOrUpdateTimeReport.bind(null, time_report == null, event_id, user_id);
-  const [_, dispatch] = useFormState(createOrUpdateTimeReportWithIds, {})
+  const [_, dispatch] = useFormState(createOrUpdateTimeReportWithIds, null)
 
   return (
     <div className="rounded-md bg-surface-light dark:bg-surface-dark p-6 text-text-light dark:text-text-dark">

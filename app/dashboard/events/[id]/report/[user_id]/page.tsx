@@ -10,17 +10,16 @@ export const metadata: Metadata = {
   title: 'Rapportera',
 };
 
-export default async function Page({ params }: { params: { id: string; user_id: string; } }) {
-  const event_id = params.id;
-  const user_id = params.user_id;
+export default async function Page({ params }: { params: Promise<{ id: string; user_id: string; }> }) {
+  const { id, user_id } = await params;
   const session = await auth();
   if (!session?.user.id || session.user.id != user_id) {
     notFound();
   }
 
   const [event, time_report] = await Promise.all([
-    fetchEventById(event_id),
-    fetchTimeReport(event_id, user_id)
+    fetchEventById(id),
+    fetchTimeReport(id, user_id)
   ]);
 
   if (!event || !eventIsReportable(event) || !event.workers.includes(user_id)) {
@@ -32,16 +31,16 @@ export default async function Page({ params }: { params: { id: string; user_id: 
       <Breadcrumbs
         breadcrumbs={[
           { label: 'Event', href: '/dashboard/events' },
-          { label: event.name, href: `/dashboard/events/${event_id}/see` },
+          { label: event.name, href: `/dashboard/events/${id}/see` },
           {
             label: 'Rapportera',
-            href: `/dashboard/events/${event_id}/report/${session.user.id}`,
+            href: `/dashboard/events/${id}/report/${session.user.id}`,
             active: true,
           },
         ]}
       />
       <div className="flex">
-        <Form event_id={event_id} user_id={user_id} time_report={time_report} />
+        <Form event_id={id} user_id={user_id} time_report={time_report} />
       </div>
     </main>
   );

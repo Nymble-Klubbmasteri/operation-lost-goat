@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'Administrera Plocklista',
 };
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth();
   if (!session?.user.role) {
     return (
@@ -28,7 +28,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     );
   }
 
-  const id = params.id;
+  const { id } = await params;
   const [event, picklist, items] = await Promise.all([
     fetchEventById(id),
     fetchPicklist(id),

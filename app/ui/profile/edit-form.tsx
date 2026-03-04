@@ -24,7 +24,7 @@ export default function EditProfileForm({
 }: {
   user: UserForm;
 }) {
-  const initialState = { message: null, errors: {} };
+  const initialState = { message: "", errors: {} };
   const updateUserWithId = updateProfile.bind(null, user.id);
   const [state, dispatch] = useFormState(updateUserWithId, initialState);
 

@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
 import { lusitana } from '@/app/ui/fonts';
-import { removeStreck } from '@/app/lib/actions';
 import { DeleteStreckButton } from '@/app/ui/admin/accounting/buttons';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 
@@ -11,8 +10,8 @@ export const metadata: Metadata = {
   title: 'User Balance Logs',
 };
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const id = params.id;
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const user = await fetchUserById(id);
   const session = await auth();
 
