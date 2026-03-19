@@ -18,7 +18,7 @@ export default async function Page() {
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
         <div className="flex flex-col justify-center gap-6 rounded-lg bg-surface-light dark:bg-surface-dark px-6 py-10 md:w-2/5 md:px-20">
           <p className={`${lusitana.className} text-xl text-text-light dark:text-text-dark md:text-3xl md:leading-normal`}>
-            <strong>Välkommen till NKMs nya hemsida</strong>, utvecklad av Weebmästare Dadde.
+            <strong>Välkommen till NKMs nya hemsida</strong>
           </p>
 
           {upcoming && (
@@ -50,6 +50,9 @@ export default async function Page() {
           <div className="rounded-lg bg-surface-light dark:bg-surface-dark p-4 text-sm text-text-light dark:text-text-dark">
             Har du åsikter om hemsidan? Lägg till en issue på
             <a href="https://github.com/Nymble-Klubbmasteri/operation-lost-goat" className="text-blue-600 hover:underline ml-1">GitHub</a>
+          </div>
+          <div className="mt-6 rounded-lg bg-surface-light dark:bg-surface-dark p-4 text-sm text-text-light dark:text-text-dark">
+            Utvecklad av: Weebmästare Dadde
           </div>
         </div>
 
