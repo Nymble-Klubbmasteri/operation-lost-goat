@@ -964,6 +964,40 @@ export async function getSwishNumber() {
   }
 }
 
+export async function getFlipperCode() {
+  noStore();
+  try {
+    const res = await sql<Setting>`
+    SELECT
+      *
+    FROM
+      settings
+    WHERE
+      key = 'flipper_kod'
+    `;
+    return res.rows[0];
+  } catch (error) {
+    console.error("Error fetching flipper_kod: ", error);
+  }
+}
+
+export async function getSkoldCode() {
+  noStore();
+  try {
+    const res = await sql<Setting>`
+    SELECT
+      *
+    FROM
+      settings
+    WHERE
+      key = 'skold_kod'
+    `;
+    return res.rows[0];
+  } catch (error) {
+    console.error("Error fetching skold_kod: ", error);
+  }
+}
+
 export async function fetchUserEvents(userId: string) {
   noStore();
 
