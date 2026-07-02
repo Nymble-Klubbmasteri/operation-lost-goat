@@ -1,7 +1,7 @@
 import { lusitana } from '@/app/ui/fonts';
 import { Metadata } from 'next';
 import { auth } from '@/auth';
-import { getFlipperCode, getSkoldCode, getStreckPrice, getSwishNumber } from '@/app/lib/data';
+import { countAllStreck, getFlipperCode, getSkoldCode, getStreckPrice, getSwishNumber } from '@/app/lib/data';
 import EditForm from '@/app/ui/admin/administration/edit-form';
 import ResetButton from '@/app/ui/admin/administration/reset-button';
 
@@ -30,6 +30,7 @@ export default async function Page() {
   const sn = await getSwishNumber();
   const fk = await getFlipperCode();
   const sk = await getSkoldCode();
+  // const ts = await countAllStreck(0);
 
   return (
     <div className="flex gap-4">

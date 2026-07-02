@@ -1,14 +1,25 @@
-import { CurrencyDollarIcon } from '@heroicons/react/24/outline';
-import { getTopList } from '@/app/lib/data';
+import { averageStreckPerDay, countAllStreck, getTopList } from '@/app/lib/data';
 // wiiii
 
 export default async function TopList() {
   const top_list = await getTopList();
+  const tot_streck = await countAllStreck(0);
+  const average_streck = await averageStreckPerDay();
   const tl_length = top_list.length;
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">High Score</h2>
+      <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <h2 className="text-xl font-bold">High Score</h2>
+        <div className="flex flex-col gap-1 text-sm font-medium text-gray-600 dark:text-gray-300 sm:items-end">
+          <p>
+            Totalt: <span className="font-bold text-text-light dark:text-text-dark">{tot_streck.streck_count} streck</span>
+          </p>
+          <p>
+            Snitt: <span className="font-bold text-text-light dark:text-text-dark">{average_streck.average_streck_per_day} streck/dag</span>
+          </p>
+        </div>
+      </div>
 
       <div className="overflow-x-auto">
         <table className="min-w-full bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 shadow-md rounded-lg">

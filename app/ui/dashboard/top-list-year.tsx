@@ -1,15 +1,19 @@
-import { CurrencyDollarIcon } from '@heroicons/react/24/outline';
-import { getTopListByYear } from '@/app/lib/data';
-// wiiii
+import { countAllStreck, getTopListByYear } from '@/app/lib/data';
 
 export default async function TopListByYear() {
-  const top_list = await getTopListByYear();
-  const tl_length = top_list.length;
   const current_year = new Date().getFullYear();
+  const top_list = await getTopListByYear();
+  const tot_streck = await countAllStreck(current_year);
+  const tl_length = top_list.length;
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">High Score {current_year}</h2>
+      <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+        <h2 className="text-xl font-bold">High Score {current_year}</h2>
+        <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
+          Totalt: <span className="font-bold text-text-light dark:text-text-dark">{tot_streck.streck_count} streck</span>
+        </p>
+      </div>
 
       <div className="overflow-x-auto">
         <table className="min-w-full bg-surface-light dark:bg-surface-dark border border-gray-300 dark:border-gray-600 shadow-md rounded-lg">

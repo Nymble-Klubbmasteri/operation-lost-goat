@@ -1172,15 +1172,64 @@ export async function fetchPicklist(event_id: string) {
 export async function countAllStreck(year: number) {
   noStore();
   try {
-    if (year == 0) {
-      const totStreck = await sql`
+    if (year === 0) {
+      const totStreck = await sql<{ streck_count: number }>`
+        SELECT
+          COALESCE(SUM(num_streck), 0) AS streck_count
+        FROM
+          streck
+      `;
+
+      return totStreck.rows[0];
+    }
+
+    const totStreck = await sql<{ streck_count: number }>`
       SELECT
-        SUM(num_streck)
+        COALESCE(SUM(num_streck), 0) AS streck_count
       FROM
         streck
-      `;
-    }
+      WHERE
+        EXTRACT(YEAR FROM time) = ${year}
+    `;
+
+    return totStreck.rows[0];
   } catch (error) {
-    //nothung
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch streck count');
+  }
+}
+
+export async function averageStreckPerDay() {
+  noStore();
+  try {
+    const firstStreckDate = '2025-05-22';
+
+    const result = await sql<{
+      average_streck_per_day: number;
+      streck_count: number;
+      days: number;
+    }>`
+      WITH date_range AS (
+        SELECT
+          ${firstStreckDate}::date AS start_date,
+          CURRENT_DATE AS end_date
+      ), streck_sum AS (
+        SELECT
+          COALESCE(SUM(num_streck), 0)::int AS streck_count
+        FROM
+          streck
+      )
+      SELECT
+        ss.streck_count,
+        (dr.end_date - dr.start_date + 1)::int AS days,
+        ROUND((ss.streck_count::numeric / (dr.end_date - dr.start_date + 1)), 2)::float AS average_streck_per_day
+      FROM
+        date_range dr, streck_sum ss
+    `;
+
+    return result.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch average streck per day');
   }
 }
