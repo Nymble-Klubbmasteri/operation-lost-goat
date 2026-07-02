@@ -1168,3 +1168,12 @@ export async function fetchPicklist(event_id: string) {
     throw new Error('Failed to fetch picklist');
   }
 }
+
+export async function countAllStreck(year: number) {
+  noStore();
+  try {
+    //nothing
+  } catch (error) {
+    //nothung
+  }
+}

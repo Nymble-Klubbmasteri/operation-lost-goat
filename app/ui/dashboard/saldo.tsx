@@ -28,9 +28,14 @@ export default async function SaldoBox({ id, role }: { id: string, role: string 
   }
 
   let sn = await getSwishNumber();
+
   const swishNumber = sn?.value ?? '';
-  const swishUrl = swishNumber
-    ? `swish://payment?token=${encodeURIComponent(swishNumber)}&amount=200&message=${encodeURIComponent('streck')}`
+  const swishData = swishNumber
+    ? `C${swishNumber};200;${encodeURIComponent('streck')};6`
+    : '';
+
+  const swishUrl = swishData
+    ? `swish://payment?data=${encodeURIComponent(swishData)}`
     : '#';
 
   return (
