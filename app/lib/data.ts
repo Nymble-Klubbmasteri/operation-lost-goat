@@ -1172,7 +1172,11 @@ export async function fetchPicklist(event_id: string) {
 export async function countAllStreck(year: number) {
   noStore();
   try {
-    //nothing
+    if (year == 0) {
+      const totStreck = await sql`
+      SELECT
+      `;
+    }
   } catch (error) {
     //nothung
   }
