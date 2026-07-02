@@ -29,14 +29,12 @@ export default async function SaldoBox({ id, role }: { id: string, role: string 
 
   let sn = await getSwishNumber();
 
-  const swishNumber = sn?.value?.replace(/\s/g, '') ?? '';
-  const swishMessage = encodeURIComponent('streck');
-  const swishData = swishNumber
-    ? `C${swishNumber};200,00;${swishMessage};6`
-    : '';
-
-  const swishUrl = swishData
-    ? `swish://payment?data=${swishData}`
+  const swishNumber = sn?.value?.replace(/[\s-]/g, '') ?? '';
+  const swishPayee = swishNumber.startsWith('0')
+    ? `46${swishNumber.slice(1)}`
+    : swishNumber.replace(/^\+/, '');
+  const swishUrl = swishPayee
+    ? `https://app.swish.nu/1/p/sw/?sw=${encodeURIComponent(swishPayee)}&amt=200.00&cur=SEK&msg=${encodeURIComponent('streck')}&edit=amt,msg`
     : '#';
 
   return (

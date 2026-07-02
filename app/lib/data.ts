@@ -1175,6 +1175,9 @@ export async function countAllStreck(year: number) {
     if (year == 0) {
       const totStreck = await sql`
       SELECT
+        SUM(num_streck)
+      FROM
+        streck
       `;
     }
   } catch (error) {
