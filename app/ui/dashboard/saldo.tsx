@@ -1,7 +1,4 @@
-import { CurrencyDollarIcon } from '@heroicons/react/24/outline';
 import { fetchBalanceByID, getNumStreckUser, getSwishNumber } from '@/app/lib/data';
-import Link from 'next/link';
-// wiiii
 
 export default async function SaldoBox({ id, role }: { id: string, role: string }) {
   const balance = await fetchBalanceByID(id);
@@ -31,13 +28,24 @@ export default async function SaldoBox({ id, role }: { id: string, role: string 
   }
 
   let sn = await getSwishNumber();
+  const swishNumber = sn?.value ?? '';
+  const swishUrl = swishNumber
+    ? `swish://payment?token=${encodeURIComponent(swishNumber)}&amount=200&message=${encodeURIComponent('streck')}`
+    : '#';
 
   return (
     <div className="p-4 border rounded-lg shadow-md bg-surface-light dark:bg-surface-dark text-text-light dark:text-text-dark w-64 text-center">
       <p className="text-lg font-semibold">Strecka av dig till: </p>
-      {/* <Link href={`https://app.swish.nu/1/p/sw/?sw=`+sn?.value+`&amt=200&cur=SEK&msg=Lista&edit=amt,msg&src=url`}> */}
-      <p className="text-lg font-semibold">{sn?.value ? sn.value : "Laddar..."}</p>
-      {/* </Link> */}
+      {swishNumber ? (
+        <a
+          href={swishUrl}
+          className="text-lg font-semibold underline underline-offset-4 hover:opacity-80"
+        >
+          {swishNumber}
+        </a>
+      ) : (
+        <p className="text-lg font-semibold">Laddar...</p>
+      )}
       <p className="text-lg font-semibold">Ditt Saldo:</p>
       <p className="text-xl font-bold mt-2">{balance.balance !== null ? `${balance.balance} kr` : "Laddar..."}</p>
       <p className="text-lg font-semibold">Antal Streck:</p>
